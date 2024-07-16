@@ -24,8 +24,8 @@
 ;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
 ;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
 
-(setq doom-font (font-spec :family "Cascadia Code" :size 18 :spacing 100)
-      doom-symbol-font (font-spec :family "Symbols Nerd Font Mono" :size 18 :spacing 100))
+(setq doom-font (font-spec :family "Cascadia Code" :size 20 :spacing 100)
+      doom-symbol-font (font-spec :family "Symbols Nerd Font Mono" :size 20 :spacing 100))
 
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -35,7 +35,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-zenburn)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -104,7 +104,28 @@
 
 (use-package! lsp-java
   :config
-  (setq lsp-java-server-install-dir "/home/breitnw/Downloads/jdtls/"
-        lsp-java-jdt-download-url "https://www.eclipse.org/downloads/download.php?file=/jdtls/snapshots/jdt-language-server-latest.tar.gz"
-        lsp-java-java-path "/usr/bin/java"
-        lsp-java-import-maven-enabled t))
+  (setq ;;lsp-java-server-install-dir "/home/breitnw/Downloads/jdtls/"
+   lsp-java-jdt-download-url "https://www.eclipse.org/downloads/download.php?file=/jdtls/snapshots/jdt-language-server-latest.tar.gz"
+   lsp-java-java-path "/usr/bin/java"
+   lsp-java-import-maven-enabled t))
+
+(use-package! vterm
+  :after solaire
+  :config
+  ;; make vterm compatible with solaire-mode (ty henrik)
+  (defadvice! fixed-vterm--get-color (index &rest args)
+    :override #'vterm--get-color
+    (let ((foreground    (member :foreground args))
+          (underline     (member :underline args))
+          (inverse-video (member :inverse-video args)))
+      (funcall (if foreground #'face-foreground #'face-background)
+               (cond
+                ((and (>= index 0) (< index 16))
+                 (elt vterm-color-palette index))
+                ((and (= index -1) foreground underline)
+                 'vterm-color-underline)
+                ((and (= index -1) (not foreground) inverse-video)
+                 'vterm-color-inverse-video)
+                (t 'solaire-default-face))
+               nil 'default)))
+  (setq vterm-shell "/usr/bin/fish"))
