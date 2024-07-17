@@ -101,31 +101,13 @@
         treemacs-collapse-dirs 10
         treemacs-no-png-images t))
 
-
 (use-package! lsp-java
   :config
   (setq ;;lsp-java-server-install-dir "/home/breitnw/Downloads/jdtls/"
-   lsp-java-jdt-download-url "https://www.eclipse.org/downloads/download.php?file=/jdtls/snapshots/jdt-language-server-latest.tar.gz"
-   lsp-java-java-path "/usr/bin/java"
-   lsp-java-import-maven-enabled t))
+   ;; lsp-java-jdt-download-url "https://www.eclipse.org/downloads/download.php?file=/jdtls/snapshots/jdt-language-server-latest.tar.gz"
+   lsp-java-java-path "/usr/bin/java"))
+   ;;lsp-java-import-maven-enabled t))
 
 (use-package! vterm
-  :after solaire
   :config
-  ;; make vterm compatible with solaire-mode (ty henrik)
-  (defadvice! fixed-vterm--get-color (index &rest args)
-    :override #'vterm--get-color
-    (let ((foreground    (member :foreground args))
-          (underline     (member :underline args))
-          (inverse-video (member :inverse-video args)))
-      (funcall (if foreground #'face-foreground #'face-background)
-               (cond
-                ((and (>= index 0) (< index 16))
-                 (elt vterm-color-palette index))
-                ((and (= index -1) foreground underline)
-                 'vterm-color-underline)
-                ((and (= index -1) (not foreground) inverse-video)
-                 'vterm-color-inverse-video)
-                (t 'solaire-default-face))
-               nil 'default)))
   (setq vterm-shell "/usr/bin/fish"))
