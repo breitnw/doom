@@ -80,7 +80,15 @@
 
 (setq projectile-project-search-path '(("~/code/" . 3)))
 
+(use-package! evil-snipe
+  :defer t
+  :config
+  (setq evil-snipe-scope 'visible))
+
+;; load a custom file for evil-colemak-basics to modify keybinds
+(load! "packages/colemak.el")
 (use-package! evil-colemak-basics
+  :after evil-snipe
   :config
   (global-evil-colemak-basics-mode))
 
@@ -94,14 +102,16 @@
         nerd-icons-font-names '("SymbolsNerdFontMono_Regular.ttf")))
 
 (use-package! treemacs
+  :defer t
   :config
-  (load! "lisp/treemacs-nerd-icons-custom")
+  (load! "packages/treemacs-icons.el")
   (treemacs-load-theme "nerd-icons-custom")
   (setq treemacs-indentation-string " "
         treemacs-collapse-dirs 10
         treemacs-no-png-images t))
 
 (use-package! lsp-java
+  :defer t
   :config
   (setq ;;lsp-java-server-install-dir "/home/breitnw/Downloads/jdtls/"
    ;; lsp-java-jdt-download-url "https://www.eclipse.org/downloads/download.php?file=/jdtls/snapshots/jdt-language-server-latest.tar.gz"
@@ -109,5 +119,6 @@
    ;;lsp-java-import-maven-enabled t))
 
 (use-package! vterm
+  :defer t
   :config
   (setq vterm-shell "/usr/bin/fish"))

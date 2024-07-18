@@ -49,7 +49,6 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;; (unpin! t)
 
-(package! evil-colemak-basics)
 (package! solaire-mode :pin "c9334666bd208f3322e6118d30eba1b2438e2bb9")
 
 ;; tree rendering
