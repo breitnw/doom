@@ -24,11 +24,11 @@
 ;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
 ;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
 
-(let ((font-size (cond ((eq system-type 'darwin) 15)
+(let ((font-size (cond ((eq system-type 'darwin) 14)
                        ((eq system-type 'gnu/linux) 20)
-                       (else 15))))
-  (setq doom-font (font-spec :family "Cascadia Code" :size font-size :spacing 100)
-        doom-symbol-font (font-spec :family "Symbols Nerd Font Mono" :size font-size :spacing 100)))
+                       (else 14))))
+  (setq doom-font (font-spec :family "Cascadia Code" :size font-size)
+        doom-symbol-font (font-spec :family "Symbols Nerd Font Mono" :size font-size)))
 
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -38,7 +38,12 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-zenburn)
+;;
+;; (setq doom-theme 'doom-zenburn)
+
+(setq doom-everforest-background "medium")  ; or hard (defaults to soft)
+(setq doom-everforest-light-background "medium") ; or hard (defaults to soft)
+(setq doom-theme 'doom-everforest) ; dark variant
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -83,45 +88,31 @@
 
 (setq projectile-project-search-path '(("~/code/" . 3)))
 
-(use-package! evil-snipe
-  :defer t
-  :config
+(after! evil-snipe
   (setq evil-snipe-scope 'visible))
 
 ;; load a custom file for evil-colemak-basics to modify keybinds
-(load! "packages/colemak.el")
-(use-package! evil-colemak-basics
-  :after evil-snipe
-  :config
-  (global-evil-colemak-basics-mode))
+;; (load! "packages/colemak.el")
+;; (after! evil-colemak-basics
+;;   (global-evil-colemak-basics-mode))
 
 ;; Configure nerd icons to look good
 ;; TODO: customize nerd-icons-faces.el?
 ;; TODO: replace +/~ with unicode chevrons?
-(use-package! nerd-icons
-  :config
+(after! nerd-icons
   (setq nerd-icons-font-family "Symbols Nerd Font Mono"
         nerd-icons-fonts-subdirectory "/usr/local/share/fonts/s"
         nerd-icons-font-names '("SymbolsNerdFontMono_Regular.ttf")))
 
-(use-package! treemacs
-  :defer t
-  :config
+(after! treemacs
   (load! "packages/treemacs-icons.el")
   (treemacs-load-theme "nerd-icons-custom")
   (setq treemacs-indentation-string " "
         treemacs-collapse-dirs 10
         treemacs-no-png-images t))
 
-(use-package! lsp-java
-  :defer t
-  :config
-  (setq ;;lsp-java-server-install-dir "/home/breitnw/Downloads/jdtls/"
-   ;; lsp-java-jdt-download-url "https://www.eclipse.org/downloads/download.php?file=/jdtls/snapshots/jdt-language-server-latest.tar.gz"
-   lsp-java-java-path "/usr/bin/java"))
-   ;;lsp-java-import-maven-enabled t))
+(after! lsp-java
+  (setq lsp-java-java-path "/usr/bin/java"))
 
-(use-package! vterm
-  :defer t
-  :config
-  (setq vterm-shell "/usr/bin/fish"))
+(after! vterm
+  (setq vterm-shell "fish"))
