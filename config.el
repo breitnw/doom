@@ -86,15 +86,16 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-(setq projectile-project-search-path '(("~/code/" . 3)))
+(after! projectile
+  (setq projectile-project-search-path '(("~/code/" . 3))))
 
 (after! evil-snipe
   (setq evil-snipe-scope 'visible))
 
 ;; load a custom file for evil-colemak-basics to modify keybinds
-;; (load! "packages/colemak.el")
-;; (after! evil-colemak-basics
-;;   (global-evil-colemak-basics-mode))
+(load! "packages/colemak.el")
+(after! evil-colemak-basics
+  (global-evil-colemak-basics-mode))
 
 ;; Configure nerd icons to look good
 ;; TODO: customize nerd-icons-faces.el?
@@ -116,3 +117,11 @@
 
 (after! vterm
   (setq vterm-shell "fish"))
+
+;; automatically detect and use treesit when applicable
+;; treesitter (the non-builtin one) uses tree-sitter-langs, which includes .so
+;; files built for x86. Also, it's probably better to use the builtin feature,
+;; even though features are a bit more sparse
+(use-package! treesit-auto
+  :config
+  (global-treesit-auto-mode))

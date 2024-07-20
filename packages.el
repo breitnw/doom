@@ -49,10 +49,11 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;; (unpin! t)
 
+;; pin solaire-mode to enable vterm support
 (package! solaire-mode :pin "c9334666bd208f3322e6118d30eba1b2438e2bb9")
 
-;; tree rendering
-;; (package! treemacs-nerd-icons)
-;; (package! nerd-icons)
-;; (package! all-the-icons)
-;; (package! treemacs-nerd-icons :pin "9876cb478145a0ec4e36f64ff6583f3de7126216")
+;; disable tree-sitter-langs since they're only built for x86
+;; (package! tree-sitter-langs :disable t)
+
+;; automatic treesit mode installation
+(package! treesit-auto)
