@@ -97,6 +97,7 @@ rotated; see evil-colemak-basics-rotate-t-f-j."
       "gL" 'evil-upcase)
     (evil-define-key 'normal keymap
       "l" 'evil-undo
+      "L" 'evil-redo
       "u" 'evil-insert
       "U" 'evil-insert-line
       "gu" 'evil-insert-resume

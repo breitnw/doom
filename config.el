@@ -24,11 +24,7 @@
 ;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
 ;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
 
-(let ((font-size (cond ((eq system-type 'darwin) 14)
-                       ((eq system-type 'gnu/linux) 20)
-                       (else 14))))
-  (setq doom-font (font-spec :family "Cascadia Code" :size font-size)
-        doom-symbol-font (font-spec :family "Symbols Nerd Font Mono" :size font-size)))
+;; SEE PLATFORM-SPECIFIC CONFIG
 
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -43,16 +39,12 @@
 
 (setq doom-everforest-background "medium")  ; or hard (defaults to soft)
 (setq doom-everforest-light-background "medium") ; or hard (defaults to soft)
+;; (setq doom-everforest-palette "original")
 (setq doom-theme 'doom-everforest) ; dark variant
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
-
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
-
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -86,16 +78,17 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+;; System-dependent configuration
+(cond ((eq system-type 'darwin) (load! "platform/macos.el"))
+      ((eq system-type 'gnu/linux) (load! "platform/linux.el")))
+
+;; BUILTIN PACKAGES
+
 (after! projectile
   (setq projectile-project-search-path '(("~/code/" . 3))))
 
 (after! evil-snipe
   (setq evil-snipe-scope 'visible))
-
-;; load a custom file for evil-colemak-basics to modify keybinds
-(load! "packages/colemak.el")
-(after! evil-colemak-basics
-  (global-evil-colemak-basics-mode))
 
 ;; Configure nerd icons to look good
 ;; TODO: customize nerd-icons-faces.el?
@@ -118,6 +111,26 @@
 (after! vterm
   (setq vterm-shell "fish"))
 
+;; EMAIL
+
+;; (after! mu4e
+;;   (setq mail-user-agent 'mu4e-user-agent
+;;         mu4e-maildir "~/Maildir"
+;;         mu4e-sent-messages-behavior 'delete))
+
+
+;; (after! lsp
+;;   (setq lsp-inlay-hint-enable t))
+
+;; LOCAL PACKAGES
+
+;; load a custom file for evil-colemak-basics to modify keybinds
+(load! "packages/evil-colemak-basics.el")
+(after! evil-colemak-basics
+  (global-evil-colemak-basics-mode))
+
+;; MELPA PACKAGES
+
 ;; automatically detect and use treesit when applicable
 ;; treesitter (the non-builtin one) uses tree-sitter-langs, which includes .so
 ;; files built for x86. Also, it's probably better to use the builtin feature,
@@ -125,3 +138,18 @@
 (use-package! treesit-auto
   :config
   (global-treesit-auto-mode))
+
+;; HOOKS
+
+;; (after! (:and lsp rustic)
+;;   (setq lsp-inlay-hint-enable t))
+
+;; (add-hook! 'lsp-mode (setq lsp-inlay-hint-enable t))
+
+;; enables inlay hints
+;; (defun enable-hints ()
+;;     (lsp-inlay-hints-mode)
+;;     (setq lsp-inlay-hint-enable t))
+
+;; (add-hook 'rust-mode-hook 'enable-hints)
+;; (add-hook! 'java-mode-hook 'enable-hints)
