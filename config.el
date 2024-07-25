@@ -82,10 +82,10 @@
 (cond ((eq system-type 'darwin) (load! "platform/macos.el"))
       ((eq system-type 'gnu/linux) (load! "platform/linux.el")))
 
-;; BUILTIN PACKAGES
+;; BUILTIN PACKAGES ----------------------------------------------------------------------------
 
 (after! projectile
-  (setq projectile-project-search-path '(("~/code/" . 3))))
+  (setq projectile-project-search-path '(("~/Code/" . 3) "~/WebDAV/org/")))
 
 (after! evil-snipe
   (setq evil-snipe-scope 'visible))
@@ -111,7 +111,7 @@
 (after! vterm
   (setq vterm-shell "fish"))
 
-;; EMAIL
+;; EMAIL ----------------------------------------------------------------------------------------
 
 ;; (after! mu4e
 ;;   (setq mail-user-agent 'mu4e-user-agent
@@ -129,7 +129,7 @@
 (after! evil-colemak-basics
   (global-evil-colemak-basics-mode))
 
-;; MELPA PACKAGES
+;; MELPA PACKAGES -------------------------------------------------------------------------------
 
 ;; automatically detect and use treesit when applicable
 ;; treesitter (the non-builtin one) uses tree-sitter-langs, which includes .so
@@ -139,7 +139,42 @@
   :config
   (global-treesit-auto-mode))
 
-;; HOOKS
+;; sublimity: smooth scrolling and distraction-free mode
+;; TODO: enable DF mode and disable line numbers (potentially disable smooth scrolling as well)
+;; in org-mode hook
+(use-package! sublimity
+  :config
+  (require 'sublimity-scroll)
+  (setq sublimity-scroll-weight 15
+        sublimity-scroll-drift-length 5
+        sublimity-scroll-vertical-frame-delay 0.002)
+  (require 'sublimity-attractive)
+  (setq sublimity-attractive-centering-width nil)
+  (sublimity-mode))
+
+;; HOOKS -----------------------------------------------------------------------------------------
+
+;; (define-minor-mode attractive-mode
+;;   "Disable line numbers and center the text"
+;;   nil   ; Initial value, nil for disabled
+;;   :global t
+;;   :group 'dotfiles
+;;   :lighter " attractive"
+;;   :keymap
+;;   '()
+;;   (if attractive-mode
+;;     (setq display-line-numbers-mode nil
+;;           sublimity-attractive-centering-width 120)
+;;     (setq display-line-numbers-mode 1
+;;           sublimity-attractive-centering-width nil)))
+
+;; TODO: this works, but its sus af
+;;  also kinda ugly too
+(defun attractive-mode-hook ()
+  (setq-local sublimity-attractive-centering-width 110)
+  (display-line-numbers-mode -1))
+
+(add-hook 'org-mode-hook 'attractive-mode-hook)
 
 ;; (after! (:and lsp rustic)
 ;;   (setq lsp-inlay-hint-enable t))

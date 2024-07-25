@@ -57,3 +57,6 @@
 
 ;; automatic treesit mode installation
 (package! treesit-auto)
+
+;; distraction-free mode and smooth scrolling
+(package! sublimity)
