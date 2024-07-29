@@ -37,10 +37,10 @@
 ;;
 ;; (setq doom-theme 'doom-zenburn)
 
-(setq doom-everforest-background "medium")  ; or hard (defaults to soft)
-(setq doom-everforest-light-background "medium") ; or hard (defaults to soft)
+;; (setq doom-everforest-background "medium")  ; or hard (defaults to soft)
+;; (setq doom-everforest-light-background "medium") ; or hard (defaults to soft)
 ;; (setq doom-everforest-palette "original")
-(setq doom-theme 'doom-everforest) ; dark variant
+(setq doom-theme 'doom-sourcerer) ; dark variant
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -82,7 +82,7 @@
 (cond ((eq system-type 'darwin) (load! "platform/macos.el"))
       ((eq system-type 'gnu/linux) (load! "platform/linux.el")))
 
-;; BUILTIN PACKAGES ----------------------------------------------------------------------------
+;; BUILTIN PACKAGES ------------------------------------------------------------
 
 (after! projectile
   (setq projectile-project-search-path '(("~/Code/" . 3) "~/WebDAV/org/")))
@@ -106,12 +106,41 @@
         treemacs-no-png-images t))
 
 (after! lsp-java
-  (setq lsp-java-java-path "/usr/bin/java"))
+  (setq lsp-java-java-path "/usr/bin/java"
+        lsp-java-import-maven-enabled t
+        lsp-java-jdt-download-url "https://www.eclipse.org/downloads/download.php?file=/jdtls/snapshots/jdt-language-server-latest.tar.gz"))
 
 (after! vterm
   (setq vterm-shell "fish"))
 
-;; EMAIL ----------------------------------------------------------------------------------------
+;; SPLASH SCREEN ---------------------------------------------------------------
+
+(defun wizard ()
+  (let* ((banner '("            ,    _      *"
+                   "           /|   | |  *   "
+                   "         _/_\\_  >_< *  * "
+                   "        .-\\-/.   |       "
+                   "       /  | | \\_ |       "
+                   "       \\ \\| |\\__(/  doom emacs"
+                   "       /(`---')  |       "
+                   "      / /     \\  |       "
+                   "   _.'  \\'-'  /  |       "
+                   "   `----'`=-='   '       "
+                   ""
+                   ))
+         (longest-line (apply #'max (mapcar #'length banner))))
+    (put-text-property
+     (point)
+     (dolist (line banner (point))
+       (insert (+doom-dashboard--center
+                +doom-dashboard--width
+                (concat line (make-string (max 0 (- longest-line (length line))) 32)))
+               "\n"))
+     'face 'doom-dashboard-banner)))
+
+(setq +doom-dashboard-ascii-banner-fn #'wizard)
+
+;; EMAIL -----------------------------------------------------------------------
 
 ;; (after! mu4e
 ;;   (setq mail-user-agent 'mu4e-user-agent
@@ -122,14 +151,28 @@
 ;; (after! lsp
 ;;   (setq lsp-inlay-hint-enable t))
 
-;; LOCAL PACKAGES
+;; KEYMAPS ---------------------------------------------------------------------
 
 ;; load a custom file for evil-colemak-basics to modify keybinds
+;; TODO: load from MELPA instead of custom file and move custom keybinds to a
+;;  map! macro
 (load! "packages/evil-colemak-basics.el")
 (after! evil-colemak-basics
-  (global-evil-colemak-basics-mode))
+ (global-evil-colemak-basics-mode))
 
-;; MELPA PACKAGES -------------------------------------------------------------------------------
+(map! :after evil-colemak-basics
+      :leader
+      ;; window: w
+      :n (kbd "w h") #'evil-window-left
+      :n (kbd "w n") #'evil-window-down
+      :n (kbd "w e") #'evil-window-up
+      :n (kbd "w i") #'evil-window-right
+      ;; perspective: n
+      :n (kbd "j s") #'persp-switch
+      :n (kbd "j q") #'persp-kill
+      :n (kbd "j n") #'persp-add-new)
+
+;; MELPA PACKAGES --------------------------------------------------------------
 
 ;; automatically detect and use treesit when applicable
 ;; treesitter (the non-builtin one) uses tree-sitter-langs, which includes .so
@@ -140,8 +183,8 @@
   (global-treesit-auto-mode))
 
 ;; sublimity: smooth scrolling and distraction-free mode
-;; TODO: enable DF mode and disable line numbers (potentially disable smooth scrolling as well)
-;; in org-mode hook
+;; TODO: enable DF mode and disable line numbers (potentially disable smooth
+;;  scrolling as well) in org-mode hook
 (use-package! sublimity
   :config
   (require 'sublimity-scroll)
@@ -152,7 +195,7 @@
   (setq sublimity-attractive-centering-width nil)
   (sublimity-mode))
 
-;; HOOKS -----------------------------------------------------------------------------------------
+;; HOOKS -----------------------------------------------------------------------
 
 ;; (define-minor-mode attractive-mode
 ;;   "Disable line numbers and center the text"
