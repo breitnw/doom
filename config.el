@@ -213,11 +213,12 @@
 
 ;; TODO: this works, but its sus af
 ;;  also kinda ugly too
-(defun attractive-mode-hook ()
+(defun attractive-mode ()
   (setq-local sublimity-attractive-centering-width 110)
   (display-line-numbers-mode -1))
 
-(add-hook 'org-mode-hook 'attractive-mode-hook)
+(add-hook 'org-mode-hook #'attractive-mode)
+(add-hook 'org-mode-hook #'org-fragtog-mode)
 
 ;; (after! (:and lsp rustic)
 ;;   (setq lsp-inlay-hint-enable t))

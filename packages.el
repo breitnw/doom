@@ -60,3 +60,9 @@
 
 ;; distraction-free mode and smooth scrolling
 (package! sublimity)
+
+;; automatically enable LaTeX previews
+;; TODO: a faster version will be merged into org-mode (org-latex-preview). This
+;;  package should be removed when that one is released. It may be best to check
+;;  https://abode.karthinks.com/org-latex-preview/ to know when it is released
+(package! org-fragtog)
