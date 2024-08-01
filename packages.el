@@ -62,6 +62,9 @@
 (package! sublimity)
 
 ;; better LaTeX previews in orgmode
+;; TODO: this will be merged into org-mode, and should be removed when it is
+;;  released. It will be best to check https://abode.karthinks.com/org-latex-preview/
+;;  to know when.
 (package! org :recipe
   (:host nil :repo "https://git.tecosaur.net/mirrors/org-mode.git" :remote "mirror" :fork
          (:host nil :repo "https://git.tecosaur.net/tec/org-mode.git" :branch "dev" :remote "tecosaur")

@@ -220,31 +220,16 @@
   (setq org-latex-preview-live t)
 
   ;; More immediate live-previews -- the default delay is 1 second
-  (setq org-latex-preview-live-debounce 0.25)))
+  (setq org-latex-preview-live-debounce 0.25))
 
 ;; HOOKS -----------------------------------------------------------------------
 
-;; (define-minor-mode attractive-mode
-;;   "Disable line numbers and center the text"
-;;   nil   ; Initial value, nil for disabled
-;;   :global t
-;;   :group 'dotfiles
-;;   :lighter " attractive"
-;;   :keymap
-;;   '()
-;;   (if attractive-mode
-;;     (setq display-line-numbers-mode nil
-;;           sublimity-attractive-centering-width 120)
-;;     (setq display-line-numbers-mode 1
-;;           sublimity-attractive-centering-width nil)))
-
-;; TODO: this works, but its sus af
-;;  also kinda ugly too
-(defun attractive-mode-hook ()
+(defun attractive-mode ()
   (setq-local sublimity-attractive-centering-width 110)
   (display-line-numbers-mode -1))
 
-(add-hook 'org-mode-hook 'attractive-mode-hook)
+(add-hook 'org-mode-hook #'attractive-mode)
+(add-hook 'org-mode-hook #'org-fragtog-mode)
 
 ;; (after! (:and lsp rustic)
 ;;   (setq lsp-inlay-hint-enable t))
