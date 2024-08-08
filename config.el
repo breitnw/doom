@@ -82,6 +82,7 @@
 (cond ((eq system-type 'darwin) (load! "platform/macos.el"))
       ((eq system-type 'gnu/linux) (load! "platform/linux.el")))
 
+
 ;; BUILTIN PACKAGES ------------------------------------------------------------
 
 (after! projectile
@@ -106,10 +107,6 @@
         treemacs-show-hidden-files nil
         treemacs-no-png-images t))
 
-;; TODO: this might not actually work
-(after! lsp
-  (setq lsp-inlay-hint-enable t))
-
 (after! lsp-java
   (setq lsp-java-java-path "/usr/bin/java"
         lsp-java-import-maven-enabled t
@@ -124,14 +121,25 @@
 (after! whitespace
   (global-whitespace-mode)
   (setq-default whitespace-style
-                '(face tabs tab-mark spaces space-mark trailing lines-tail
-                  space-before-tab indentation empty space-after-tab missing-newline-at_eof))
+                '(face
+                  tabs
+                  tab-mark
+                  ;; spaces
+                  ;; space-mark
+                  trailing
+                  lines-tail
+                  space-before-tab
+                  indentation
+                  empty
+                  space-after-tab
+                  missing-newline-at_eof))
   (setq-default whitespace-global-modes
                 '(not magit-mode
                   magit-diff-mode
                   vterm-mode
                   dired-mode
                   org-mode)))
+
 
 ;; SPLASH SCREEN ---------------------------------------------------------------
 
@@ -161,6 +169,7 @@
 
 (setq +doom-dashboard-ascii-banner-fn #'wizard)
 
+
 ;; EMAIL -----------------------------------------------------------------------
 
 ;; (after! mu4e
@@ -171,6 +180,7 @@
 
 ;; (after! lsp
 ;;   (setq lsp-inlay-hint-enable t))
+
 
 ;; KEYMAPS ---------------------------------------------------------------------
 
@@ -193,6 +203,7 @@
       :n (kbd "j q") #'persp-kill
       :n (kbd "j n") #'persp-add-new)
 
+
 ;; MELPA PACKAGES --------------------------------------------------------------
 
 ;; automatically detect and use treesit when applicable
@@ -200,9 +211,9 @@
 ;; files built for x86. Also, it's probably better to use the builtin feature,
 ;; even though features are a bit more sparse
 ;; TODO: do we need/use this?
-(use-package! treesit-auto
-  :config
-  (global-treesit-auto-mode))
+;; (use-package! treesit-auto
+;;   :config
+;;   (global-treesit-auto-mode))
 
 ;; sublimity: smooth scrolling and distraction-free mode
 (use-package! sublimity
@@ -242,6 +253,7 @@
   ;; More immediate live-previews -- the default delay is 1 second
   (setq org-latex-preview-live-debounce 0.25))
 
+
 ;; MODES AND HOOKS -------------------------------------------------------------
 
 ;; CUSTOM MINOR MODES
@@ -259,19 +271,24 @@
 ;; ORG MODE
 
 ;; enable automatic LaTeX previews
-(add-hook 'org-mode-hook #'org-latex-preview-auto-mode)
+(add-hook! 'org-mode-hook #'org-latex-preview-auto-mode)
 ;; hide line numbers and center text
-(add-hook 'org-mode-hook #'zen-mode)
+(add-hook! 'org-mode-hook #'zen-mode)
 
 ;; OTHER MODES
 
-;; TODO: inlay hints still don't work
-(add-hook 'rust-mode-hook #'lsp-inlay-hints-mode)
-(add-hook 'rust-mode-hook
-          (lambda ()
-            (setq-local whitespace-line-column 100)))
+;; inlay hints
+(add-hook! 'lsp-mode-hook
+  (setq lsp-inlay-hint-enable t
+        lsp-inlay-hint-param-format "%s"
+        lsp-inlay-hint-type-format "%s"))
 
-(add-hook 'java-mode-hook #'lsp-inlay-hints-mode)
-(add-hook 'java-mode-hook
-          (lambda ()
-            (setq-local whitespace-line-column 100)))
+;; whitespace per-language
+;; TODO: is there any way to consolidate this?
+;; TODO: and why does it work with c++ even though we don't have a hook????
+;; TODO: AND whitespace isn't rendering properly for java, it was only up to line 80. Maybe this is
+;;  all a cache issue?
+(add-hook! 'rust-mode-hook (setq-local whitespace-line-column 100)
+           'rust-mode-hook #'lsp-inlay-hints-mode
+           'java-mode-hook (setq-local whitespace-line-column 100)
+           'rust-mode-hook #'lsp-inlay-hints-mode)
