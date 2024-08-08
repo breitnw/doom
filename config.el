@@ -106,6 +106,9 @@
         treemacs-show-hidden-files nil
         treemacs-no-png-images t))
 
+;; TODO: this might not actually work
+(after! lsp
+  (setq lsp-inlay-hint-enable t))
 
 (after! lsp-java
   (setq lsp-java-java-path "/usr/bin/java"
@@ -114,6 +117,21 @@
 
 (after! vterm
   (setq vterm-shell "fish"))
+
+;; make sure to turn off whitespace rendering in org, since we want to be able
+;; to have lines of any length
+;; TODO: configure line lengths per language
+(after! whitespace
+  (global-whitespace-mode)
+  (setq-default whitespace-style
+                '(face tabs tab-mark spaces space-mark trailing lines-tail
+                  space-before-tab indentation empty space-after-tab missing-newline-at_eof))
+  (setq-default whitespace-global-modes
+                '(not magit-mode
+                  magit-diff-mode
+                  vterm-mode
+                  dired-mode
+                  org-mode)))
 
 ;; SPLASH SCREEN ---------------------------------------------------------------
 
@@ -136,7 +154,8 @@
      (dolist (line banner (point))
        (insert (+doom-dashboard--center
                 +doom-dashboard--width
-                (concat line (make-string (max 0 (- longest-line (length line))) 32)))
+                (concat line (make-string (max 0 (- longest-line
+                                                    (length line))) 32)))
                "\n"))
      'face 'doom-dashboard-banner)))
 
@@ -180,17 +199,16 @@
 ;; treesitter (the non-builtin one) uses tree-sitter-langs, which includes .so
 ;; files built for x86. Also, it's probably better to use the builtin feature,
 ;; even though features are a bit more sparse
+;; TODO: do we need/use this?
 (use-package! treesit-auto
   :config
   (global-treesit-auto-mode))
 
 ;; sublimity: smooth scrolling and distraction-free mode
-;; TODO: enable DF mode and disable line numbers (potentially disable smooth
-;;  scrolling as well) in org-mode hook
 (use-package! sublimity
   :config
   (require 'sublimity-scroll)
-  (setq sublimity-scroll-weight 15
+  (setq sublimity-scroll-weight 10
         sublimity-scroll-drift-length 5
         sublimity-scroll-vertical-frame-delay 0.002)
   (require 'sublimity-attractive)
@@ -226,6 +244,8 @@
 
 ;; MODES AND HOOKS -------------------------------------------------------------
 
+;; CUSTOM MINOR MODES
+
 (define-minor-mode zen-mode
   "Hides line numbers and centers text"
   :init-value nil
@@ -242,22 +262,16 @@
 (add-hook 'org-mode-hook #'org-latex-preview-auto-mode)
 ;; hide line numbers and center text
 (add-hook 'org-mode-hook #'zen-mode)
-;; enable navigation by visual lines instead of logical lines
-;; (add-hook 'org-mode-hook
-;;           (lambda ()
-;;             (local-set-key (kbd "<up>") 'previous-line)
-;;             (local-set-key (kbd "<down>") 'next-line)))
 
-;; (after! (:and lsp rustic)
-;;   (setq lsp-inlay-hint-enable t))
+;; OTHER MODES
 
-;; (add-hook! 'lsp-mode (setq lsp-inlay-hint-enable t))
+;; TODO: inlay hints still don't work
+(add-hook 'rust-mode-hook #'lsp-inlay-hints-mode)
+(add-hook 'rust-mode-hook
+          (lambda ()
+            (setq-local whitespace-line-column 100)))
 
-;; enables inlay hints
-;; (defun enable-hints ()
-;;     (lsp-inlay-hints-mode)
-;;     (setq lsp-inlay-hint-enable t))
-
-;; (add-hook 'rust-mode-hook 'enable-hints)
-;; (add-hook! 'java-mode-hook 'enable-hints)
-
+(add-hook 'java-mode-hook #'lsp-inlay-hints-mode)
+(add-hook 'java-mode-hook
+          (lambda ()
+            (setq-local whitespace-line-column 100)))
