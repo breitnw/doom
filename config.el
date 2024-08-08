@@ -103,7 +103,9 @@
   (treemacs-load-theme "nerd-icons-custom")
   (setq treemacs-indentation-string " "
         treemacs-collapse-dirs 10
+        treemacs-show-hidden-files nil
         treemacs-no-png-images t))
+
 
 (after! lsp-java
   (setq lsp-java-java-path "/usr/bin/java"
@@ -158,7 +160,7 @@
 ;;  map! macro
 (load! "packages/evil-colemak-basics.el")
 (after! evil-colemak-basics
- (global-evil-colemak-basics-mode))
+  (global-evil-colemak-basics-mode))
 
 (map! :after evil-colemak-basics
       :leader
@@ -222,13 +224,20 @@
   ;; More immediate live-previews -- the default delay is 1 second
   (setq org-latex-preview-live-debounce 0.25))
 
-;; HOOKS -----------------------------------------------------------------------
+;; MODES AND HOOKS -------------------------------------------------------------
 
-(defun attractive-mode ()
-  (setq-local sublimity-attractive-centering-width 110)
-  (display-line-numbers-mode -1))
+(define-minor-mode zen-mode
+  "Hides line numbers and centers text"
+  ;; TODO: make cursor move normally when wrapped if possible
+  :init-value nil
+  :lighter " Zen"
+  (if zen-mode
+      (progn (setq-local sublimity-attractive-centering-width 100)
+             (display-line-numbers-mode -1))
+    (progn (setq-local sublimity-attractive-centering-width nil)
+           (display-line-numbers-mode t))))
 
-(add-hook 'org-mode-hook #'attractive-mode)
+(add-hook 'org-mode-hook #'zen-mode)
 (add-hook 'org-mode-hook #'org-fragtog-mode)
 
 ;; (after! (:and lsp rustic)
@@ -243,3 +252,4 @@
 
 ;; (add-hook 'rust-mode-hook 'enable-hints)
 ;; (add-hook! 'java-mode-hook 'enable-hints)
+
