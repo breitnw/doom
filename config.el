@@ -228,7 +228,6 @@
 
 (define-minor-mode zen-mode
   "Hides line numbers and centers text"
-  ;; TODO: make cursor move normally when wrapped if possible
   :init-value nil
   :lighter " Zen"
   (if zen-mode
@@ -237,8 +236,17 @@
     (progn (setq-local sublimity-attractive-centering-width nil)
            (display-line-numbers-mode t))))
 
+;; ORG MODE
+
+;; enable automatic LaTeX previews
+(add-hook 'org-mode-hook #'org-latex-preview-auto-mode)
+;; hide line numbers and center text
 (add-hook 'org-mode-hook #'zen-mode)
-(add-hook 'org-mode-hook #'org-fragtog-mode)
+;; enable navigation by visual lines instead of logical lines
+;; (add-hook 'org-mode-hook
+;;           (lambda ()
+;;             (local-set-key (kbd "<up>") 'previous-line)
+;;             (local-set-key (kbd "<down>") 'next-line)))
 
 ;; (after! (:and lsp rustic)
 ;;   (setq lsp-inlay-hint-enable t))
