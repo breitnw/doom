@@ -110,14 +110,42 @@
 (after! lsp-java
   (setq lsp-java-java-path "/usr/bin/java"
         lsp-java-import-maven-enabled t
-        lsp-java-jdt-download-url "https://www.eclipse.org/downloads/download.php?file=/jdtls/snapshots/jdt-language-server-latest.tar.gz"))
+        lsp-java-jdt-download-url (concat "https://www.eclipse.org/downloads/"
+                                          "download.php?file=/jdtls/snapshots/"
+                                          "jdt-language-server-latest.tar.gz")))
 
 (after! vterm
   (setq vterm-shell "fish"))
 
 ;; make sure to turn off whitespace rendering in org, since we want to be able
 ;; to have lines of any length
-;; TODO: configure line lengths per language
+
+(setq whitespace-columns
+      '(rust-mode 100
+        java-mode 100
+        c-mode 100
+        c++-mode 100
+        python-mode 100
+        elisp-mode 80
+        haskell-mode 80))
+
+(defun configure-whitespace (col-table)
+  (when (consp col-table)
+    (let* ((mode (car col-table))
+           (col (cdar col-table))
+           (rest (cddr col-table)))
+      (progn (setq-default whitespace-global-modes
+                           (cons mode whitespace-global-modes))
+             ;; (add-hook! mode
+             ;;   (lambda ()
+             ;;     (setq-local
+             ;;      ;; the line after which characters will appear red
+             ;;      whitespace-line-column col
+             ;;      ;; the line that the fill indicator should appear
+             ;;      ;; at, if applicable
+             ;;      fill-column col)))
+             (configure-whitespace rest)))))
+
 (after! whitespace
   (global-whitespace-mode)
   (setq-default whitespace-style
@@ -133,12 +161,7 @@
                   empty
                   space-after-tab
                   missing-newline-at_eof))
-  (setq-default whitespace-global-modes
-                '(not magit-mode
-                  magit-diff-mode
-                  vterm-mode
-                  dired-mode
-                  org-mode)))
+  (configure-whitespace whitespace-columns))
 
 
 ;; SPLASH SCREEN ---------------------------------------------------------------
@@ -219,9 +242,8 @@
 (use-package! sublimity
   :config
   (require 'sublimity-scroll)
-  (setq sublimity-scroll-weight 10
-        sublimity-scroll-drift-length 5
-        sublimity-scroll-vertical-frame-delay 0.002)
+  (setq sublimity-scroll-weight 15
+        sublimity-scroll-drift-length 10)
   (require 'sublimity-attractive)
   (setq sublimity-attractive-centering-width nil)
   (sublimity-mode))
@@ -279,16 +301,14 @@
 
 ;; inlay hints
 (add-hook! 'lsp-mode-hook
-  (setq lsp-inlay-hint-enable t
-        lsp-inlay-hint-param-format "%s"
-        lsp-inlay-hint-type-format "%s"))
+  (setq-local lsp-inlay-hint-enable t
+              lsp-inlay-hint-param-format "%s"
+              lsp-inlay-hint-type-format "%s"))
 
 ;; whitespace per-language
 ;; TODO: is there any way to consolidate this?
 ;; TODO: and why does it work with c++ even though we don't have a hook????
-;; TODO: AND whitespace isn't rendering properly for java, it was only up to line 80. Maybe this is
-;;  all a cache issue?
+;; TODO: AND whitespace isn't rendering properly for java, it was only up to
+;;  line 80. Maybe this is all a cache issue?
 (add-hook! 'rust-mode-hook (setq-local whitespace-line-column 100)
-           'rust-mode-hook #'lsp-inlay-hints-mode
-           'java-mode-hook (setq-local whitespace-line-column 100)
-           'rust-mode-hook #'lsp-inlay-hints-mode)
+           'java-mode-hook (setq-local whitespace-line-column 100))
