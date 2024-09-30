@@ -114,8 +114,12 @@
                                           "download.php?file=/jdtls/snapshots/"
                                           "jdt-language-server-latest.tar.gz")))
 
+(setq-default c-basic-offset 4)
+
+(setq shell-file-name (executable-find "bash"))
+
 (after! vterm
-  (setq vterm-shell "fish"))
+  (setq vterm-shell (executable-find "fish")))
 
 ;; make sure to turn off whitespace rendering in org, since we want to be able
 ;; to have lines of any length
@@ -129,25 +133,29 @@
         elisp-mode 80
         haskell-mode 80))
 
-(defun configure-whitespace (col-table)
+(defun whitespace-modes (col-table)
   (when (consp col-table)
     (let* ((mode (car col-table))
-           (col (cdar col-table))
            (rest (cddr col-table)))
-      (progn (setq-default whitespace-global-modes
-                           (cons mode whitespace-global-modes))
-             ;; (add-hook! mode
-             ;;   (lambda ()
-             ;;     (setq-local
-             ;;      ;; the line after which characters will appear red
-             ;;      whitespace-line-column col
-             ;;      ;; the line that the fill indicator should appear
-             ;;      ;; at, if applicable
-             ;;      fill-column col)))
-             (configure-whitespace rest)))))
+      (cons mode (whitespace-modes rest)))))
+
+(defun add-whitespace-hooks (col-table)
+  (when (consp col-table)
+    (let* ((mode (car col-table))
+           (cols (cdar col-table))
+           (rest (cddr col-table)))
+      (progn (add-hook mode
+                       (lambda ()
+                         (setq-local
+                          ;; the line after which characters will appear red
+                          whitespace-line-column cols
+                          ;; the line that the fill indicator should appear
+                          ;; at, if applicable
+                          fill-column cols)))
+             (add-whitespace-hooks rest)))))
+
 
 (after! whitespace
-  (global-whitespace-mode)
   (setq-default whitespace-style
                 '(face
                   tabs
@@ -161,7 +169,10 @@
                   empty
                   space-after-tab
                   missing-newline-at_eof))
-  (configure-whitespace whitespace-columns))
+  (setq-default whitespace-global-modes (whitespace-modes whitespace-columns))
+  (global-whitespace-mode))
+
+;; (configure-whitespace whitespace-columns))
 
 
 ;; SPLASH SCREEN ---------------------------------------------------------------
@@ -195,10 +206,29 @@
 
 ;; EMAIL -----------------------------------------------------------------------
 
+;; (defvar my-mu4e-account-alist
+;;   '("Gmail"
+;;     (user-mail-address "breitling.nw@gmail.com")
+;;     (user-full-name "Nick Breitling")
+;;     (mu4e-maildir "~/Mail/Gmail")
+;;     (mu4e-sent-folder "/Gmail/Sent Mail")
+;;     (mu4e-drafts-folder "/Gmail/Drafts")
+;;     (mu4e-trash-folder "/Gmail/Trash"))
+;;   '("Northwestern"
+;;     (user-mail-address "breitnw@u.northwestern.edu")
+;;     (user-full-name "Nick Breitling")
+;;     (mu4e-maildir "~/Mail/Northwestern")
+;;     (mu4e-sent-folder "/Northwestern/Sent Mail")
+;;     (mu4e-drafts-folder "/Northwestern/Drafts")
+;;     (mu4e-trash-folder "/Northwestern/Trash")))
+
 ;; (after! mu4e
 ;;   (setq mail-user-agent 'mu4e-user-agent
-;;         mu4e-maildir "~/Maildir"
-;;         mu4e-sent-messages-behavior 'delete))
+;;         ;; don't save message to Sent Messages, Gmail/IMAP takes care of this
+;;         mu4e-sent-messages-behavior 'delete
+;;         mu4e-user-mail-address-list (mapcar (lambda (account)
+;;                                               (cadr (assq 'user-mail-address account)))
+;;                                             my-mu4e-account-alist)))
 
 
 ;; (after! lsp
@@ -241,9 +271,9 @@
 ;; sublimity: smooth scrolling and distraction-free mode
 (use-package! sublimity
   :config
-  (require 'sublimity-scroll)
-  (setq sublimity-scroll-weight 15
-        sublimity-scroll-drift-length 10)
+  ;; (require 'sublimity-scroll)
+  ;; (setq sublimity-scroll-weight 15
+  ;;       sublimity-scroll-drift-length 10)
   (require 'sublimity-attractive)
   (setq sublimity-attractive-centering-width nil)
   (sublimity-mode))
@@ -297,6 +327,9 @@
 ;; hide line numbers and center text
 (add-hook! 'org-mode-hook #'zen-mode)
 
+(setq org-id-link-to-org-use-id t)
+(setq org-hide-emphasis-markers t)
+
 ;; OTHER MODES
 
 ;; inlay hints
@@ -304,11 +337,3 @@
   (setq-local lsp-inlay-hint-enable t
               lsp-inlay-hint-param-format "%s"
               lsp-inlay-hint-type-format "%s"))
-
-;; whitespace per-language
-;; TODO: is there any way to consolidate this?
-;; TODO: and why does it work with c++ even though we don't have a hook????
-;; TODO: AND whitespace isn't rendering properly for java, it was only up to
-;;  line 80. Maybe this is all a cache issue?
-(add-hook! 'rust-mode-hook (setq-local whitespace-line-column 100)
-           'java-mode-hook (setq-local whitespace-line-column 100))
