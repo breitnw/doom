@@ -8,11 +8,11 @@
 ;; change `org-directory'. It must be set before org loads!
 
 ;; fallback directory for org stuff
-(setq org-directory "~/Documents/org")
+(setq org-directory "~/Documents/org/")
 
 ;; directory for org-agenda
-(setq org-agenda-files "~/Documents/org/agenda")
+(setq org-agenda-files '("~/Documents/org/agenda"))
 
 ;; directory for org-roam
-(setq org-roam-directory (file-truename "~/Documents/org/notes"))
+(setq org-roam-directory (file-truename "~/Documents/org/notes/"))
 (org-roam-db-autosync-mode)

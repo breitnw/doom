@@ -52,11 +52,10 @@
 ;; pin solaire-mode to enable vterm support
 (package! solaire-mode :pin "c9334666bd208f3322e6118d30eba1b2438e2bb9")
 
-;; disable tree-sitter-langs since they're only built for x86
-;; (package! tree-sitter-langs :disable t)
-
-;; automatic treesit mode installation
-;; (package! treesit-auto)
+;; colemak bindings
+(package! evil-colemak-basics
+  :recipe
+  (:host nil :repo "https://github.com/breitnw/emacs-evil-colemak-basics"))
 
 ;; distraction-free mode and smooth scrolling
 (package! sublimity)

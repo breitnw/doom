@@ -237,24 +237,43 @@
 
 ;; KEYMAPS ---------------------------------------------------------------------
 
-;; load a custom file for evil-colemak-basics to modify keybinds
-;; TODO: load from MELPA instead of custom file and move custom keybinds to a
-;;  map! macro
-(load! "packages/evil-colemak-basics.el")
-(after! evil-colemak-basics
+;; load evil-colemak-basics and modify keybinds
+(use-package! evil-colemak-basics
+  :after evil evil-snipe
+  :config
+  (setq evil-colemak-basics-rotate-t-f-j t
+        evil-respect-visual-line-mode t
+        evil-colemak-basics-char-jump-commands 'evil-snipe)
+
+  ;; refresh the keymap with the config
+  (evil-colemak-basics--refresh-keymap)
+
+  ;; modify keymap
+  (evil-define-key '(motion normal visual) evil-colemak-basics-keymap
+    "H" #'evil-first-non-blank
+    "N" #'evil-scroll-down
+    "E" #'evil-scroll-up
+    "I" #'evil-end-of-line
+    ;; since i'm not using evil-snipe
+    ;; TODO: customize avy char order
+    "s" #'avy-goto-char-2
+    "L" #'evil-redo)
+
+  ;; enable global mode
   (global-evil-colemak-basics-mode))
 
-(map! :after evil-colemak-basics
+;; override keymaps - always active
+(map! :map 'override
       :leader
       ;; window: w
-      :n (kbd "w h") #'evil-window-left
-      :n (kbd "w n") #'evil-window-down
-      :n (kbd "w e") #'evil-window-up
-      :n (kbd "w i") #'evil-window-right
+      :n "w h" #'evil-window-left
+      :n "w n" #'evil-window-down
+      :n "w e" #'evil-window-up
+      :n "w i" #'evil-window-right
       ;; perspective: n
-      :n (kbd "j s") #'persp-switch
-      :n (kbd "j q") #'persp-kill
-      :n (kbd "j n") #'persp-add-new)
+      :n "r s" #'persp-switch
+      :n "r q" #'persp-kill
+      :n "r n" #'persp-add-new)
 
 
 ;; MELPA PACKAGES --------------------------------------------------------------
