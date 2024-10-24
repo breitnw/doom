@@ -21,8 +21,7 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
-;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
+;; (setq doom-font (font-spec :family "cozette"))
 
 ;; SEE PLATFORM-SPECIFIC CONFIG
 
@@ -114,16 +113,42 @@
                                           "download.php?file=/jdtls/snapshots/"
                                           "jdt-language-server-latest.tar.gz")))
 
+
 (setq-default c-basic-offset 4)
 
+;; emacs should run in bash
 (setq shell-file-name (executable-find "bash"))
 
+;; our interactive vterm shell should be fish
 (after! vterm
   (setq vterm-shell (executable-find "fish")))
 
+;; avy: search for characters on the screen
+(after! avy
+  (setq avy-keys '(?a ?r ?s ?t ?n ?e ?i ?o ?d ?h
+                   ?w ?f ?p ?l ?u ?y)))
+
+(after! company
+  (setq company-idle-delay 0.1
+        company-minimum-prefix-length 1))
+
+;; nix ----------------------------------------
+(after! lsp-mode
+  (load! "packages/lsp-nix.el")
+  (setq lsp-nix-nixd-formatting-command [ "nixfmt" ]
+        lsp-nix-nixd-nixpkgs-expr "import <nixpkgs> { }"
+        lsp-nix-nixd-nixos-options-expr "(builtins.getFlake \"/home/breitnw/Documents/code/nixos\").nixosConfigurations.mnd.options"
+        lsp-nix-nixd-home-manager-options-expr "(builtins.getFlake \"/home/breitnw/Documents/code/nixos\").homeConfigurations.\"breitnw@mnd\".options"))
+
+;; TODO figure out why this is necessary, and make a PR afterward
+(add-hook! 'nix-mode-hook
+           ;; because FOR SOME REASON this is used to enable autocomplete
+           ;; and FOR SOME REASONNNN nix-mode turns it off
+           (setq company-idle-delay 0.1))
+
+;; whitespace rendering
 ;; make sure to turn off whitespace rendering in org, since we want to be able
 ;; to have lines of any length
-
 (setq whitespace-columns
       '(rust-mode 100
         java-mode 100
@@ -153,7 +178,6 @@
                           ;; at, if applicable
                           fill-column cols)))
              (add-whitespace-hooks rest)))))
-
 
 (after! whitespace
   (setq-default whitespace-style
@@ -240,14 +264,13 @@
 ;; load evil-colemak-basics and modify keybinds
 (use-package! evil-colemak-basics
   :after evil evil-snipe
-  :config
+  :init
+  ;; needs to be set before the package is loaded
   (setq evil-colemak-basics-rotate-t-f-j t
         evil-respect-visual-line-mode t
         evil-colemak-basics-char-jump-commands 'evil-snipe)
 
-  ;; refresh the keymap with the config
-  (evil-colemak-basics--refresh-keymap)
-
+  :config
   ;; modify keymap
   (evil-define-key '(motion normal visual) evil-colemak-basics-keymap
     "H" #'evil-first-non-blank
@@ -255,7 +278,6 @@
     "E" #'evil-scroll-up
     "I" #'evil-end-of-line
     ;; since i'm not using evil-snipe
-    ;; TODO: customize avy char order
     "s" #'avy-goto-char-2
     "L" #'evil-redo)
 
@@ -322,7 +344,22 @@
   (setq org-latex-preview-live t)
 
   ;; More immediate live-previews -- the default delay is 1 second
-  (setq org-latex-preview-live-debounce 0.25))
+  (setq org-latex-preview-live-debounce 0.25)
+
+  ;; Finally, make it so previews are shown on startup
+  (setq org-startup-with-latex-preview t))
+
+;; org-roam-ui, which shows the roam graph via a webserver
+(use-package! websocket
+  :after org-roam)
+
+(use-package! org-roam-ui
+  :after org-roam
+  :config
+  (setq org-roam-ui-sync-theme t
+        org-roam-ui-follow t
+        org-roam-ui-update-on-save t
+        org-roam-ui-open-on-start t))
 
 
 ;; MODES AND HOOKS -------------------------------------------------------------

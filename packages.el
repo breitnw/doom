@@ -87,5 +87,8 @@
         (format "(defun org-git-version () \"The truncate git commit hash of Org mode.\" %S)\n" git-version)
         "(provide 'org-version)\n"))))
   :pin nil)
-
 (unpin! org)
+
+;; Graphical frontend for org-roam
+(unpin! org-roam)
+(package! org-roam-ui)
