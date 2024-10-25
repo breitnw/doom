@@ -134,7 +134,6 @@
 
 ;; nix ----------------------------------------
 (after! lsp-mode
-  (load! "packages/lsp-nix.el")
   (setq lsp-nix-nixd-formatting-command [ "nixfmt" ]
         lsp-nix-nixd-nixpkgs-expr "import <nixpkgs> { }"
         lsp-nix-nixd-nixos-options-expr "(builtins.getFlake \"/home/breitnw/Documents/code/nixos\").nixosConfigurations.mnd.options"
