@@ -85,7 +85,7 @@
 ;; BUILTIN PACKAGES ------------------------------------------------------------
 
 (after! projectile
-  (setq projectile-project-search-path '(("~/Code/" . 3) "~/WebDAV/org/")))
+  (setq projectile-project-search-path '(("~/Documents/code/" . 3) "~/WebDAV/org/")))
 
 (after! evil-snipe
   (setq evil-snipe-scope 'visible))
@@ -133,16 +133,14 @@
         company-minimum-prefix-length 1))
 
 ;; nix ----------------------------------------
-(after! lsp-mode
-  (setq lsp-nix-nixd-formatting-command [ "nixfmt" ]
+(after! nix-mode
+  (setq lsp-nix-nixd-server-path "nixd"
+        lsp-nix-nixd-formatting-command [ "nixfmt" ]
         lsp-nix-nixd-nixpkgs-expr "import <nixpkgs> { }"
         lsp-nix-nixd-nixos-options-expr "(builtins.getFlake \"/home/breitnw/Documents/code/nixos\").nixosConfigurations.mnd.options"
         lsp-nix-nixd-home-manager-options-expr "(builtins.getFlake \"/home/breitnw/Documents/code/nixos\").homeConfigurations.\"breitnw@mnd\".options"))
 
-;; TODO figure out why this is necessary, and make a PR afterward
 (add-hook! 'nix-mode-hook
-           ;; because FOR SOME REASON this is used to enable autocomplete
-           ;; and FOR SOME REASONNNN nix-mode turns it off
            (setq company-idle-delay 0.1))
 
 ;; whitespace rendering
@@ -229,34 +227,65 @@
 
 ;; EMAIL -----------------------------------------------------------------------
 
-;; (defvar my-mu4e-account-alist
-;;   '("Gmail"
-;;     (user-mail-address "breitling.nw@gmail.com")
-;;     (user-full-name "Nick Breitling")
-;;     (mu4e-maildir "~/Mail/Gmail")
-;;     (mu4e-sent-folder "/Gmail/Sent Mail")
-;;     (mu4e-drafts-folder "/Gmail/Drafts")
-;;     (mu4e-trash-folder "/Gmail/Trash"))
-;;   '("Northwestern"
-;;     (user-mail-address "breitnw@u.northwestern.edu")
-;;     (user-full-name "Nick Breitling")
-;;     (mu4e-maildir "~/Mail/Northwestern")
-;;     (mu4e-sent-folder "/Northwestern/Sent Mail")
-;;     (mu4e-drafts-folder "/Northwestern/Drafts")
-;;     (mu4e-trash-folder "/Northwestern/Trash")))
+(after! mu4e
+  ;; avoid mail syncing issues when using mbsync
+  (setq mu4e-change-filenames-when-moving t)
 
-;; (after! mu4e
-;;   (setq mail-user-agent 'mu4e-user-agent
-;;         ;; don't save message to Sent Messages, Gmail/IMAP takes care of this
-;;         mu4e-sent-messages-behavior 'delete
-;;         mu4e-user-mail-address-list (mapcar (lambda (account)
-;;                                               (cadr (assq 'user-mail-address account)))
-;;                                             my-mu4e-account-alist)))
+  ;; don't save message to Sent Messages, Gmail/IMAP takes care of this
+  (setq mu4e-sent-messages-behavior 'delete)
 
+  ;; send messages with msmtp
+  (setq send-mail-function 'smtpmail-send-it
+        message-sendmail-f-is-evil t
+        ;; mail-user-agent 'sendmail-user-agent
+        sendmail-program (executable-find "msmtp")
+        message-sendmail-extra-arguments '("--read-envelope-from")
+        message-send-mail-function 'message-send-mail-with-sendmail)
 
-;; (after! lsp
-;;   (setq lsp-inlay-hint-enable t))
+  ;; select the right sender email from the context.
+  (setq message-sendmail-envelope-from 'header)
 
+  ;; refresh mail every 5 minutes
+  (setq mu4e-update-interval (* 5 60)
+        mu4e-get-mail-command "mbsync -a"
+        mu4e-root-maildir "~/Mail")
+
+  ;; define a list of accounts that should be accessible
+  (setq accounts
+        '(("School" . "NicholasBreitling2027@u.northwestern.edu")
+          ("Personal" . "breitling.nw@gmail.com")))
+
+  ;; use said accounts to create mu4e contexts
+  (setq mu4e-contexts
+        (mapcar
+         (lambda (account)
+           (let ((acc-name (car account))
+                 (acc-address (cdr account)))
+             (make-mu4e-context
+              :name acc-name
+              :enter-func
+              (lambda () (mu4e-message (concat "Entered " acc-name " context")))
+              :match-func
+              (lambda (msg)
+                (when msg
+                  (string-prefix-p (format "/%s" acc-name) (mu4e-message-field msg :maildir))))
+              :vars
+              `((user-mail-address  . ,acc-address)
+                (smtpmail-smtp-user . ,acc-address)
+                (mu4e-compose-signature . "Nick Breitling")
+                (user-full-name     . "Nick Breitling")
+                (mu4e-drafts-folder . ,(format "/%s/Drafts" acc-name))
+                (mu4e-trash-folder  . ,(format "/%s/Trash" acc-name))
+                (mu4e-sent-folder   . ,(format "/%s/Sent" acc-name))
+                (mu4e-maildir-shortcuts . ((,(format "/%s/Inbox" acc-name)   . ?i)
+                                           (,(format "/%s/Sent" acc-name)    . ?s)
+                                           (,(format "/%s/Drafts" acc-name)  . ?d)
+                                           (,(format "/%s/Spam" acc-name)    . ?p)
+                                           (,(format "/%s/Trash" acc-name)   . ?t)))
+                (smtpmail-smtp-server . "smtp.gmail.com")
+                (smtpmail-default-smtp-server . "smtp.gmail.com")
+                (smtpmail-local-domain . "gmail.com")))))
+         accounts)))
 
 ;; KEYMAPS ---------------------------------------------------------------------
 
