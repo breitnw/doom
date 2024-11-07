@@ -89,10 +89,10 @@
   :pin nil)
 (unpin! org)
 
-;; lsp-mode with patched nix support
-(package! lsp-mode
-  :pin "49da7d13ad46e59e89c82e26abd34a6aea2fe38b")
-
 ;; Graphical frontend for org-roam
 (unpin! org-roam)
 (package! org-roam-ui)
+
+;; lsp-mode with patched nix support
+(package! lsp-mode
+  :pin "49da7d13ad46e59e89c82e26abd34a6aea2fe38b")
