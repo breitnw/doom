@@ -193,6 +193,7 @@
   (setq-default whitespace-global-modes (whitespace-modes whitespace-columns))
   (global-whitespace-mode))
 
+;; TODO properly configure whitespace
 ;; (configure-whitespace whitespace-columns))
 
 
@@ -320,11 +321,9 @@
       :n "w n" #'evil-window-down
       :n "w e" #'evil-window-up
       :n "w i" #'evil-window-right
-      ;; perspective: n
-      :n "r s" #'persp-switch
-      :n "r q" #'persp-kill
-      :n "r n" #'persp-add-new)
-
+      ;; workspace: TAB
+      :n "TAB h" #'+workspace:switch-previous
+      :n "TAB i" #'+workspace:switch-next)
 
 ;; MELPA PACKAGES --------------------------------------------------------------
 
