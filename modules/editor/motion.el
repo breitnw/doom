@@ -6,3 +6,6 @@
 ;; evil-snipe is used solely for one-character motions
 (after! evil-snipe
   (setq evil-snipe-scope 'visible))
+
+;; fix a redraw issue when scrolling with hardware acceleration enabled
+(add-hook 'window-scroll-functions (lambda (window startp) (redraw-frame)))

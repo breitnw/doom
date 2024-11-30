@@ -1,4 +1,12 @@
+;; define a list of accounts that should be accessible
+(setq mail-accounts
+      '(("School" . "NicholasBreitling2027@u.northwestern.edu")
+        ("Personal" . "breitling.nw@gmail.com")))
+
 (after! mu4e
+  ;; appearance tweak: instead of the ugly highlight do blue arrows
+  (set-face-attribute 'mu4e-highlight-face nil :inherit 'nerd-icons-blue)
+
   ;; avoid mail syncing issues when using mbsync
   (setq mu4e-change-filenames-when-moving t)
 
@@ -20,11 +28,6 @@
   (setq mu4e-update-interval (* 5 60)
         mu4e-get-mail-command "mbsync -a"
         mu4e-root-maildir "~/Mail")
-
-  ;; define a list of accounts that should be accessible
-  (setq accounts
-        '(("School" . "NicholasBreitling2027@u.northwestern.edu")
-          ("Personal" . "breitling.nw@gmail.com")))
 
   ;; use said accounts to create mu4e contexts
   (setq mu4e-contexts
@@ -56,4 +59,4 @@
                 (smtpmail-smtp-server . "smtp.gmail.com")
                 (smtpmail-default-smtp-server . "smtp.gmail.com")
                 (smtpmail-local-domain . "gmail.com")))))
-         accounts)))
+         mail-accounts)))

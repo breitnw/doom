@@ -23,3 +23,16 @@
 
 ;; C ------------------------------------------
 (setq-default c-basic-offset 4)
+
+;; DSSL2 --------------------------------------
+(define-derived-mode dssl2-mode
+  racket-mode
+  (setq font-lock-defaults
+        '((python-font-lock-keywords-level-1 python-font-lock-keywords-level-1 python-font-lock-keywords-level-2 python-font-lock-keywords-maximum-decoration)
+         nil nil nil nil
+         (font-lock-syntactic-face-function . python-font-lock-syntactic-face-function))
+        comment-start "# "
+        comment-padding " "
+        sp-comment-char "#"
+        comment-start-skip "#+\\s-*"
+        font-lock-comment-start-skip nil))

@@ -12,10 +12,10 @@
   :config
   ;; modify keymap
   (evil-define-key '(motion normal visual) evil-colemak-basics-keymap
-    "H" #'evil-first-non-blank
+    "H" #'evil-scroll-left
     "N" #'evil-scroll-down
     "E" #'evil-scroll-up
-    "I" #'evil-end-of-line
+    "I" #'evil-scroll-right
     ;; since i'm not using evil-snipe
     "s" #'avy-goto-char-2
     "L" #'evil-redo)
@@ -31,6 +31,10 @@
       :n "w n" #'evil-window-down
       :n "w e" #'evil-window-up
       :n "w i" #'evil-window-right
+      :n "w H" #'+evil/window-move-left
+      :n "w N" #'+evil/window-move-down
+      :n "w E" #'+evil/window-move-up
+      :n "w I" #'+evil/window-move-right
       ;; workspace: TAB
       :n "TAB h" #'+workspace:switch-previous
       :n "TAB i" #'+workspace:switch-next)
