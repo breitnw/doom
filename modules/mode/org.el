@@ -1,30 +1,20 @@
-;; centered text with sublimity ===================================
+;; centered text with darkroom ====================================
 
-;; sublimity: smooth scrolling and distraction-free mode
-(use-package! sublimity
-  :config
-  ;; (require 'sublimity-scroll)
-  ;; (setq sublimity-scroll-weight 15
-  ;;       sublimity-scroll-drift-length 10)
-  (require 'sublimity-attractive)
-  (setq sublimity-attractive-centering-width nil)
-  (sublimity-mode))
-
-(define-minor-mode zen-mode
-  "Hides line numbers and centers text"
-  :init-value nil
-  :lighter " Zen"
-  (if zen-mode
-      (progn (setq-local sublimity-attractive-centering-width 100)
-             (display-line-numbers-mode -1))
-    (progn (setq-local sublimity-attractive-centering-width nil)
-           (display-line-numbers-mode t))))
-
-;; enable automatic LaTeX previews (this is done earlier dw)
-;; (add-hook! 'org-mode-hook #'org-latex-preview-auto-mode)
 ;; hide line numbers and center text
-(add-hook! 'org-mode-hook #'zen-mode)
-
+(use-package! darkroom
+  :config
+  (setq darkroom-margins
+        (lambda (w)
+          (let* ((max-content-width 100)
+                 (min-margin 5)
+                 (window-width (car (darkroom--window-width w)))
+                 (content-width (min window-width max-content-width))
+                 (margin-width (max (/ (- window-width content-width) 2)
+                                    min-margin)))
+            `(,margin-width . ,margin-width))))
+  (add-hook! 'org-mode-hook #'darkroom-mode)
+  (add-hook! 'darkroom-mode-hook
+    (setq-local display-line-numbers nil)))
 
 ;; better LaTeX previews ==========================================
 

@@ -5,19 +5,17 @@
   :after evil evil-snipe
   :init
   ;; needs to be set before the package is loaded
-  (setq evil-colemak-basics-rotate-t-f-j t
+  (setq evil-colemak-basics-rotate-t-f-j nil
         evil-respect-visual-line-mode t
         evil-colemak-basics-char-jump-commands 'evil-snipe)
 
   :config
-  ;; modify keymap
+  ;; add "big" scroll functions and redo functionality to evil-colemak-basics
   (evil-define-key '(motion normal visual) evil-colemak-basics-keymap
-    "H" #'evil-scroll-left
-    "N" #'evil-scroll-down
-    "E" #'evil-scroll-up
-    "I" #'evil-scroll-right
-    ;; since i'm not using evil-snipe
-    "s" #'avy-goto-char-2
+    "H" #'evil-first-non-blank
+    "N" #'big-scroll-down
+    "E" #'big-scroll-up
+    "I" #'evil-end-of-line
     "L" #'evil-redo)
 
   ;; enable global mode
@@ -25,6 +23,15 @@
 
 ;; override keymaps - always active
 (map! :map 'override
+      ;; pressing escape should also cancel commands; luckily
+      ;; evil-escape does this
+      "<escape>" #'evil-escape
+      ;; for convenience, also activate M-x with s-x
+      "s-x" #'execute-extended-command
+      ;; redraw frame with '
+      :n "'" #'redraw-display
+
+      ;; all other keymaps start with <SPC>
       :leader
       ;; window: w
       :n "w h" #'evil-window-left

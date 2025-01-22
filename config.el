@@ -18,9 +18,9 @@
 ;; - `doom-symbol-font' -- for symbols
 ;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
 
-(setq doom-font (font-spec :family "Monospace"))
+(setq doom-font (font-spec :family "Cozette"))
 ;; i like everything monospace
-(setq doom-variable-pitch-font (font-spec :family "Monospace"))
+(setq doom-variable-pitch-font (font-spec :family "Cozette"))
 ;; variable pitch text is slightly bigger by default
 (set-face-attribute 'variable-pitch-text nil :height 1.0)
 
@@ -28,8 +28,6 @@
 ;; accept. For example:
 ;;
 ;; (setq doom-font (font-spec :family "cozette"))
-
-;; SEE PLATFORM-SPECIFIC CONFIG
 
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -39,13 +37,9 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-;;
-;; (setq doom-theme 'doom-zenburn)
 
-;; (setq doom-everforest-background "medium")  ; or hard (defaults to soft)
-;; (setq doom-everforest-light-background "medium") ; or hard (defaults to soft)
-;; (setq doom-everforest-palette "original")
-(setq doom-theme 'doom-sourcerer) ; dark variant
+;; CONFIGURED IN NIX CONFIG
+;; (setq doom-theme 'doom-sourcerer) ; dark variant
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -91,6 +85,13 @@
 (cond ((eq system-type 'darwin) (load! "modules/platform/macos.el"))
       ((eq system-type 'gnu/linux) (load! "modules/platform/linux.el")))
 
+;; FIXME
+;; (use-package! exec-path-from-shell
+;;   (when (memq window-system '(mac ns x))
+;;     (exec-path-from-shell-initialize))
+;;   (when (daemonp)
+;;     (exec-path-from-shell-initialize)))
+
 ;; editor: configuration to aid in text editing
 (load! "modules/editor/completion.el")
 (load! "modules/editor/keymaps.el")
@@ -107,7 +108,6 @@
 (load! "modules/visual/whitespace.el")
 
 ;; app: app-like plugins, providing functionality other than editing
-;; (load! "modules/app/mail.el")
 (load! "modules/app/project.el")
 (load! "modules/app/terminal.el")
 

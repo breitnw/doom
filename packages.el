@@ -58,7 +58,7 @@
   (:host nil :repo "https://github.com/breitnw/emacs-evil-colemak-basics"))
 
 ;; distraction-free mode and smooth scrolling
-(package! sublimity)
+(package! darkroom)
 
 ;; better LaTeX previews in orgmode
 ;; TODO: this will be merged into org-mode, and should be removed when it is
@@ -96,3 +96,8 @@
 ;; lsp-mode with patched nix support
 (package! lsp-mode
   :pin "49da7d13ad46e59e89c82e26abd34a6aea2fe38b")
+
+;; FIXME
+;; On Nix, it doesn't seem that `doom env' is enough to keep paths
+;; up to date. So, I'm using `exec-path-from-shell' instead
+;; (package! exec-path-from-shell)
