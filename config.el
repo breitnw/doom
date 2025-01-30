@@ -19,6 +19,7 @@
 ;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
 
 (setq doom-font (font-spec :family "Cozette"))
+(setq doom-symbol-font (font-spec :family "Cozette"))
 ;; i like everything monospace
 (setq doom-variable-pitch-font (font-spec :family "Cozette"))
 ;; variable pitch text is slightly bigger by default

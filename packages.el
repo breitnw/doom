@@ -97,6 +97,9 @@
 (package! lsp-mode
   :pin "49da7d13ad46e59e89c82e26abd34a6aea2fe38b")
 
+;; help popup for company
+;; (package! company-quickhelp)
+
 ;; FIXME
 ;; On Nix, it doesn't seem that `doom env' is enough to keep paths
 ;; up to date. So, I'm using `exec-path-from-shell' instead

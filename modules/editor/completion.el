@@ -1,4 +1,3 @@
-(after! company
-  (setq company-idle-delay 0.1
-        company-minimum-prefix-length 1))
-
+(after! corfu
+  (setq corfu-auto-delay 0.1
+        corfu-auto-prefix 1))

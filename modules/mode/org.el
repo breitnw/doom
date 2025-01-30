@@ -14,7 +14,16 @@
             `(,margin-width . ,margin-width))))
   (add-hook! 'org-mode-hook #'darkroom-mode)
   (add-hook! 'darkroom-mode-hook
-    (setq-local display-line-numbers nil)))
+             ;; re-enable the modeline
+             (progn
+               (doom-modeline-refresh-bars)        ; Create bars
+               (doom-modeline-set-main-modeline t) ; Set default mode-line
+               (dolist (buf (buffer-list))
+                 (with-current-buffer buf
+                   (unless (doom-modeline-auto-set-modeline)
+                     (doom-modeline-set-main-modeline)))))
+             ;; display line numbers
+             (setq-local display-line-numbers nil)))
 
 ;; better LaTeX previews ==========================================
 

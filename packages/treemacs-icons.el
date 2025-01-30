@@ -36,6 +36,7 @@
 
 (defvar treemacs-nerd-icons-tab (propertize "\t" 'face 'treemacs-nerd-icons-file-face))
 
+
 (treemacs-create-theme "nerd-icons-custom"
   :config
   (progn
@@ -59,13 +60,13 @@
                           :fallback 'same-as-icon)
     (treemacs-create-icon :icon (format "%s%s%s"
                                         (propertize "~ " 'face 'nerd-icons-dsilver)
-                                        (nerd-icons-mdicon "nf-md-folder_open" :face 'treemacs-nerd-icons-file-face)
+                                        (nerd-icons-faicon "nf-fa-folder_open" :face 'treemacs-nerd-icons-file-face)
                                         treemacs-nerd-icons-tab)
                           :extensions (dir-open src-open build-open test-open tag-open)
                           :fallback 'same-as-icon)
     (treemacs-create-icon :icon (format "%s%s%s"
                                         (propertize "+ " 'face 'nerd-icons-dsilver)
-                                        (nerd-icons-mdicon "nf-md-folder" :face 'treemacs-nerd-icons-file-face)
+                                        (nerd-icons-faicon "nf-fa-folder" :face 'treemacs-nerd-icons-file-face)
                                         treemacs-nerd-icons-tab)
                           :extensions (dir-closed src-closed build-closed test-closed tag-closed)
                           :fallback 'same-as-icon)
