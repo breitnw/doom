@@ -112,6 +112,17 @@
 (load! "modules/app/project.el")
 (load! "modules/app/terminal.el")
 
+;; TODO move this somewhere else
+;; (require 'mu4e-contrib)
+(setq shr-color-visible-luminance-min 60
+      shr-color-visible-distance-min 5
+      shr-use-fonts nil
+      shr-bullet "  "
+      shr-internal-bullet "  ")
+
+;; (setq shr-use-colors nil)
+;; (advice-add #'shr-colorize-region :around (defun shr-no-colourise-region (&rest ignore)))
+
 ;; Load the default init file. Doom disables this by default, but we need it
 ;; since nix uses it for extra config.
 (load "default" 'noerror 'nomessage)

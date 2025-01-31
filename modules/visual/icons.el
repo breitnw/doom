@@ -19,6 +19,40 @@
 (setq doom-modeline-modal-icon nil
       doom-modeline-modal-modern-icon nil)
 
+(add-hook! 'mu4e-modeline-mode-hook
+  (setq mu4e-modeline-all-clear '("C:" . " ")
+        mu4e-modeline-all-read '("R:" . " ")
+        mu4e-modeline-unread-items '("U:" . "󰇰 ")
+        mu4e-modeline-new-items '("N:" . " ")
+        ;; headers
+        mu4e-headers-unread-mark    '("u" . "󰇰 ")
+        mu4e-headers-draft-mark     '("D" . " ")
+        mu4e-headers-flagged-mark   '("F" . " ")
+        mu4e-headers-new-mark       '("N" . " ")
+        mu4e-headers-passed-mark    '("P" . " ")
+        mu4e-headers-replied-mark   '("R" . "󰙅 ")
+        mu4e-headers-seen-mark      '("S" . " ")
+        mu4e-headers-trashed-mark   '("T" . " ")
+        mu4e-headers-attach-mark    '("a" . " ")
+        mu4e-headers-encrypted-mark '("x" . " ")
+        mu4e-headers-signed-mark    '("s" . " ")
+        mu4e-headers-calendar-mark  '("c" . " ")
+        mu4e-headers-list-mark      '("l" . " ")
+        mu4e-headers-personal-mark  '("p" . " ")
+        ;; other?
+        mu4e-search-hide-label      '("H " . " ")
+        mu4e-search-skip-duplicates-label '("S " . " ")
+        mu4e-search-threaded-label '("T " . "󰙅 ")
+        mu4e-search-full-label '("F " . " ")
+        mu4e-search-related-label '("R " . " ")))
+
+(advice-add 'doom-modeline-lsp-icon :override
+            (lambda (text face)
+              "Display LSP icon (or TEXT in terminal) with FACE."
+              (if doom-modeline-lsp-icon
+                  (doom-modeline-icon 'faicon "nf-fa-cogs" "🚀" text :face face)
+                (propertize text 'face face))))
+
 (advice-add 'doom-modeline-buffer-file-state-icon :override
             (lambda (icon unicode text face)
               (doom-modeline-icon 'faicon
