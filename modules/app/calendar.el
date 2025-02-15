@@ -125,7 +125,7 @@
   (defun my-open-calendar ()
     (interactive)
     (cfw:open-calendar-buffer
-     :custom-map cfw-custom-map
+     ;; :custom-map cfw-custom-map
      :contents-sources (append (my--make-calendar-sources)
                                (my--make-agenda-sources))))
 
@@ -135,14 +135,13 @@
              (evil-motion-state)
              ;; automatically redraw on window size change
              (add-to-list 'window-size-change-functions #'refresh-display)
-             ;; i like the modeline
-             (turn-off-hide-mode-line-mode)
              ;; refresh the buffer
              (cfw:refresh-calendar-buffer nil))
 
   ;; when the details popup is opened
   (add-hook! cfw:details-mode
-    (evil-colemak-basics-mode)))
+    (evil-colemak-basics-mode)
+    (evil-motion-state)))
 
 ;; org-caldav ------------------------------------------------------------------
 
