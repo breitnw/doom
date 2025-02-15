@@ -17,9 +17,16 @@
         :mnv "I" #'evil-end-of-line
         :n "l" #'evil-undo
         :n "L" #'evil-redo)
+<<<<<<< HEAD
   ;; use evil-snipe-mode-map for "s"; otherwise this overrides magit staging :(
   (map! :map evil-snipe-mode-map
         :n "s" #'evil-avy-goto-char-2)
+=======
+
+  (map! :map evil-snipe-mode-map
+        :n "s" #'evil-avy-goto-char-2)
+  ;; :n "s" #'evil-avy-goto-char-2)
+>>>>>>> 6ebbe65ee21adfb982bd3c680d609776fc01eb73
 
   ;; enable global mode
   (global-evil-colemak-basics-mode))
