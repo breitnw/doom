@@ -1,29 +1,18 @@
 ;; centered text with darkroom ====================================
 
 ;; hide line numbers and center text
-(use-package! darkroom
+(use-package! olivetti
   :config
-  (setq darkroom-margins
-        (lambda (w)
-          (let* ((max-content-width 100)
-                 (min-margin 5)
-                 (window-width (car (darkroom--window-width w)))
-                 (content-width (min window-width max-content-width))
-                 (margin-width (max (/ (- window-width content-width) 2)
-                                    min-margin)))
-            `(,margin-width . ,margin-width))))
-  (add-hook! 'org-mode-hook #'darkroom-mode)
-  (add-hook! 'darkroom-mode-hook
-             ;; re-enable the modeline
-             (progn
-               (doom-modeline-refresh-bars)        ; Create bars
-               (doom-modeline-set-main-modeline t) ; Set default mode-line
-               (dolist (buf (buffer-list))
-                 (with-current-buffer buf
-                   (unless (doom-modeline-auto-set-modeline)
-                     (doom-modeline-set-main-modeline)))))
-             ;; display line numbers
-             (setq-local display-line-numbers nil)))
+  (setq olivetti-margin-width 10
+        olivetti-body-width 100
+        olivetti-minimum-body-width 50
+        olivetti-style t)
+  (add-hook! 'org-mode-hook #'olivetti-mode)
+  (add-hook! 'markdown-mode-hook #'olivetti-mode)
+  (add-hook! 'olivetti-mode-hook
+             ;; (face-remap-add-relative 'fringe '(:background (face-background 'solaire-default-face)))
+             (vi-tilde-fringe-mode -1)
+             (display-line-numbers-mode -1)))
 
 ;; better LaTeX previews ==========================================
 

@@ -49,6 +49,17 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;; (unpin! t)
 
+;; calendar
+(package! org-caldav)
+(package! calfw
+  :pin "ebda1c908aaa23a78c5ca648e48233b8563c5462"
+  :recipe
+  (:host nil :repo "https://github.com/fauxmight/emacs-calfw.git"))
+(package! calfw-org
+  :pin "ebda1c908aaa23a78c5ca648e48233b8563c5462"
+  :recipe
+  (:host nil :repo "https://github.com/fauxmight/emacs-calfw.git"))
+
 ;; pin solaire-mode to enable vterm support
 (package! solaire-mode :pin "c9334666bd208f3322e6118d30eba1b2438e2bb9")
 
@@ -57,8 +68,9 @@
   :recipe
   (:host nil :repo "https://github.com/breitnw/emacs-evil-colemak-basics"))
 
-;; distraction-free mode and smooth scrolling
-(package! darkroom)
+;; distraction-free mode
+;; (package! darkroom)
+(package! olivetti)
 
 ;; better LaTeX previews in orgmode
 ;; TODO: this will be merged into org-mode, and should be removed when it is
@@ -97,8 +109,12 @@
 (package! lsp-mode
   :pin "49da7d13ad46e59e89c82e26abd34a6aea2fe38b")
 
-;; help popup for company
-;; (package! company-quickhelp)
+;; platformIO
+(package! platformio-mode)
+
+;; better (faster) pixel scrolling
+(package! ultra-scroll :recipe
+  (:host nil :repo "https://github.com/jdtsmith/ultra-scroll"))
 
 ;; FIXME
 ;; On Nix, it doesn't seem that `doom env' is enough to keep paths

@@ -11,7 +11,7 @@
 (setq org-directory "~/Documents/org/")
 
 ;; directory for org-agenda
-(setq org-agenda-files '("~/Documents/org/agenda"))
+(setq org-agenda-files '("~/Documents/org/agenda" "~/Documents/org/calendar/inbox"))
 
 ;; directory for org-roam
 (setq org-roam-directory (file-truename "~/Documents/org/notes/"))

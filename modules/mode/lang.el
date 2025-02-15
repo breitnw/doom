@@ -8,11 +8,6 @@
         lsp-nix-nixd-nixos-options-expr "(builtins.getFlake \"/home/breitnw/Documents/code/nixos\").nixosConfigurations.mnd.options"
         lsp-nix-nixd-home-manager-options-expr "(builtins.getFlake \"/home/breitnw/Documents/code/nixos\").homeConfigurations.\"breitnw@mnd\".options"))
 
-;; for some reason, nix-mode disables company autocompletion, so we
-;; need to manually re-enable it
-(add-hook! 'nix-mode-hook
-  (setq company-idle-delay 0.1))
-
 ;; java ---------------------------------------
 (after! lsp-java
   (setq lsp-java-java-path "/usr/bin/java"
@@ -24,8 +19,19 @@
 ;; C ------------------------------------------
 (setq-default c-basic-offset 4)
 
+(after! platformio-mode
+  ;; Enable ccls for all c++ files, and platformio-mode only
+  ;; when needed (platformio.ini present in project root).
+  (add-hook! 'c++-mode-hook
+    (lsp-deferred)
+    (platformio-conditionally-enable)))
+
+
 ;; Racket -------------------------------------
 (after! racket-mode
-  (define-key racket-mode-map
-              (kbd "C-\\")
-              #'racket-insert-lambda))
+  (add-hook! 'racket-mode-hook
+    (lsp))
+  (map! :map 'racket-mode-map
+        :i "C-\\" #'racket-insert-lambda
+        :nmv "<TAB>" #'evil-jump-item
+        :nmv "<RET>" #'racket-cycle-paren-shapes))

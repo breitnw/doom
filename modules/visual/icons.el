@@ -101,7 +101,7 @@
          (field :style "fa" :icon "tag" :face font-lock-variable-name-face)
          (file :style "fa" :icon "file" :face font-lock-string-face)
          (folder :style "fa" :icon "folder" :face font-lock-doc-face)
-         (interface :style "cod" :icon "server_network" :face font-lock-type-face)
+         (interface :style "md" :icon "server_network" :face font-lock-type-face)
          (keyword :style "fa" :icon "key" :face font-lock-keyword-face)
          (macro :style "fa" :icon "hashtag" :face font-lock-keyword-face)
          (magic :style "cod" :icon "wand" :face font-lock-builtin-face) ;; TODO

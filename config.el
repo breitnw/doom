@@ -111,6 +111,7 @@
 ;; app: app-like plugins, providing functionality other than editing
 (load! "modules/app/project.el")
 (load! "modules/app/terminal.el")
+(load! "modules/app/calendar.el")
 
 ;; TODO move this somewhere else
 ;; (require 'mu4e-contrib)
@@ -120,9 +121,15 @@
       shr-bullet "  "
       shr-internal-bullet "  ")
 
-;; (setq shr-use-colors nil)
-;; (advice-add #'shr-colorize-region :around (defun shr-no-colourise-region (&rest ignore)))
+;; TODO move thi somewhere else too
+(after! persp-mode
+  (setq persp-emacsclient-init-frame-behaviour-override "main"))
+
 
 ;; Load the default init file. Doom disables this by default, but we need it
 ;; since nix uses it for extra config.
-(load "default" 'noerror 'nomessage)
+;; (load "default" 'noerror 'nomessage)
+(load "default")
+
+;; i think this needs to go after?
+(setq doom-base16-padded-modeline 't)

@@ -8,7 +8,6 @@
   (setq evil-colemak-basics-rotate-t-f-j nil
         evil-respect-visual-line-mode t
         evil-colemak-basics-char-jump-commands 'evil-snipe)
-
   :config
   ;; add "big" scroll functions and redo functionality to evil-colemak-basics
   (evil-define-key '(motion normal visual) evil-colemak-basics-keymap
@@ -44,4 +43,30 @@
       :n "w I" #'+evil/window-move-right
       ;; workspace: TAB
       :n "TAB h" #'+workspace:switch-previous
-      :n "TAB i" #'+workspace:switch-next)
+      :n "TAB i" #'+workspace:switch-next
+      ;; open: o
+      :n "o c" #'my-open-calendar)
+
+;; calendar keymaps
+(defvar cfw-custom-map (make-sparse-keymap))
+(map! :map 'cfw-custom-map
+      :nm "<right>" 'cfw:navi-next-day-command
+      :nm "<left>" 'cfw:navi-previous-day-command
+      :nm "<down>" 'cfw:navi-next-week-command
+      :nm "<up>" 'cfw:navi-previous-week-command
+      ;; Vi style
+      :nm "h" 'cfw:navi-previous-day-command
+      :nm "n" 'cfw:navi-next-week-command
+      :nm "e" 'cfw:navi-previous-week-command
+      :nm "i" 'cfw:navi-next-day-command
+      :nm "H" 'cfw:navi-goto-week-begin-command
+      :nm "N" 'cfw:navi-previous-month-command
+      :nm "E" 'cfw:navi-next-month-command
+      :nm "I" 'cfw:navi-goto-week-end-command
+      :nm "g" 'cfw:navi-goto-date-command
+      :nm "." 'cfw:navi-goto-today-command
+      :nm "TAB" 'cfw:navi-prev-item-command
+      :nm "S-TAB" 'cfw:navi-next-item-command
+
+      :nm "RET" 'cfw:show-details-command
+      :nm "q" 'cfw:org-clean-exit)
