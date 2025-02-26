@@ -3,30 +3,37 @@
 ;; custom ----------------------------------------------------------------------
 
 ;; loading calendars and agendas
-(defvar my-calendar-inbox-dir "~/Documents/org/calendar/inbox/")
-(defvar my-calendar-specs '((:name "meetings"
-                             :color yellow
-                             :id "breitnw/ba5d2c92-5382-8c25-f30f-5267a413f9f9")
-                            (:name "volunteering"
-                             :color magenta
-                             :id "breitnw/e011c882-cbb6-2b85-ae30-b554980a2a58")
-                            (:name "classes"
-                             :color green
-                             :id "breitnw/05c1abae-04ae-7c3c-6424-dbcb66b4e9a4")
-                            (:name "stuff"
-                             :color red
-                             :id "breitnw/b418ade2-7d26-c0c6-3a65-102cec6f0392")
-                            (:name "clubs"
-                             :color cyan
-                             :id "breitnw/3dcdba38-60a3-3005-4243-93fcec8ce978")))
-(defvar my-agenda-specs '((:name "agenda"
-                           :color violet
-                           :path "~/Documents/org/agenda/todos.org")))
+(defvar my-calendar-base-dir "~/Documents/org/calendar/")
+(defvar my-calendar-inbox-subdir "inbox/")
+(defvar my-calendar-state-subdir "state/")
+
+(defvar my-calendar-specs
+  '((:name "meetings"
+     :color yellow
+     :id "breitnw/ba5d2c92-5382-8c25-f30f-5267a413f9f9")
+    (:name "volunteering"
+     :color magenta
+     :id "breitnw/e011c882-cbb6-2b85-ae30-b554980a2a58")
+    (:name "classes"
+     :color green
+     :id "breitnw/05c1abae-04ae-7c3c-6424-dbcb66b4e9a4")
+    (:name "stuff"
+     :color red
+     :id "breitnw/b418ade2-7d26-c0c6-3a65-102cec6f0392")
+    (:name "clubs"
+     :color cyan
+     :id "breitnw/3dcdba38-60a3-3005-4243-93fcec8ce978")))
+
+(defvar my-agenda-specs
+  '((:name "agenda"
+     :color violet
+     :path "~/Documents/org/agenda/todos.org")))
 
 ;; calendar paths
 (defun my--make-calendar-path (cal-spec)
   "make a string representing the path to a calendar inbox, based on CAL-SPEC"
-  (concat (file-name-as-directory my-calendar-inbox-dir)
+  (concat (file-name-as-directory my-calendar-base-dir)
+          (file-name-as-directory my-calendar-inbox-subdir)
           (plist-get cal-spec :name) ".org"))
 
 ;; calendar sources (calfw)
@@ -108,14 +115,14 @@
     `(cfw:face-toolbar-button-on :foreground ,(doom-color 'teal) :weight bold))
 
   ;; revert to ascii borders
-  (setq cfw:fchar-junction ?+
-        cfw:fchar-vertical-line ?|
-        cfw:fchar-horizontal-line ?-
-        cfw:fchar-left-junction ?+
-        cfw:fchar-right-junction ?+
-        cfw:fchar-top-junction ?+
-        cfw:fchar-top-left-corner ?+
-        cfw:fchar-top-right-corner ?+ )
+  (setq cfw:fchar-junction ?┼
+        cfw:fchar-vertical-line ?│
+        cfw:fchar-horizontal-line ?─
+        cfw:fchar-left-junction ?├
+        cfw:fchar-right-junction ?┤
+        cfw:fchar-top-junction ?┬
+        cfw:fchar-top-left-corner ?╭
+        cfw:fchar-top-right-corner ?╮)
 
   ;; wrap lines nicely
   (setq cfw:render-line-breaker #'cfw:render-line-breaker-wordwrap
@@ -125,7 +132,7 @@
   (defun my-open-calendar ()
     (interactive)
     (cfw:open-calendar-buffer
-     ;; :custom-map cfw-custom-map
+     :view 'two-weeks
      :contents-sources (append (my--make-calendar-sources)
                                (my--make-agenda-sources))))
 
@@ -150,4 +157,6 @@
   :config
   (setq org-caldav-url "https://cal.mndco11age.xyz"
         org-icalendar-timezone "America/Chicago"
-        org-caldav-calendars (my--make-caldav-sources)))
+        org-caldav-calendars (my--make-caldav-sources)
+        org-caldav-save-directory (concat my-calendar-base-dir
+                                          my-calendar-state-subdir)))

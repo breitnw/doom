@@ -3,16 +3,17 @@
 ;; hide line numbers and center text
 (use-package! olivetti
   :config
-  (setq olivetti-margin-width 10
+  (setq olivetti-margin-width 5
         olivetti-body-width 100
         olivetti-minimum-body-width 50
-        olivetti-style t)
+        olivetti-style nil)
   (add-hook! 'org-mode-hook #'olivetti-mode)
   (add-hook! 'markdown-mode-hook #'olivetti-mode)
   (add-hook! 'olivetti-mode-hook
              ;; (face-remap-add-relative 'fringe '(:background (face-background 'solaire-default-face)))
              (vi-tilde-fringe-mode -1)
-             (display-line-numbers-mode -1)))
+             (display-line-numbers-mode -1)
+             (diff-hl-mode -1)))
 
 ;; better LaTeX previews ==========================================
 

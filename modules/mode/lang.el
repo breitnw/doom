@@ -35,3 +35,10 @@
         :i "C-\\" #'racket-insert-lambda
         :nmv "<TAB>" #'evil-jump-item
         :nmv "<RET>" #'racket-cycle-paren-shapes))
+
+;; TeX ----------------------------------------
+(after! apheleia
+  (setf (alist-get 'latexindent apheleia-formatters)
+        '("latexindent"
+          "-y=defaultIndent:'  '"
+          "--logfile=/dev/null")))

@@ -17,25 +17,22 @@
         :mnv "I" #'evil-end-of-line
         :n "l" #'evil-undo
         :n "L" #'evil-redo)
-<<<<<<< HEAD
   ;; use evil-snipe-mode-map for "s"; otherwise this overrides magit staging :(
   (map! :map evil-snipe-mode-map
         :n "s" #'evil-avy-goto-char-2)
-=======
-
-  (map! :map evil-snipe-mode-map
-        :n "s" #'evil-avy-goto-char-2)
-  ;; :n "s" #'evil-avy-goto-char-2)
->>>>>>> 6ebbe65ee21adfb982bd3c680d609776fc01eb73
-
   ;; enable global mode
   (global-evil-colemak-basics-mode))
+
+;; TODO fix evil-org-mode-map
 
 ;; override keymaps - always active
 (map! :map 'override
       ;; pressing escape should also cancel commands; luckily
       ;; evil-escape does this
       :g "<escape>" #'evil-escape
+      ;; but we do want to ignore escape in motion state, for
+      ;; calendar and such
+      :m "<escape>" #'ignore
       ;; for convenience, also activate M-x with s-x
       :g "s-x" #'execute-extended-command
       ;; redraw frame with '
@@ -60,28 +57,27 @@
       :n "o g" #'magit)
 
 ;; calendar keymaps
-;; (defvar cfw-custom-map (make-sparse-keymap))
-(map! :map 'cfw:calendar-mode-map
-      :nmv "<right>" 'cfw:navi-next-day-command
-      :nmv "<left>" 'cfw:navi-previous-day-command
-      :nmv "<down>" 'cfw:navi-next-week-command
-      :nmv "<up>" 'cfw:navi-previous-week-command
+(map! :map cfw:calendar-mode-map
+      :m "<right>" 'cfw:navi-next-day-command
+      :m "<left>" 'cfw:navi-previous-day-command
+      :m "<down>" 'cfw:navi-next-week-command
+      :m "<up>" 'cfw:navi-previous-week-command
       ;; Vi style
-      :nmv "h" 'cfw:navi-previous-day-command
-      :nmv "n" 'cfw:navi-next-week-command
-      :nmv "e" 'cfw:navi-previous-week-command
-      :nmv "i" 'cfw:navi-next-day-command
-      :nmv "H" 'cfw:navi-goto-week-begin-command
-      :nmv "N" 'cfw:navi-previous-month-command
-      :nmv "E" 'cfw:navi-next-month-command
-      :nmv "I" 'cfw:navi-goto-week-end-command
-      :nmv "g" 'cfw:navi-goto-date-command
-      :nmv "." 'cfw:navi-goto-today-command
-      :nmv "TAB" 'cfw:navi-prev-item-command
-      :nmv "S-TAB" 'cfw:navi-next-item-command
+      :m "h" 'cfw:navi-previous-day-command
+      :m "n" 'cfw:navi-next-week-command
+      :m "e" 'cfw:navi-previous-week-command
+      :m "i" 'cfw:navi-next-day-command
+      :m "H" 'cfw:navi-goto-week-begin-command
+      :m "N" 'cfw:navi-previous-month-command
+      :m "E" 'cfw:navi-next-month-command
+      :m "I" 'cfw:navi-goto-week-end-command
+      :m "g" 'cfw:navi-goto-date-command
+      :m "." 'cfw:navi-goto-today-command
+      :m "TAB" 'cfw:navi-prev-item-command
+      :m "S-TAB" 'cfw:navi-next-item-command
 
-      :nmv "RET" 'cfw:show-details-command
-      :nmv "q" 'cfw:org-clean-exit)
+      :m "RET" 'cfw:show-details-command
+      :m "q" 'cfw:org-clean-exit)
 
-(map! :map 'cfw:details-mode-map
-      :mnv "q" #'+workspace/close-window-or-workspace)
+(map! :map cfw:details-mode-map
+      :nmv "q" #'+workspace/close-window-or-workspace)
