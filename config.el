@@ -78,20 +78,13 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+;; Load the default init file. Doom disables this by default, but we need it
+;; since nix uses it for extra config.
+;; (load "default" 'noerror 'nomessage)
+(load "default")
+
 ;; emacs should run in bash
 (setq shell-file-name (executable-find "bash"))
-
-;; platform: system-dependent configuration
-;; TODO load system-dependent paths with yaml instead
-(cond ((eq system-type 'darwin) (load! "modules/platform/macos.el"))
-      ((eq system-type 'gnu/linux) (load! "modules/platform/linux.el")))
-
-;; FIXME
-;; (use-package! exec-path-from-shell
-;;   (when (memq window-system '(mac ns x))
-;;     (exec-path-from-shell-initialize))
-;;   (when (daemonp)
-;;     (exec-path-from-shell-initialize)))
 
 ;; editor: configuration to aid in text editing
 (load! "modules/editor/completion.el")
@@ -113,23 +106,9 @@
 (load! "modules/app/terminal.el")
 (load! "modules/app/calendar.el")
 
-;; TODO move this somewhere else
-;; (require 'mu4e-contrib)
-(setq shr-color-visible-luminance-min 60
-      shr-color-visible-distance-min 5
-      shr-use-fonts nil
-      shr-bullet "  "
-      shr-internal-bullet "  ")
-
 ;; TODO move thi somewhere else too
 (after! persp-mode
   (setq persp-emacsclient-init-frame-behaviour-override "main"))
 
-
-;; Load the default init file. Doom disables this by default, but we need it
-;; since nix uses it for extra config.
-;; (load "default" 'noerror 'nomessage)
-(load "default")
-
-;; i think this needs to go after?
+;; i think this needs to go after? rip
 (setq doom-base16-padded-modeline 't)

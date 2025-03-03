@@ -22,7 +22,7 @@
 
        :completion
        ;; (company +childframe)             ; the ultimate code completion backend
-       (corfu +icons +orderless)  ; complete with cap(f), cape and a flying feather!
+       (corfu +icons)  ; complete with cap(f), cape and a flying feather!
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
        ;;ivy               ; a search engine for love and life
@@ -143,7 +143,7 @@
        javascript          ; all(hope(abandon(ye(who(enter(here))))))
        ;;julia             ; a better, faster MATLAB
        ;;kotlin            ; a better, slicker Java(Script)
-       latex             ; writing papers in Emacs has never been so fun
+       latex               ; writing papers in Emacs has never been so fun
        ;;lean              ; for folks with too much to prove
        ;;ledger            ; be audit you can be
        ;;lua               ; one-based indices? one-based indices
@@ -155,9 +155,9 @@
        ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
        ;;purescript        ; javascript, but functional
-       python              ; beautiful is better than ugly
+       (python +lsp)       ; beautiful is better than ugly
        qt                  ; the 'cutest' gui framework ever
-       racket              ; a DSL for DSLs
+       (racket +lsp)       ; a DSL for DSLs
        ;;raku              ; the artist formerly known as perl6
        ;;rest              ; Emacs as a REST client
        ;;rst               ; ReST in peace
@@ -172,7 +172,7 @@
        ;;terra             ; Earth and Moon in alignment for performance.
        web                 ; the tubes
        yaml                ; JSON, but readable
-       ;;zig               ; C, but simpler
+       (zig +lsp)          ; C, but simpler
 
        :email
        (mu4e +org +gmail)

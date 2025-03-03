@@ -116,6 +116,12 @@
 (package! ultra-scroll :recipe
   (:host nil :repo "https://github.com/jdtsmith/ultra-scroll"))
 
+;; better completion sorting
+(package! corfu-prescient)
+
+;; box for documentation
+(package! eldoc-box)
+
 ;; FIXME
 ;; On Nix, it doesn't seem that `doom env' is enough to keep paths
 ;; up to date. So, I'm using `exec-path-from-shell' instead

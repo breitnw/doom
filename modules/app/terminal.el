@@ -1,3 +1,5 @@
 ;; our interactive vterm shell should be fish
-(after! vterm
-  (setq vterm-shell (executable-find "fish")))
+(use-package! vterm
+  :defer t
+  :custom
+  (vterm-shell (executable-find "fish")))

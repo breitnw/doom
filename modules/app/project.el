@@ -1,12 +1,17 @@
 ;; project management apps and plugins
 
-(after! projectile
-  (setq projectile-project-search-path '(("~/Documents/code/" . 3) "~/WebDAV/org/")))
+(use-package! projectile
+  :defer t
+  :custom
+  (projectile-project-search-path '(("~/Documents/code/" . 3) "~/WebDAV/org/")))
 
-(after! treemacs
+(use-package! treemacs
+  :defer t
+  :custom
+  (treemacs-indentation-string " ")
+  (treemacs-collapse-dirs 10)
+  (treemacs-show-hidden-files nil)
+  (treemacs-no-png-images t)
+  :config
   (load! "../../packages/treemacs-icons.el")
-  (treemacs-load-theme "nerd-icons-custom")
-  (setq treemacs-indentation-string " "
-        treemacs-collapse-dirs 10
-        treemacs-show-hidden-files nil
-        treemacs-no-png-images t))
+  (treemacs-load-theme "nerd-icons-custom"))

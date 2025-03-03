@@ -2,25 +2,27 @@
 ;; cursor motion ------------------------------------------------
 
 ;; avy: search for characters on the screen
-(after! avy
-  (setq avy-keys '(?a ?r ?s ?t ?n ?e ?i ?o ?d ?h
-                   ?w ?f ?p ?l ?u ?y)))
+(use-package! avy
+  :defer t
+  :custom
+  (avy-keys '(?a ?r ?s ?t ?n ?e ?i ?o ?d ?h
+              ?w ?f ?p ?l ?u ?y)))
 
 ;; evil-snipe is used solely for one-character motions
-(after! evil-snipe
-  (setq evil-snipe-scope 'visible))
+;; (after! evil-snipe
+;;   (setq evil-snipe-scope 'visible))
 
 ;; frame motion (scrolling) -------------------------------------
 
 ;; better pixel scrolling with ultra-scroll
 (use-package! ultra-scroll
-  :init
-  (setq auto-hscroll-mode t
-        scroll-margin 0
-        scroll-conservatively 101
-        scroll-down-aggressively nil
-        scroll-up-aggressively nil
-        scroll-step 0)
+  :custom
+  (auto-hscroll-mode t)
+  (scroll-margin 0)
+  (scroll-conservatively 101)
+  (scroll-down-aggressively nil)
+  (scroll-up-aggressively nil)
+  (scroll-step 0)
   :config
   (ultra-scroll-mode 1))
 

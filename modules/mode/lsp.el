@@ -1,8 +1,27 @@
 ;; global lsp-mode configuration
 
-;; inlay hints
-(add-hook! 'lsp-mode-hook
-  (setq-local lsp-inlay-hint-enable t
-              lsp-inlay-hint-param-format "%s"
-              lsp-inlay-hint-type-format "%s"))
-;;lsp-ui-sideline-diagnostic-max-lines 3))
+(use-package! lsp-mode
+  :defer t
+  :custom
+  (lsp-inlay-hint-enable t)
+  (lsp-inlay-hint-param-format "%s")
+  (lsp-inlay-hint-type-format "%s")
+  (lsp-eldoc-render-all t))
+
+(use-package! eldoc
+  :defer t
+  :custom
+  (eldoc-echo-area-use-multiline-p nil))
+
+(use-package! eldoc-box
+  :after eldoc
+  :custom
+  (eldoc-box-max-pixel-width 400)
+  (eldoc-box-max-pixel-height 300)
+  :config
+  (map! :map 'prog-mode-map
+        :n "?" #'eldoc-box-help-at-point)
+  (custom-set-faces!
+    `(eldoc-box-border :background ,(doom-color 'comments))
+    `(eldoc-box-markdown-separator :foreground ,(doom-color 'comments) :strike-through t)
+    `(markdown-code-face :background ,(doom-color 'bg))))
