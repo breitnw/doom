@@ -112,6 +112,9 @@
 ;; platformIO
 (package! platformio-mode)
 
+;; tidal (live coding)
+(package! tidal)
+
 ;; better (faster) pixel scrolling
 (package! ultra-scroll :recipe
   (:host nil :repo "https://github.com/jdtsmith/ultra-scroll"))

@@ -25,6 +25,8 @@
 ;; variable pitch text is slightly bigger by default
 (set-face-attribute 'variable-pitch-text nil :height 1.0)
 
+(set-face-attribute 'default nil :extend t)
+
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
@@ -106,9 +108,13 @@
 (load! "modules/app/terminal.el")
 (load! "modules/app/calendar.el")
 
-;; TODO move thi somewhere else too
+;; TODO move this somewhere else
 (after! persp-mode
   (setq persp-emacsclient-init-frame-behaviour-override "main"))
 
-;; i think this needs to go after? rip
-(setq doom-base16-padded-modeline 't)
+;; TODO move this somewhere else too
+(setq doom-base16-padded-modeline t)
+
+;; TODO move this to mail config?
+(after! mu4e
+  (setq mu4e-main-hide-personal-addresses t))

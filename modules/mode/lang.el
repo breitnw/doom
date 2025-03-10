@@ -54,3 +54,9 @@
         '("latexindent"
           "-y=defaultIndent:'  '"
           "--logfile=/dev/null")))
+
+;; tidal --------------------------------------
+(use-package! tidal
+  :config
+  (map! :map 'tidal-mode-map
+        :nmv "<RET>" #'tidal-run-multiple-lines))

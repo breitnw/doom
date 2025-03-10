@@ -12,6 +12,7 @@
   :custom
   (corfu-auto-delay 0.1)
   (corfu-auto-prefix 1)
+  (corfu-preselect 'first) ;; automatically select the first candidate
   :config
   (map! :map corfu-map
         ;; separator for orderless

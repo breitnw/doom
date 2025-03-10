@@ -39,7 +39,11 @@
 
       ;; all other keymaps start with <SPC>
       :leader
-      ;; window: w
+      ;; window: r
+      :n "w s" #'evil-window-split
+      :n "w v" #'evil-window-vsplit
+      :n "w a" #'ace-swap-window
+      :n "w r" #'ace-select-window
       :n "w h" #'evil-window-left
       :n "w n" #'evil-window-down
       :n "w e" #'evil-window-up
@@ -48,6 +52,8 @@
       :n "w N" #'+evil/window-move-down
       :n "w E" #'+evil/window-move-up
       :n "w I" #'+evil/window-move-right
+      :n "w d" #'kill-buffer-and-window
+      :n "w c" #'+workspace/close-window-or-workspace
       ;; workspace: TAB
       :n "TAB h" #'+workspace:switch-previous
       :n "TAB i" #'+workspace:switch-next
