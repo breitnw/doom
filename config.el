@@ -20,12 +20,19 @@
 
 (setq doom-font (font-spec :family "Cozette"))
 (setq doom-symbol-font (font-spec :family "Cozette"))
+
+;; fix the symbol height for vterm
+(add-hook! '(vterm-mode-hook mu4e-headers-mode-hook)
+  (setq text-scale-mode-amount -1)
+  (text-scale-mode))
+
+;; (setq doom-variable-pitch-font (font-spec :family "Liberation Sans"))
+;; (setq doom-serif-font (font-spec :family "ETBembo"))
+
 ;; i like everything monospace
 (setq doom-variable-pitch-font (font-spec :family "Cozette"))
 ;; variable pitch text is slightly bigger by default
-(set-face-attribute 'variable-pitch-text nil :height 1.0)
-
-(set-face-attribute 'default nil :extend t)
+(set-face-attribute 'variable-pitch-text nil :height 1)
 
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
@@ -97,6 +104,7 @@
 (load! "modules/mode/lang.el")
 (load! "modules/mode/lsp.el")
 (load! "modules/mode/org.el")
+(load! "modules/mode/format.el")
 
 ;; visual: configuration to make emacs pretty
 (load! "modules/visual/icons.el")
@@ -106,14 +114,12 @@
 ;; app: app-like plugins, providing functionality other than editing
 (load! "modules/app/project.el")
 (load! "modules/app/terminal.el")
-(load! "modules/app/calendar.el")
-
-;; TODO move this somewhere else
-(after! persp-mode
-  (setq persp-emacsclient-init-frame-behaviour-override "main"))
+(load! "modules/app/workspace.el")
+;; (load! "modules/app/calendar.el")
 
 ;; TODO move this somewhere else too
 (setq doom-base16-padded-modeline t)
+(setq doom-themes-padded-modeline t)
 
 ;; TODO move this to mail config?
 (after! mu4e

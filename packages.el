@@ -50,15 +50,16 @@
 ;; (unpin! t)
 
 ;; calendar
-(package! org-caldav)
-(package! calfw
-  :pin "ebda1c908aaa23a78c5ca648e48233b8563c5462"
-  :recipe
-  (:host nil :repo "https://github.com/fauxmight/emacs-calfw.git"))
-(package! calfw-org
-  :pin "ebda1c908aaa23a78c5ca648e48233b8563c5462"
-  :recipe
-  (:host nil :repo "https://github.com/fauxmight/emacs-calfw.git"))
+;; (package! org-caldav)
+;; (package! calfw
+;;   :recipe
+;;   (:host nil :repo "https://github.com/kiwanami/emacs-calfw.git"))
+;; (package! calfw-org
+;;   :recipe
+;;   (:host nil :repo "https://github.com/kiwanami/emacs-calfw.git"))
+;; (package! calfw-blocks
+;;   :recipe
+;;   (:host nil :repo "https://github.com/ml729/calfw-blocks"))
 
 ;; pin solaire-mode to enable vterm support
 (package! solaire-mode :pin "c9334666bd208f3322e6118d30eba1b2438e2bb9")

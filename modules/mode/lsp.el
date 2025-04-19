@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 ;; global lsp-mode configuration
 
 (use-package! lsp-mode
@@ -6,7 +8,13 @@
   (lsp-inlay-hint-enable t)
   (lsp-inlay-hint-param-format "%s")
   (lsp-inlay-hint-type-format "%s")
-  (lsp-eldoc-render-all t))
+  (lsp-eldoc-render-all t)
+  :config
+  (custom-set-faces!
+    `(lsp-inlay-hint-face
+      :foreground ,(doom-color 'base6)
+      ;; :background ,(doom-color 'bg-alt)
+      :weight normal)))
 
 (use-package! eldoc
   :defer t

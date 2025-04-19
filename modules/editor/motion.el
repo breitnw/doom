@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 
 ;; cursor motion ------------------------------------------------
 
@@ -8,31 +9,28 @@
   (avy-keys '(?a ?r ?s ?t ?n ?e ?i ?o ?d ?h
               ?w ?f ?p ?l ?u ?y)))
 
-;; ace: switch windows
-(use-package! ace-window
-  :custom
-  (aw-keys '(?a ?r ?s ?t ?n ?e ?i ?o ?d ?h
-             ?w ?f ?p ?l ?u ?y))
-  :config
-  (custom-set-faces!
-    `(aw-leading-char-face :foreground "red" :weight bold)
-    `(aw-background-face :foreground ,(doom-color 'comments))))
-
 ;; evil-snipe is used solely for one-character motions
 ;; (after! evil-snipe
 ;;   (setq evil-snipe-scope 'visible))
 
 ;; frame motion (scrolling) -------------------------------------
 
+;; (add-hook! 'pixel-scroll-precision-mode-hook
+;;   (setq pixel-scroll-precision-use-momentum t
+;;         pixel-scroll-precision-momentum-seconds 0.5
+;;         pixel-scroll-precision-momentum-tick 0.02
+;;         pixel-scroll-precision-momentum-min-velocity 2))
+;; (pixel-scroll-precision-mode)
+
 ;; better pixel scrolling with ultra-scroll
 (use-package! ultra-scroll
-  :custom
-  (auto-hscroll-mode t)
-  (scroll-margin 0)
-  (scroll-conservatively 101)
-  (scroll-down-aggressively nil)
-  (scroll-up-aggressively nil)
-  (scroll-step 0)
+  ;; :custom
+  ;; (auto-hscroll-mode t)
+  ;; (scroll-margin 0)
+  ;; (scroll-conservatively 101)
+  ;; (scroll-down-aggressively nil)
+  ;; (scroll-up-aggressively nil)
+  ;; (scroll-step 0)
   :config
   (ultra-scroll-mode 1))
 

@@ -1,14 +1,17 @@
+;; -*- lexical-binding: t -*-
+
 ;; whitespace rendering
 (defvar fill-column-settings
-  '((rustic-mode . 100)
+  '((rustic-mode . 80)
     (java-mode . 100)
-    (c-mode . 100)
-    (c++-mode . 100)
+    (c-mode . 80)
+    (c++-mode . 80)
     (python-mode . 100)
     (emacs-lisp-mode . 80)
     (haskell-mode . 80)
     (racket-mode . 80)
-    (nix-mode . 80)))
+    (nix-mode . 80)
+    (zig-mode . 80)))
 
 (defun configure-fill-column ()
   (setq fill-column
@@ -43,9 +46,9 @@
   (custom-set-faces!
     `(fill-column-indicator :foreground ,(doom-color 'bg-alt))))
 
-;; word wrapping
-(use-package adaptive-wrap
-  :after whitespace
-  :config
-  (add-to-list '+word-wrap-text-modes 'org-msg-edit-mode)
-  (add-hook! 'prog-mode-hook #'+word-wrap-mode))
+;; ;; word wrapping
+;; (use-package adaptive-wrap
+;;   :after whitespace
+;;   :config
+;;   (add-to-list '+word-wrap-text-modes 'org-msg-edit-mode)
+;;   (add-hook! 'prog-mode-hook #'+word-wrap-mode))

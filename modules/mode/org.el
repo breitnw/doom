@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 ;; centered text with darkroom ====================================
 
 ;; hide line numbers and center text
@@ -6,7 +8,7 @@
 
   :custom
   (olivetti-margin-width 5)
-  (olivetti-body-width 100)
+  (olivetti-body-width 0.8)
   (olivetti-minimum-body-width 50)
   (olivetti-style nil)
 
@@ -16,6 +18,43 @@
     (display-line-numbers-mode -1)
     (diff-hl-mode -1)))
 
+;; font configuration =============================================
+
+;; (define-minor-mode org-starless-mode
+;;   "Starless org-mode"
+;;   nil nil nil
+;;   :require 'org
+;;   (let* ((keyword
+;;           `(("^\\(\\*+ \\)\\s-*\\S-" ; Do not hide empty headings!
+;;              (1 (put-text-property (match-beginning 1) (match-end 1) 'invisible t)
+;;                 nil)))))
+;;     (if org-starless-mode
+;;         (progn
+;;           (font-lock-add-keywords nil keyword)
+;;           (font-lock-ensure)
+;;           (font-lock-flush))
+;;       (save-excursion
+;;         (goto-char (point-min))
+;;         (font-lock-remove-keywords nil keyword)
+;;         (font-lock-ensure)
+;;         (font-lock-flush)))))
+
+(use-package! org
+  :defer t
+  :config
+  ;; Make bullets prettier
+  (font-lock-add-keywords
+   'org-mode
+   '(("^ *\\([-]\\) "
+      (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "∙"))))))
+  ;; By default, leading stars should be shown, and we shouldn't indent
+  (setq org-hide-leading-stars nil
+        org-startup-indented nil)
+  ;; Also, wrapping should work as expected (e.g., lines with bullets)
+  (add-hook! 'org-mode-hook
+    (visual-wrap-prefix-mode)))
+
+;; (add-hook 'org-mode-hook 'org-starless-mode)
 
 ;; better LaTeX previews ==========================================
 

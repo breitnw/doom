@@ -1,9 +1,11 @@
+;; -*- lexical-binding: t -*-
+
 ;; project management apps and plugins
 
 (use-package! projectile
   :defer t
   :custom
-  (projectile-project-search-path '(("~/Documents/code/" . 3) "~/WebDAV/org/")))
+  (projectile-project-search-path '(("~/Documents/code/" . 3) "Config/")))
 
 (use-package! treemacs
   :defer t

@@ -1,13 +1,15 @@
+;; -*- lexical-binding: t -*-
+
 ;; Configure nerd icons to look good
 (after! nerd-icons
   (setq nerd-icons-font-family "Cozette"
         nerd-icons-font-names '("cozette.bdf")))
 
 ;; emojis
-(after! emojify
-  ;; default:
-  ;; (dired-mode doc-view-mode debugger-mode pdf-view-mode image-mode help-mode ibuffer-mode magit-popup-mode magit-diff-mode ert-results-mode compilation-mode proced-mode mu4e-headers-mode deft-mode)
-  (setq emojify-inhibit-major-modes '(vterm-mode)))
+;; (after! emojify
+;;   ;; default:
+;;   ;; (dired-mode doc-view-mode debugger-mode pdf-view-mode image-mode help-mode ibuffer-mode magit-popup-mode magit-diff-mode ert-results-mode compilation-mode proced-mode mu4e-headers-mode deft-mode)
+;;   (setq emojify-inhibit-major-modes '(vterm-mode)))
 
 (setq doom-symbol-fallback-font-families '()
       doom-emoji-fallback-font-families '())
@@ -140,6 +142,7 @@
         ("gitignore" nerd-icons-devicon "nf-dev-git" :face nerd-icons-lred)
         ("gitmodules" nerd-icons-devicon "nf-dev-git" :face nerd-icons-lred)
         ("dockerignore" nerd-icons-devicon "nf-dev-docker" :face nerd-icons-dblue)
+        ("ini" nerd-icons-faicon "nf-fa-cog" :face nerd-icons-dsilver)
         ("xml" nerd-icons-faicon "nf-fa-cog" :face nerd-icons-lorange)
         ("json" nerd-icons-faicon "nf-fa-cog" :face nerd-icons-yellow)
         ("jsonl" nerd-icons-faicon "nf-fa-cog" :face nerd-icons-yellow)
@@ -147,7 +150,6 @@
         ("yml" nerd-icons-faicon "nf-fa-cog" :face nerd-icons-dyellow)
         ("yaml" nerd-icons-faicon "nf-fa-cog" :face nerd-icons-dyellow)
         ("toml" nerd-icons-faicon "nf-fa-cog" :face nerd-icons-orange)
-        ("Makefile" nerd-icons-faicon "nf-fa-cog" :face nerd-icons-orange)
         ("conf" nerd-icons-faicon "nf-fa-cog" :face nerd-icons-dorange)
         ("pkg" nerd-icons-faicon "nf-fa-dropbox" :face nerd-icons-dsilver)
         ("rpm" nerd-icons-faicon "nf-fa-dropbox" :face nerd-icons-dsilver)
@@ -343,4 +345,5 @@
         ("cache" nerd-icons-faicon "nf-fa-database" :face nerd-icons-green)
         ("backup" nerd-icons-mdicon "nf-md-backup_restore" :face nerd-icons-lblue)
         ("old" nerd-icons-mdicon "nf-md-backup_restore" :face nerd-icons-lblue)
-        ("bak" nerd-icons-mdicon "nf-md-backup_restore" :face nerd-icons-lblue)))
+        ("bak" nerd-icons-mdicon "nf-md-backup_restore" :face nerd-icons-lblue)
+        ("lock" nerd-icons-faicon "nf-fa-lock" :face nerd-icons-dsilver)))

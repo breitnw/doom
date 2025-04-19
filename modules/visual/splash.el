@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 (defun wizard ()
   (let* ((banner '("            ,    _      *"
                    "           /|   | |  *   "

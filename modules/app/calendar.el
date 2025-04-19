@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 ;; org and gcal calendar
 
 ;; custom ----------------------------------------------------------------------
@@ -108,13 +110,53 @@
 (defun my-open-calendar ()
   (interactive)
   (cfw:open-calendar-buffer
-   :view 'two-weeks
+   :view 'block-5-day
    :contents-sources (append (my--make-calendar-sources)
                              (my--make-agenda-sources))))
 
 ;; enable orgmode integration
 (use-package! calfw-org
   :after calfw)
+
+;; improve layout with calfw-blocks
+(use-package! calfw-blocks
+  :after calfw
+  :config
+  ;; customize line faces
+  (custom-set-faces!
+    `(calfw-blocks-overline
+      :overline ,(doom-color 'bg-alt)
+      :weight normal))
+
+  ;; customize block faces
+  (defun my-dark-color (col)
+    (doom-blend (doom-color col) (doom-color 'bg) 0.3))
+
+  (let ((face-alist '((calfw-blocks-face-red . red)
+                      (calfw-blocks-face-orange . orange)
+                      (calfw-blocks-face-yellow . yellow)
+                      (calfw-blocks-face-green . green)
+                      (calfw-blocks-face-teal . teal)
+                      (calfw-blocks-face-cyan . cyan)
+                      (calfw-blocks-face-blue . blue)
+                      (calfw-blocks-face-magenta . magenta)
+                      (calfw-blocks-face-violet . violet))))
+    (dolist (elt face-alist)
+      (eval `(defface ,(car elt)
+               '((t (:foreground ,(doom-color (cdr elt))
+                     :background ,(my-dark-color (cdr elt)))))
+               "face for calfw-blocks"
+               :group 'calfw-blocks-faces))
+      (eval `(defvar ,(car elt) ',(car elt)))))
+
+  (setq ;;calfw-blocks-earliest-visible-time '(8 0)
+   calfw-blocks-initial-visible-time '(8 0)
+   calfw-blocks-lines-per-hour 2
+   calfw-blocks-faces-list (list calfw-blocks-face-red
+                                 calfw-blocks-face-orange
+                                 calfw-blocks-face-green
+                                 calfw-blocks-face-blue
+                                 calfw-blocks-face-violet)))
 
 ;; calfw provides a pretty calendar to view weeks, months, etc.
 (use-package! calfw
@@ -137,27 +179,21 @@
   ;; fix keymaps for colemak
   ;; TODO somehow integrate this into keymaps.el, or even Nix config?
   (map! :map cfw:calendar-mode-map
-        :m "<right>" 'cfw:navi-next-day-command
-        :m "<left>" 'cfw:navi-previous-day-command
-        :m "<down>" 'cfw:navi-next-week-command
-        :m "<up>" 'cfw:navi-previous-week-command
         ;; Vi style
-        :m "h" 'cfw:navi-previous-day-command
-        :m "n" 'cfw:navi-next-week-command
-        :m "e" 'cfw:navi-previous-week-command
-        :m "i" 'cfw:navi-next-day-command
-        :m "H" 'cfw:navi-goto-week-begin-command
-        :m "N" 'cfw:navi-previous-month-command
-        :m "E" 'cfw:navi-next-month-command
-        :m "I" 'cfw:navi-goto-week-end-command
-        :m "g" 'cfw:navi-goto-date-command
-        :m "." 'cfw:navi-goto-today-command
-        :m "<backtab>" 'cfw:navi-prev-item-command
-        :m "<tab>" 'cfw:navi-next-item-command
+        :m "h" #'calfw-blocks-navi-previous-day-command
+        :m "n" #'evil-next-visual-line
+        :m "e" #'evil-previous-visual-line
+        :m "i" #'calfw-blocks-navi-next-day-command
+        :m "N" #'big-scroll-down
+        :m "E" #'big-scroll-up
+        :m "g" #'cfw:navi-goto-date-command
+        :m "." #'cfw:navi-goto-today-command
+        :m "<backtab>" #'cfw:navi-prev-item-command
+        :m "<tab>" #'cfw:navi-next-item-command
 
-        :m "RET" 'cfw:show-details-command
-        :m "q" 'my-close-calendar
-        :m "s" 'my-sync-calendar)
+        :m "<RET>" #'cfw:show-details-command
+        :m "q" #'my-close-calendar
+        :m "s" #'my-sync-calendar)
 
   ;; close details buffer with q
   (map! :map cfw:details-mode-map
@@ -168,6 +204,7 @@
   ;; called after the theme is loaded.
   (setq cfw:face-item-separator-color (doom-color 'base3))
   (custom-set-faces!
+    ;; calfw faces
     `(cfw:face-title              :foreground ,(doom-color 'blue) :weight bold)
     `(cfw:face-header             :foreground ,(doom-color 'teal) :weight bold)
     `(cfw:face-sunday             :foreground ,(doom-color 'comments) :weight bold)

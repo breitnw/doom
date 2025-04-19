@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 (use-package! prescient
   :after corfu
   :config
@@ -12,11 +14,18 @@
   :custom
   (corfu-auto-delay 0.1)
   (corfu-auto-prefix 1)
-  (corfu-preselect 'first) ;; automatically select the first candidate
   :config
+  ;; automatically select the first candidate
+  ;; need to do this later because Doom sets a default
+  (setq corfu-preselect 'first)
+  ;; custom keymap for corfu
   (map! :map corfu-map
         ;; separator for orderless
-        "s-s" #'corfu-insert-separator)
+        "C-<SPC>" #'corfu-insert-separator
+        ;; prevent stealing the backspace key
+        [backspace] nil
+        "DEL" nil)
+  ;; dim characters that haven't been typed
   (custom-set-faces!
     `(corfu-default :foreground ,(doom-color 'comments))
     `(corfu-popupinfo :foreground ,(doom-color 'fg))

@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 ;; language modes
 
 ;; nix ----------------------------------------
@@ -24,8 +26,13 @@
                                      "download.php?file=/jdtls/snapshots/"
                                      "jdt-language-server-latest.tar.gz")))
 
+;; jinja --------------------------------------
+
+(add-hook! 'mhtml-mode-hook
+  (lsp-deferred))
+
 ;; C ------------------------------------------
-(setq c-basic-offset 4)
+(setq c-basic-offset 2)
 
 ;; Enable ccls for all c++ files, and platformio-mode only
 ;; when needed (platformio.ini present in project root).
@@ -37,6 +44,29 @@
   :defer t
   :autoload #'platformio-conditionally-enable)
 
+;; Zig ----------------------------------------
+(defun zig-build-run ()
+  (interactive)
+  (zig--run-cmd "build" "run"))
+
+(defun zig-build-test ()
+  (interactive)
+  (zig--run-cmd "build" "test"))
+
+(defun zig-build ()
+  (interactive)
+  (zig--run-cmd "build"))
+
+(use-package! zig-mode
+  :defer t
+  :custom
+  (lsp-zig-warn-style t)
+  :config
+  (map! :map zig-mode-map
+        :leader
+        "m b r" #'zig-build-run
+        "m b t" #'zig-build-test
+        "m b b" #'zig-build))
 
 ;; Racket -------------------------------------
 (use-package! racket-mode
@@ -47,16 +77,9 @@
         :nmv "<TAB>" #'evil-jump-item
         :nmv "<RET>" #'racket-cycle-paren-shapes))
 
-;; TeX ----------------------------------------
-;; prefer spaces instead of tabs
-(after! apheleia
-  (setf (alist-get 'latexindent apheleia-formatters)
-        '("latexindent"
-          "-y=defaultIndent:'  '"
-          "--logfile=/dev/null")))
-
 ;; tidal --------------------------------------
 (use-package! tidal
   :config
+  (setq tidal-boot-script-path "~/Tidal/boot.hs")
   (map! :map 'tidal-mode-map
         :nmv "<RET>" #'tidal-run-multiple-lines))
