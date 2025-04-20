@@ -61,9 +61,6 @@
 ;;   :recipe
 ;;   (:host nil :repo "https://github.com/ml729/calfw-blocks"))
 
-;; pin solaire-mode to enable vterm support
-(package! solaire-mode :pin "c9334666bd208f3322e6118d30eba1b2438e2bb9")
-
 ;; colemak bindings
 (package! evil-colemak-basics
   :recipe

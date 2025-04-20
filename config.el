@@ -22,8 +22,8 @@
 (setq doom-symbol-font (font-spec :family "Cozette"))
 
 ;; fix the symbol height for vterm
+(setq-default text-scale-mode-amount -1)
 (add-hook! '(vterm-mode-hook mu4e-headers-mode-hook)
-  (setq text-scale-mode-amount -1)
   (text-scale-mode))
 
 ;; (setq doom-variable-pitch-font (font-spec :family "Liberation Sans"))
@@ -32,7 +32,7 @@
 ;; i like everything monospace
 (setq doom-variable-pitch-font (font-spec :family "Cozette"))
 ;; variable pitch text is slightly bigger by default
-(set-face-attribute 'variable-pitch-text nil :height 1)
+(set-face-attribute 'variable-pitch-text nil :height 1.0)
 
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
@@ -116,6 +116,13 @@
 (load! "modules/app/terminal.el")
 (load! "modules/app/workspace.el")
 ;; (load! "modules/app/calendar.el")
+
+;; TODO move this somewhere else
+;; improve dark theme for mu4e
+(setq shr-color-visible-luminance-min 60)
+(setq shr-color-visible-distance-min 5)
+(setq shr-use-colors nil)
+(advice-add #'shr-colorize-region :around (defun shr-no-colourise-region (&rest ignore)))
 
 ;; TODO move this somewhere else too
 (setq doom-base16-padded-modeline t)
