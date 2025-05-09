@@ -20,28 +20,19 @@
 
 ;; font configuration =============================================
 
-;; (define-minor-mode org-starless-mode
-;;   "Starless org-mode"
-;;   nil nil nil
-;;   :require 'org
-;;   (let* ((keyword
-;;           `(("^\\(\\*+ \\)\\s-*\\S-" ; Do not hide empty headings!
-;;              (1 (put-text-property (match-beginning 1) (match-end 1) 'invisible t)
-;;                 nil)))))
-;;     (if org-starless-mode
-;;         (progn
-;;           (font-lock-add-keywords nil keyword)
-;;           (font-lock-ensure)
-;;           (font-lock-flush))
-;;       (save-excursion
-;;         (goto-char (point-min))
-;;         (font-lock-remove-keywords nil keyword)
-;;         (font-lock-ensure)
-;;         (font-lock-flush)))))
-
 (use-package! org
   :defer t
+  :custom
+  (org-directory "~/Documents/org/")
+  (org-agenda-files '("~/Documents/org/agenda" "~/Documents/org/calendar/inbox"))
   :config
+  ;; Fix the evil-org keymap for
+  (map! :map 'evil-org-mode-map
+        :ov "i" nil
+        :ov "u E" #'evil-org-inner-element
+        :ov "u R" #'evil-org-inner-subtree
+        :ov "u e" #'evil-org-inner-object
+        :ov "u r" #'evil-org-inner-greater-element)
   ;; Make bullets prettier
   (font-lock-add-keywords
    'org-mode
@@ -53,8 +44,6 @@
   ;; Also, wrapping should work as expected (e.g., lines with bullets)
   (add-hook! 'org-mode-hook
     (visual-wrap-prefix-mode)))
-
-;; (add-hook 'org-mode-hook 'org-starless-mode)
 
 ;; better LaTeX previews ==========================================
 
@@ -86,8 +75,6 @@
 ;; node-based note taking
 (use-package! org-roam
   :custom
-  (org-directory "~/Documents/org/")
-  (org-agenda-files '("~/Documents/org/agenda" "~/Documents/org/calendar/inbox"))
   (org-roam-directory (file-truename "~/Documents/org/notes/"))
   :config
   (org-roam-db-autosync-mode))

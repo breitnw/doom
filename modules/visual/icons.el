@@ -128,7 +128,9 @@
 
 ;; icons for different filetypes
 (setq nerd-icons-extension-icon-alist
-      '(("fish" nerd-icons-devicon "nf-dev-terminal" :face nerd-icons-lpink)
+      '(("agda" nerd-icons-faicon "nf-fa-linux" :face nerd-icons-lgreen)
+        ("agdai" nerd-icons-faicon "nf-fa-linux" :face nerd-icons-dsilver)
+        ("fish" nerd-icons-devicon "nf-dev-terminal" :face nerd-icons-lpink)
         ("zsh" nerd-icons-devicon "nf-dev-terminal" :face nerd-icons-lcyan)
         ("sh" nerd-icons-devicon "nf-dev-terminal" :face nerd-icons-purple)
         ("bat" nerd-icons-devicon "nf-dev-terminal" :face nerd-icons-lsilver)

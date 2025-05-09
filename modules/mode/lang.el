@@ -2,6 +2,19 @@
 
 ;; language modes
 
+;; agda ---------------------------------------
+(defun load-agda2-mode ()
+  (interactive)
+  (load-file (let ((coding-system-for-read 'utf-8))
+               (shell-command-to-string "agda-mode locate")))
+  (agda2-mode))
+
+;; load agda2-mode lazily, since we can only access it in direnv
+(use-package! agda2-mode
+  :defer t
+  :custom
+  (agda2-version "2.7.0.1"))
+
 ;; nix ----------------------------------------
 (use-package! nix-mode
   :defer t
@@ -79,7 +92,12 @@
 
 ;; tidal --------------------------------------
 (use-package! tidal
+  :defer t
   :config
   (setq tidal-boot-script-path "~/Tidal/boot.hs")
   (map! :map 'tidal-mode-map
         :nmv "<RET>" #'tidal-run-multiple-lines))
+
+;; markdown -----------------------------------
+(add-hook! 'markdown-mode-hook
+  (visual-wrap-prefix-mode))

@@ -89,7 +89,7 @@
        ;;biblio            ; Writes a PhD for you (citation needed)
        ;;collab            ; buffers with friends
        ;;debugger          ; FIXME stepping through code, to help you add bugs
-       direnv
+       ;;direnv
        ;;docker
        ;;editorconfig      ; let someone else argue about tabs vs spaces
        ;;ein               ; tame Jupyter notebooks with emacs
@@ -111,7 +111,7 @@
        ;;tty               ; improve the terminal Emacs experience
 
        :lang
-       ;;agda              ; types of types of types of types...
+       (agda +local)       ; types of types of types of types...
        ;;beancount         ; mind the GAAP
        (cc +lsp)           ; C > C++ == 1
        ;;clojure           ; java with a lisp

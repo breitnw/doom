@@ -5,7 +5,9 @@
 (use-package! projectile
   :defer t
   :custom
-  (projectile-project-search-path '(("~/Documents/code/" . 3) "Config/")))
+  (projectile-project-search-path '(("~/Documents/code/" . 3)
+                                    ("~/Documents/northwestern/" . 3)
+                                    "Config/")))
 
 (use-package! treemacs
   :defer t

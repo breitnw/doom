@@ -18,12 +18,12 @@
 ;; - `doom-symbol-font' -- for symbols
 ;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
 
-(setq doom-font (font-spec :family "Cozette"))
-(setq doom-symbol-font (font-spec :family "Cozette"))
+(setq doom-font (font-spec :family "Cozette" :size 10))
+(setq doom-symbol-font (font-spec :family "Cozette" :size 10))
 
 ;; fix the symbol height for vterm
-(setq-default text-scale-mode-amount -1)
 (add-hook! '(vterm-mode-hook mu4e-headers-mode-hook)
+  (setq-local text-scale-mode-amount -1)
   (text-scale-mode))
 
 ;; (setq doom-variable-pitch-font (font-spec :family "Liberation Sans"))
@@ -37,7 +37,7 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-;; (setq doom-font (font-spec :family "cozette"))
+;; (setq doom-font (font-spec :family "Cozette"))
 
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -89,11 +89,17 @@
 
 ;; Load the default init file. Doom disables this by default, but we need it
 ;; since nix uses it for extra config.
-;; (load "default" 'noerror 'nomessage)
 (load "default")
 
 ;; emacs should run in bash
 (setq shell-file-name (executable-find "bash"))
+
+;; nix adds binaries to the `exec-path', which seems to override the path set
+;; by envrc-mode. Because of this, I'm using emacs-direnv, which updates the
+;; `exec-path' globally.
+(use-package direnv
+  :config
+  (direnv-mode))
 
 ;; editor: configuration to aid in text editing
 (load! "modules/editor/completion.el")
@@ -109,6 +115,7 @@
 ;; visual: configuration to make emacs pretty
 (load! "modules/visual/icons.el")
 (load! "modules/visual/splash.el")
+(load! "modules/visual/modeline.el")
 (load! "modules/visual/whitespace.el")
 
 ;; app: app-like plugins, providing functionality other than editing
@@ -124,10 +131,7 @@
 (setq shr-use-colors nil)
 (advice-add #'shr-colorize-region :around (defun shr-no-colourise-region (&rest ignore)))
 
-;; TODO move this somewhere else too
-(setq doom-base16-padded-modeline t)
-(setq doom-themes-padded-modeline t)
-
 ;; TODO move this to mail config?
 (after! mu4e
-  (setq mu4e-main-hide-personal-addresses t))
+  (setq mu4e-main-hide-personal-addresses t
+        mu4e-compose-format-flowed t))
