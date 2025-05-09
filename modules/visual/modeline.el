@@ -22,19 +22,19 @@
         doom-modeline-window-width-limit 65
         doom-modeline-buffer-file-name-style 'auto)
 
-  (defface my-nyan-face
-    '((t))
+  (defface my-nyan-face '((t))
     "Face for nyan cat background."
     :group 'doom-modeline-mode)
   (custom-set-faces!
-    `(my-nyan-face :background ,(doom-darken (face-background 'mode-line) 0.2)))
+    `(my-nyan-face
+      :background ,(doom-darken (face-background 'mode-line) 0.2)))
 
   (doom-modeline-def-segment my-buffer-position
     "The buffer position information."
     (let ((visible (doom-modeline--segment-visible 'buffer-position))
           (sep (doom-modeline-spc))
           (face (doom-modeline-face))
-
+          (nyan-face (doom-modeline-face 'my-nyan-face))
           (help-echo "Buffer percentage\n\
 mouse-1: Display Line and Column Mode Menu")
           (mouse-face 'doom-modeline-highlight)
@@ -44,7 +44,7 @@ mouse-1: Display Line and Column Mode Menu")
         (,visible
          ,(cond
            ((bound-and-true-p nyan-mode)
-            (concat sep (propertize (nyan-create) 'face 'my-nyan-face) sep))
+            (concat sep (propertize (nyan-create) 'face nyan-face) sep))
            (t "")))
 
         ;; Line and column
