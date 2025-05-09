@@ -5,18 +5,80 @@
   :config
   (setq nyan-animate-nyancat nil
         nyan-wavy-trail t
-        nyan-bar-length 16
-        nyan-minimum-window-width 50
+        nyan-bar-length 14
+        ;; hiding nyan cat is handled by doom-modeline
+        nyan-minimum-window-width 0
         ;; nyancat is too big
         nyan-cat-image
         '(image :type xpm :file
           "/home/breitnw/.config/emacs/.local/straight/build-30.1/nyan-mode/img/nyan.xpm"
           :scale 0.9 :ascent center :background "#303030")))
 
-(setq doom-base16-padded-modeline t
-      doom-themes-padded-modeline t
-      doom-modeline-height 20
-      doom-modeline-position-column-line-format '("%3l:%c"))
+(use-package! doom-modeline
+  :config
+  (setq doom-base16-padded-modeline t
+        doom-themes-padded-modeline t
+        doom-modeline-height 20
+        doom-modeline-window-width-limit 65
+        doom-modeline-buffer-file-name-style 'auto)
+
+  (defface my-nyan-face
+    '((t))
+    "Face for nyan cat background."
+    :group 'doom-modeline-mode)
+  (custom-set-faces!
+    `(my-nyan-face :background ,(doom-darken (face-background 'mode-line) 0.2)))
+
+  (doom-modeline-def-segment my-buffer-position
+    "The buffer position information."
+    (let ((visible (doom-modeline--segment-visible 'buffer-position))
+          (sep (doom-modeline-spc))
+          (face (doom-modeline-face))
+
+          (help-echo "Buffer percentage\n\
+mouse-1: Display Line and Column Mode Menu")
+          (mouse-face 'doom-modeline-highlight)
+          (local-map mode-line-column-line-number-mode-map))
+      `(,sep
+        ;; Position
+        (,visible
+         ,(cond
+           ((bound-and-true-p nyan-mode)
+            (concat sep (propertize (nyan-create) 'face 'my-nyan-face) sep))
+           (t "")))
+
+        ;; Line and column
+        (:propertize
+         ((line-number-mode
+           (column-number-mode
+            (doom-modeline-column-zero-based
+             doom-modeline-position-column-line-format
+             ,(string-replace
+               "%c" "%C" (car doom-modeline-position-column-line-format)))
+            doom-modeline-position-line-format)
+           (column-number-mode
+            (doom-modeline-column-zero-based
+             doom-modeline-position-column-format
+             ,(string-replace
+               "%c" "%C" (car doom-modeline-position-column-format)))))
+          (doom-modeline-total-line-number
+           ,(and doom-modeline-total-line-number
+                 (format "/%d" (line-number-at-pos (point-max))))))
+         face ,face
+         help-echo ,help-echo
+         mouse-face ,mouse-face
+         local-map ,local-map)
+
+        ((or line-number-mode column-number-mode)
+         ,sep))))
+
+  (doom-modeline-def-modeline 'my-simple-line
+    '(bar matches buffer-info remote-host my-buffer-position parrot selection-info)
+    '(misc-info minor-modes input-method buffer-encoding major-mode process check))
+
+  (add-hook 'doom-modeline-mode-hook
+            (lambda ()
+              (doom-modeline-set-modeline 'my-simple-line 'default))))
 
 ;; HACK to fix solaire-mode issue
 ;; switching from a solaire window to a non-solaire window doesn't seem to reset
