@@ -1,4 +1,4 @@
-;; -*- lexical-binding: t -*-
+;;; modules/visual/splash.el -*- lexical-binding: t; -*-
 
 (defun wizard ()
   (let* ((banner '("            ,    _      *"

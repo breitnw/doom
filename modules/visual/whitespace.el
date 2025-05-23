@@ -1,4 +1,4 @@
-;; -*- lexical-binding: t -*-
+;;; modules/visual/whitespace.el -*- lexical-binding: t; -*-
 
 ;; whitespace rendering
 (defvar fill-column-settings
@@ -45,10 +45,3 @@
   (setq-default display-fill-column-indicator-character ?▏)
   (custom-set-faces!
     `(fill-column-indicator :foreground ,(doom-color 'bg-alt))))
-
-;; ;; word wrapping
-;; (use-package adaptive-wrap
-;;   :after whitespace
-;;   :config
-;;   (add-to-list '+word-wrap-text-modes 'org-msg-edit-mode)
-;;   (add-hook! 'prog-mode-hook #'+word-wrap-mode))

@@ -1,13 +1,4 @@
-;; -*- lexical-binding: t -*-
-
-;; cursor motion ------------------------------------------------
-
-;; avy: search for characters on the screen
-(use-package! avy
-  :defer t
-  :custom
-  (avy-keys '(?a ?r ?s ?t ?n ?e ?i ?o ?d ?h
-              ?w ?f ?p ?l ?u ?y)))
+;;; modules/editor/motion.el -*- lexical-binding: t; -*-
 
 ;; frame motion (scrolling) -------------------------------------
 

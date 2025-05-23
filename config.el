@@ -6,8 +6,8 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
-;; (setq user-full-name "John Doe"
-;;       user-mail-address "john@doe.com")
+(setq user-full-name "Nick Breitling"
+      user-mail-address "breitling.nw@gmail.com")
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
@@ -22,12 +22,10 @@
 (setq doom-symbol-font (font-spec :family "Cozette" :size 10))
 
 ;; fix the symbol height for vterm
+;; FIXME this is gross, there's gotta be a better way
 (add-hook! '(vterm-mode-hook mu4e-headers-mode-hook)
   (setq-local text-scale-mode-amount -1)
   (text-scale-mode))
-
-;; (setq doom-variable-pitch-font (font-spec :family "Liberation Sans"))
-;; (setq doom-serif-font (font-spec :family "ETBembo"))
 
 ;; i like everything monospace
 (setq doom-variable-pitch-font (font-spec :family "Cozette"))
@@ -49,7 +47,7 @@
 ;; `load-theme' function. This is the default:
 
 ;; CONFIGURED IN NIX CONFIG
-;; (setq doom-theme 'doom-sourcerer) ; dark variant
+;; (setq doom-theme '...)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -105,6 +103,7 @@
 (load! "modules/editor/completion.el")
 (load! "modules/editor/keymaps.el")
 (load! "modules/editor/motion.el")
+(load! "modules/editor/layout.el")
 
 ;; mode: editor mode configuration
 (load! "modules/mode/lang.el")
@@ -122,16 +121,6 @@
 (load! "modules/app/project.el")
 (load! "modules/app/terminal.el")
 (load! "modules/app/workspace.el")
+(load! "modules/app/mail.el")
 ;; (load! "modules/app/calendar.el")
 
-;; TODO move this somewhere else
-;; improve dark theme for mu4e
-(setq shr-color-visible-luminance-min 60)
-(setq shr-color-visible-distance-min 5)
-(setq shr-use-colors nil)
-(advice-add #'shr-colorize-region :around (defun shr-no-colourise-region (&rest ignore)))
-
-;; TODO move this to mail config?
-(after! mu4e
-  (setq mu4e-main-hide-personal-addresses t
-        mu4e-compose-format-flowed t))

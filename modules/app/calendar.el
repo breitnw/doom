@@ -1,4 +1,4 @@
-;; -*- lexical-binding: t -*-
+;;; modules/app/calendar.el -*- lexical-binding: t; -*-
 
 ;; org and gcal calendar
 

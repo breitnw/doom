@@ -1,4 +1,4 @@
-;; -*- lexical-binding: t -*-
+;;; modules/mode/format.el -*- lexical-binding: t; -*-
 
 ;; code formatting
 

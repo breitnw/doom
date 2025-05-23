@@ -1,4 +1,4 @@
-;; -*- lexical-binding: t -*-
+;;; modules/mode/lang.el -*- lexical-binding: t; -*-
 
 ;; language modes
 
@@ -39,10 +39,13 @@
                                      "download.php?file=/jdtls/snapshots/"
                                      "jdt-language-server-latest.tar.gz")))
 
-;; jinja --------------------------------------
+;; web ----------------------------------------
 
-(add-hook! 'mhtml-mode-hook
+(add-hook! 'js-mode-hook
   (lsp-deferred))
+
+;; (add-hook! 'mhtml-mode-hook
+;;   (lsp-deferred))
 
 ;; C ------------------------------------------
 (setq c-basic-offset 2)
@@ -101,3 +104,8 @@
 ;; markdown -----------------------------------
 (add-hook! 'markdown-mode-hook
   (visual-wrap-prefix-mode))
+
+;; config files -------------------------------
+
+;; major mode for editing .ron files
+(use-package ron-mode)

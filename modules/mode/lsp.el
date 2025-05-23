@@ -1,4 +1,4 @@
-;; -*- lexical-binding: t -*-
+;;; modules/mode/lsp.el -*- lexical-binding: t; -*-
 
 ;; global lsp-mode configuration
 
@@ -9,6 +9,7 @@
   (lsp-inlay-hint-param-format "%s")
   (lsp-inlay-hint-type-format "%s")
   (lsp-eldoc-render-all t)
+  (lsp-enable-suggest-server-download nil)
   :config
   (custom-set-faces!
     `(lsp-inlay-hint-face

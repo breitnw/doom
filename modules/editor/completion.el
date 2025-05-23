@@ -1,4 +1,4 @@
-;; -*- lexical-binding: t -*-
+;;; modules/editor/completion.el -*- lexical-binding: t; -*-
 
 (use-package! prescient
   :after corfu

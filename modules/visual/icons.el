@@ -1,15 +1,14 @@
-;; -*- lexical-binding: t -*-
+;;; modules/visual/icons.el -*- lexical-binding: t; -*-
 
-;; Configure nerd icons to look good
+;; Configure nerd icons to follow Cozette
 (after! nerd-icons
   (setq nerd-icons-font-family "Cozette"
         nerd-icons-font-names '("cozette.bdf")))
 
 ;; emojis
-;; (after! emojify
-;;   ;; default:
-;;   ;; (dired-mode doc-view-mode debugger-mode pdf-view-mode image-mode help-mode ibuffer-mode magit-popup-mode magit-diff-mode ert-results-mode compilation-mode proced-mode mu4e-headers-mode deft-mode)
-;;   (setq emojify-inhibit-major-modes '(vterm-mode)))
+(after! emojify
+  ;; default:
+  (setq emojify-inhibit-major-modes '(vterm-mode)))
 
 (setq doom-symbol-fallback-font-families '()
       doom-emoji-fallback-font-families '())

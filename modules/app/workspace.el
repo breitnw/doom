@@ -1,4 +1,4 @@
-;; -*- lexical-binding: t -*-
+;;; modules/app/workspace.el -*- lexical-binding: t; -*-
 
 ;; workspaces and tabs
 (after! persp-mode
@@ -37,9 +37,16 @@
       (kbd "C-w") #'my-centaur-tabs-close-current))
 
   :config
+  ;; I like to switch between projects using separate workspaces. Because of
+  ;; this, I don't really have any use for tab groups other than separating out
+  ;; editing and "fake" buffers
+  (defun group-buffers ()
+    (cond
+     ((string-equal "*" (substring (buffer-name) 0 1)) '("misc"))
+     (t '("editing"))))
+
   ;; style and grouping for tabs
-  (setq centaur-tabs-buffer-groups-function
-        #'centaur-tabs-projectile-buffer-groups
+  (setq centaur-tabs-buffer-groups-function #'group-buffers
         centaur-tabs-show-count t
         centaur-tabs-height 30
         centaur-tabs-label-fixed-length 15)
@@ -50,7 +57,7 @@
   (centaur-tabs-display-update)
 
   ;; match the solaire-mode background
-  (setq centaur-tabs-style "zigzag"
+  (setq centaur-tabs-style "chamfer"
         centaur-tabs-set-bar nil)
   (let ((selected-bg (doom-color 'bg))
         (unselected-bg (face-background 'solaire-default-face)))

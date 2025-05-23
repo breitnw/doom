@@ -1,4 +1,4 @@
-;; -*- lexical-binding: t -*-
+;;; modules/editor/keymaps.el -*- lexical-binding: t; -*-
 
 ;; KEYMAPS ---------------------------------------------------------------------
 
@@ -48,16 +48,6 @@
     (define-key input-decode-map [(control ?i)] [control-i])
     (define-key input-decode-map [(control ?I)] [(shift control-i)])))
 
-;; enable global mode
-(global-evil-colemak-basics-mode)
-
-;; colemak keybinds for evil-org
-(use-package! evil-org
-  :after org
-  :custom
-  (evil-org-movement-bindings
-   `((up . "e") (down . "n") (left . "h") (right . "i"))))
-
 ;; HACK: command to reload the current frame in case scrolling goes awry
 ;; I think the scrolling is a PGTK issue?
 (evil-define-command my-reload-frame ()
@@ -74,30 +64,30 @@
       ;; calendar and such
       :m "<escape>" #'ignore
       ;; for convenience, also activate M-x with s-x
-      :g "s-x" #'execute-extended-command
+      :g "s-x" #'execute-extended-command)
 
-      ;; all other keymaps start with <SPC>
-      :leader
-      ;; reload: r
-      :n "r f" #'my-reload-frame
-      :n "r d" #'redraw-display
-      ;; window: w
-      :n "w s" #'evil-window-split
-      :n "w v" #'evil-window-vsplit
-      :n "w h" #'evil-window-left
-      :n "w n" #'evil-window-down
-      :n "w e" #'evil-window-up
-      :n "w i" #'evil-window-right
-      :n "w H" #'+evil/window-move-left
-      :n "w N" #'+evil/window-move-down
-      :n "w E" #'+evil/window-move-up
-      :n "w I" #'+evil/window-move-right
-      :n "w d" #'kill-buffer-and-window
-      :n "w c" #'+workspace/close-window-or-workspace
-      ;; workspace: TAB
-      :n "TAB h" #'+workspace:switch-previous
-      :n "TAB i" #'+workspace:switch-next
-      ;; open: o
-      ;; :n "o c" #'my-open-calendar
-      :n "o g" #'magit
-      :n "o a" #'org-agenda-list)
+(map! :leader
+      (:prefix-map ("r" . "reload")
+       :n "r f" #'my-reload-frame
+       :n "r d" #'redraw-display)
+      (:prefix-map ("TAB" . "workspace")
+       :desc "Switch to previous workspace"  "h" #'+workspace:switch-previous
+       :desc "Switch to next workspace"      "i" #'+workspace:switch-next)
+      (:prefix-map ("o" . "open")
+       :desc "Open Magit"                    "g" #'magit
+       :desc "Open Org-Agenda for week"      "a" #'org-agenda-list))
+
+;; window keymaps are contained in evil-window-map
+(map! :map 'evil-window-map
+      "s" #'evil-window-split
+      "v" #'evil-window-vsplit
+      "h" #'evil-window-left
+      "n" #'evil-window-down
+      "e" #'evil-window-up
+      "i" #'evil-window-right
+      "H" #'+evil/window-move-left
+      "N" #'+evil/window-move-down
+      "E" #'+evil/window-move-up
+      "I" #'+evil/window-move-right
+      "d" #'kill-buffer-and-window
+      "c" #'+workspace/close-window-or-workspace)

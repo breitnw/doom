@@ -1,4 +1,4 @@
-;; -*- lexical-binding: t -*-
+;;; modules/app/terminal.el -*- lexical-binding: t; -*-
 
 ;; our interactive vterm shell should be fish
 (use-package! vterm

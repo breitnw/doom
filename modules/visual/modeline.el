@@ -1,18 +1,13 @@
-;; -*- lexical-binding: t -*-
+;;; modules/visual/modeline.el -*- lexical-binding: t; -*-
 
 (use-package! nyan-mode
   :hook (doom-modeline-mode . nyan-mode)
   :config
-  (setq nyan-animate-nyancat nil
-        nyan-wavy-trail t
+  (setq nyan-animate-nyancat t
+        nyan-wavy-trail nil
         nyan-bar-length 14
         ;; hiding nyan cat is handled by doom-modeline
-        nyan-minimum-window-width 0
-        ;; nyancat is too big
-        nyan-cat-image
-        '(image :type xpm :file
-          "/home/breitnw/.config/emacs/.local/straight/build-30.1/nyan-mode/img/nyan.xpm"
-          :scale 0.9 :ascent center :background "#303030")))
+        nyan-minimum-window-width 0))
 
 (use-package! doom-modeline
   :config

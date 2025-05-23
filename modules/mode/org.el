@@ -1,4 +1,4 @@
-;; -*- lexical-binding: t -*-
+;;; modules/mode/org.el -*- lexical-binding: t; -*-
 
 ;; centered text with darkroom ====================================
 

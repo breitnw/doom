@@ -107,6 +107,10 @@
 (package! lsp-mode
   :pin "49da7d13ad46e59e89c82e26abd34a6aea2fe38b")
 
+(package! jinja2-mode)
+
+(package! ron-mode)
+
 ;; platformIO
 (package! platformio-mode)
 
@@ -121,4 +125,6 @@
 
 (package! direnv)
 
-(package! nyan-mode)
+(package! nyan-mode
+  :recipe
+  (:host nil :repo "https://github.com/breitnw/nyan-mode.git"))

@@ -1,4 +1,4 @@
-;; -*- lexical-binding: t -*-
+;;; modules/app/project.el -*- lexical-binding: t; -*-
 
 ;; project management apps and plugins
 
