@@ -20,4 +20,8 @@
           "2021"
           "--config"
           (format "max_width=%d"
-                  (alist-get 'rustic-mode fill-column-settings)))))
+                  (alist-get 'rustic-mode fill-column-settings))))
+  ;; Nix ----------------------------------------
+  ;; use alejandra instead of nixfmt
+  (setf (alist-get 'nixfmt apheleia-formatters)
+        '("alejandra")))

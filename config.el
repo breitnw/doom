@@ -18,19 +18,14 @@
 ;; - `doom-symbol-font' -- for symbols
 ;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
 
-(setq doom-font (font-spec :family "Cozette" :size 10))
-(setq doom-symbol-font (font-spec :family "Cozette" :size 10))
-
 ;; fix the symbol height for vterm
-;; FIXME this is gross, there's gotta be a better way
-(add-hook! '(vterm-mode-hook mu4e-headers-mode-hook)
-  (setq-local text-scale-mode-amount -1)
-  (text-scale-mode))
+(add-to-list 'face-font-rescale-alist (cons (font-spec :family "Unifont") 0.9) t)
+(add-to-list 'face-font-rescale-alist (cons (font-spec :family "Noto Color Emoji") 0.9) t)
 
-;; i like everything monospace
-(setq doom-variable-pitch-font (font-spec :family "Cozette"))
-;; variable pitch text is slightly bigger by default
-(set-face-attribute 'variable-pitch-text nil :height 1.0)
+(let ((global-font (font-spec :family "Cozette")))
+  (setq doom-font global-font)
+  (setq doom-symbol-font global-font)
+  (setq doom-variable-pitch-font global-font))
 
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
@@ -89,8 +84,8 @@
 ;; since nix uses it for extra config.
 (load "default")
 
-;; emacs should run in bash
-(setq shell-file-name (executable-find "bash"))
+;; emacs should run in zsh
+(setq shell-file-name (executable-find "zsh"))
 
 ;; nix adds binaries to the `exec-path', which seems to override the path set
 ;; by envrc-mode. Because of this, I'm using emacs-direnv, which updates the
@@ -98,6 +93,9 @@
 (use-package direnv
   :config
   (direnv-mode))
+
+;; for editing .ron files
+(use-package ron-mode)
 
 ;; editor: configuration to aid in text editing
 (load! "modules/editor/completion.el")

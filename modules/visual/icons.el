@@ -5,11 +5,6 @@
   (setq nerd-icons-font-family "Cozette"
         nerd-icons-font-names '("cozette.bdf")))
 
-;; emojis
-(after! emojify
-  ;; default:
-  (setq emojify-inhibit-major-modes '(vterm-mode)))
-
 (setq doom-symbol-fallback-font-families '()
       doom-emoji-fallback-font-families '())
 
@@ -90,7 +85,7 @@
 (setq nerd-icons-corfu-mapping
       ' ((array :style "md" :icon "code_parentheses" :face font-lock-type-face)
          (boolean :style "fa" :icon "cog" :face font-lock-builtin-face)
-         (class :style "dev" :icon "netbeans" :face font-lock-type-face) ;; cube
+         (class :style "dev" :icon "contao" :face font-lock-type-face) ;; cube, alternatively use webpack
          (color :style "fa" :icon "dashboard" :face success)
          (command :style "fa" :icon "terminal" :face default)
          (constant :style "fae" :icon "pi" :face font-lock-constant-face)

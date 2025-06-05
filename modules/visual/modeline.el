@@ -22,7 +22,7 @@
     :group 'doom-modeline-mode)
   (custom-set-faces!
     `(my-nyan-face
-      :background ,(doom-darken (face-background 'mode-line) 0.2)))
+      :background ,(doom-color 'modeline-bg-inactive)))
 
   (doom-modeline-def-segment my-buffer-position
     "The buffer position information."

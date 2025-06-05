@@ -91,3 +91,7 @@
       "I" #'+evil/window-move-right
       "d" #'kill-buffer-and-window
       "c" #'+workspace/close-window-or-workspace)
+
+(map! :map 'evil-motion-state-map
+      "C-u" nil
+      "C-d" nil)
