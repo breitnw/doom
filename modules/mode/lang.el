@@ -16,18 +16,31 @@
   (agda2-version "2.7.0.1"))
 
 ;; nix ----------------------------------------
+(defvar flake-path nil
+  "[NIX CONFIG] The path to the system configuration flake")
+
 (use-package! nix-mode
   :defer t
   :custom
   (lsp-nix-nixd-server-path "nixd")
-  (lsp-nix-nixd-formatting-command [ "nixfmt" ])
+  (lsp-nix-nixd-formatting-command [ "alejandra" ])
   (lsp-nix-nixd-nixpkgs-expr "import <nixpkgs> { }")
-  (lsp-nix-nixd-nixos-options-expr
-   (concat "(builtins.getFlake \"/home/breitnw/Documents/code/nixos\")"
-           ".nixosConfigurations.mnd.options"))
-  (lsp-nix-nixd-home-manager-options-expr
-   (concat "(builtins.getFlake \"/home/breitnw/Documents/code/nixos\")"
-           ".homeConfigurations.\"breitnw@mnd\".options")))
+  :config
+  ;; error if flake-path is not set
+  (when (not flake-path)
+    (error "lsp-nix-nixd: path to configuration is `nil'"))
+  ;; error [flake-path]/flake.nix does not exist
+  (setq flake-dot-nix-path
+        (concat (file-name-as-directory flake-path) "flake.nix"))
+  (when (not (file-exists-p flake-dot-nix-path))
+    (error (format "lsp-nix-nixd: configuration flake %s does not exist"
+                   flake-dot-nix-path)))
+  ;; otherwise, set options and hm-options expressions
+  (setq flake (format "(builtins.getFlake \"%s\")" flake-path)
+        lsp-nix-nixd-nixos-options-expr
+        (format "%s.nixosConfigurations.mnd.options" flake)
+        lsp-nix-nixd-home-manager-options-expr
+        (format "%s.homeConfigurations.\"breitnw@mnd\".options" flake)))
 
 ;; java ---------------------------------------
 (use-package! lsp-java
