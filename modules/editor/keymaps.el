@@ -73,9 +73,12 @@
       (:prefix-map ("TAB" . "workspace")
        :desc "Switch to previous workspace"  "h" #'+workspace:switch-previous
        :desc "Switch to next workspace"      "i" #'+workspace:switch-next)
-      (:prefix-map ("o" . "open")
-       :desc "Open Magit"                    "g" #'magit
-       :desc "Open Org-Agenda for week"      "a" #'org-agenda-list))
+      ;; TODO keep these keymaps without doom/reload error
+      ;; (:prefix-map ("o" . "open")
+      ;;  :desc "Open Magit"                    "g" #'magit
+      ;;  :desc "Open Org-Agenda for week"      "a" #'org-agenda-list
+      ;;  )
+      )
 
 ;; window keymaps are contained in evil-window-map
 (map! :map 'evil-window-map

@@ -17,5 +17,9 @@
   (treemacs-show-hidden-files nil)
   (treemacs-no-png-images t)
   :config
-  (load! "../../packages/treemacs-icons.el")
-  (treemacs-load-theme "nerd-icons-custom"))
+  (load! "../../packages/nitree.el")
+  (treemacs-load-theme "nitree"))
+
+(use-package! lsp-treemacs
+  :custom
+  (lsp-treemacs-theme "nitree"))

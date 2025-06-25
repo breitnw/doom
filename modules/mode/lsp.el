@@ -10,12 +10,17 @@
   (lsp-inlay-hint-type-format "%s")
   (lsp-eldoc-render-all t)
   (lsp-enable-suggest-server-download nil)
+  (lsp-headerline-breadcrumb-enable t)
   :config
   (custom-set-faces!
     `(lsp-inlay-hint-face
       :foreground ,(doom-color 'base6)
-      ;; :background ,(doom-color 'bg-alt)
-      :weight normal)))
+      :weight normal)
+    ;; breadcrumbs in header line
+    `(header-line
+      :inherit mode-line
+      :background ,(doom-color 'bg)
+      :box (:line-width 6 :color ,(doom-color 'bg)))))
 
 (use-package! eldoc
   :defer t

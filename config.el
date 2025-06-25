@@ -24,8 +24,10 @@
 
 (let ((global-font (font-spec :family "Cozette")))
   (setq doom-font global-font)
-  (setq doom-symbol-font global-font)
   (setq doom-variable-pitch-font global-font))
+
+;; (add-hook! 'server-after-make-frame-hook
+;;   (modify-frame-parameters nil '((font . "6x13"))))
 
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
@@ -95,6 +97,7 @@
   (direnv-mode))
 
 ;; for editing .ron files
+;; TODO move this
 (use-package ron-mode)
 
 ;; editor: configuration to aid in text editing

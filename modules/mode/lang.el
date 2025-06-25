@@ -61,13 +61,15 @@
 ;;   (lsp-deferred))
 
 ;; C ------------------------------------------
-(setq c-basic-offset 2)
-
 ;; Enable ccls for all c++ files, and platformio-mode only
 ;; when needed (platformio.ini present in project root).
 (add-hook! 'c++-mode-hook
+  (setq c-basic-offset 2)
   (lsp-deferred)
   (platformio-conditionally-enable))
+
+(add-hook! 'c-mode-hook
+  (setq c-basic-offset 2))
 
 (use-package! platformio-mode
   :defer t
