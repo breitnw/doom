@@ -21,6 +21,7 @@
       :weight normal))
 
   ;; breadcrumb faces
+  (after! flycheck
   (custom-set-faces!
     `(header-line
       :inherit mode-line
@@ -42,7 +43,7 @@
     `(lsp-headerline-breadcrumb-path-error-face
       :underline ,(face-attribute 'flycheck-error :underline))
     `(lsp-headerline-breadcrumb-symbols-error-face
-      :underline ,(face-attribute 'flycheck-error :underline)))
+      :underline ,(face-attribute 'flycheck-error :underline))))
 
   ;; boost performance of lsp-mode with emacs-lsp-booster
   (defun lsp-booster--advice-json-parse (old-fn &rest args)
