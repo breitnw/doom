@@ -82,43 +82,8 @@
 
 ;; corfu ------------------------------------------------------------------------------------------
 
-(setq nerd-icons-corfu-mapping
-      ' ((array :style "md" :icon "code_parentheses" :face font-lock-type-face)
-         (boolean :style "fa" :icon "cog" :face font-lock-builtin-face)
-         (class :style "dev" :icon "contao" :face font-lock-type-face) ;; cube, alternatively use webpack
-         (color :style "fa" :icon "dashboard" :face success)
-         (command :style "fa" :icon "terminal" :face default)
-         (constant :style "md" :icon "pi" :face font-lock-constant-face)
-         (constructor :style "oct" :icon "triangle_right" :face font-lock-function-name-face)
-         (enummember :style "fa" :icon "tag" :face font-lock-builtin-face)
-         (enum-member :style "fa" :icon "tag" :face font-lock-builtin-face)
-         (enum :style "fa" :icon "table_list" :face font-lock-builtin-face)
-         (event :style "fa" :icon "bolt" :face font-lock-warning-face)
-         (field :style "fa" :icon "tag" :face font-lock-variable-name-face)
-         (file :style "fa" :icon "file" :face font-lock-string-face)
-         (folder :style "fa" :icon "folder" :face font-lock-doc-face)
-         (interface :style "md" :icon "server_network" :face font-lock-type-face)
-         (keyword :style "fa" :icon "key" :face font-lock-keyword-face)
-         (macro :style "fa" :icon "hashtag" :face font-lock-keyword-face)
-         (magic :style "cod" :icon "wand" :face font-lock-builtin-face) ;; TODO
-         (method :style "dev" :icon "clojure" :face font-lock-function-name-face)
-         (function :style "dev" :icon "clojure" :face font-lock-function-name-face)
-         (module :style "fa" :icon "archive" :face font-lock-preprocessor-face)
-         (numeric :style "md" :icon "pi" :face font-lock-builtin-face)
-         (operator :style "fa" :icon "plus" :face font-lock-comment-delimiter-face)
-         (param :style "fa" :icon "table_list" :face default)
-         (property :style "fa" :icon "table_list" :face font-lock-variable-name-face)
-         (reference :style "oct" :icon "file_symlink_directory" :face font-lock-variable-name-face)
-         (snippet :style "fa" :icon "scissors" :face font-lock-string-face)
-         (string :style "fa" :icon "font" :face font-lock-string-face)
-         (struct :style "fa" :icon "database" :face font-lock-variable-name-face)
-         (text :style "fa" :icon "font" :face font-lock-doc-face)
-         (typeparameter :style "fa" :icon "table_list" :face font-lock-type-face)
-         (type-parameter :style "fa" :icon "table_list" :face font-lock-type-face)
-         (unit :style "fa" :icon "bar_chart" :face font-lock-constant-face)
-         (value :style "md" :icon "pi" :face font-lock-builtin-face)
-         (variable :style "fa" :icon "cog" :face font-lock-variable-name-face)
-         (t :style "fa" :icon "code" :face font-lock-warning-face)))
+(after! nitree
+  (setq nerd-icons-corfu-mapping nitree-lsp-icons-alist))
 
 ;; icons for different filetypes
 (setq nerd-icons-extension-icon-alist

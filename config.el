@@ -89,17 +89,6 @@
 ;; emacs should run in zsh
 (setq shell-file-name (executable-find "zsh"))
 
-;; nix adds binaries to the `exec-path', which seems to override the path set
-;; by envrc-mode. Because of this, I'm using emacs-direnv, which updates the
-;; `exec-path' globally.
-(use-package direnv
-  :config
-  (direnv-mode))
-
-;; for editing .ron files
-;; TODO move this
-(use-package ron-mode)
-
 ;; editor: configuration to aid in text editing
 (load! "modules/editor/completion.el")
 (load! "modules/editor/keymaps.el")
@@ -125,3 +114,13 @@
 (load! "modules/app/mail.el")
 ;; (load! "modules/app/calendar.el")
 
+;; emacs-packages-deps is a nix derivation containing binaries added via
+;; emacs.extraPackages. envrc-mode, for whatever reason, doesn't pick up on
+;; emacs-packages-deps (perhaps because it's not included in the initial value
+;; of exec-path). To remedy this, I'm grabbing emacs-packages-deps from the
+;; exec-path, and then re-adding it whenever envrc-mode is enabled.
+
+;; TODO this should ideally be in nix config, right?
+(defvar emacs-packages-deps (car exec-path))
+(add-hook! 'envrc-mode-hook
+  (add-to-list 'exec-path emacs-packages-deps))

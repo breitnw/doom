@@ -15,6 +15,10 @@
   :custom
   (agda2-version "2.7.0.1"))
 
+;; rust ---------------------------------------
+;; for editing .ron files
+(use-package ron-mode)
+
 ;; nix ----------------------------------------
 (defvar flake-path nil
   "[NIX CONFIG] The path to the system configuration flake")
