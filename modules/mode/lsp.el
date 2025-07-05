@@ -2,6 +2,8 @@
 
 ;; global lsp-mode configuration
 
+;; NOTE It might also be necessary to set LSP_USE_PLISTS in the terminal
+;; before installing Doom, I had some issues with this
 (setenv "LSP_USE_PLISTS" "true")
 
 (use-package! lsp-mode
@@ -22,28 +24,28 @@
 
   ;; breadcrumb faces
   (after! flycheck
-  (custom-set-faces!
-    `(header-line
-      :inherit mode-line
-      :background ,(doom-color 'bg)
-      :box (:line-width 6 :color ,(doom-color 'bg)))
+    (custom-set-faces!
+      `(header-line
+        :inherit mode-line
+        :background ,(doom-color 'bg)
+        :box (:line-width 6 :color ,(doom-color 'bg)))
 
-    `(lsp-headerline-breadcrumb-path-hint-face
-      :underline ,(face-attribute 'flycheck-info :underline))
-    `(lsp-headerline-breadcrumb-path-info-face
-      :underline ,(face-attribute 'flycheck-info :underline))
-    `(lsp-headerline-breadcrumb-symbols-hint-face
-      :underline ,(face-attribute 'flycheck-info :underline))
-    `(lsp-headerline-breadcrumb-symbols-info-face
-      :underline ,(face-attribute 'flycheck-info :underline))
-    `(lsp-headerline-breadcrumb-path-warning-face
-      :underline ,(face-attribute 'flycheck-warning :underline))
-    `(lsp-headerline-breadcrumb-symbols-warning-face
-      :underline ,(face-attribute 'flycheck-warning :underline))
-    `(lsp-headerline-breadcrumb-path-error-face
-      :underline ,(face-attribute 'flycheck-error :underline))
-    `(lsp-headerline-breadcrumb-symbols-error-face
-      :underline ,(face-attribute 'flycheck-error :underline))))
+      `(lsp-headerline-breadcrumb-path-hint-face
+        :underline ,(face-attribute 'flycheck-info :underline))
+      `(lsp-headerline-breadcrumb-path-info-face
+        :underline ,(face-attribute 'flycheck-info :underline))
+      `(lsp-headerline-breadcrumb-symbols-hint-face
+        :underline ,(face-attribute 'flycheck-info :underline))
+      `(lsp-headerline-breadcrumb-symbols-info-face
+        :underline ,(face-attribute 'flycheck-info :underline))
+      `(lsp-headerline-breadcrumb-path-warning-face
+        :underline ,(face-attribute 'flycheck-warning :underline))
+      `(lsp-headerline-breadcrumb-symbols-warning-face
+        :underline ,(face-attribute 'flycheck-warning :underline))
+      `(lsp-headerline-breadcrumb-path-error-face
+        :underline ,(face-attribute 'flycheck-error :underline))
+      `(lsp-headerline-breadcrumb-symbols-error-face
+        :underline ,(face-attribute 'flycheck-error :underline))))
 
   ;; boost performance of lsp-mode with emacs-lsp-booster
   (defun lsp-booster--advice-json-parse (old-fn &rest args)
@@ -86,7 +88,8 @@
           (when (not (executable-find "emacs-lsp-booster"))
             (message "(executable-find \"emacs-lsp-booster\") condition failed"))
           orig-result))))
-  (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command))
+  (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
+  )
 
 (use-package! eldoc
   :defer t
