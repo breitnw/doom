@@ -131,6 +131,7 @@
     (snippet        :icon "scissors"          :style "fa" :face font-lock-string-face)
     (string         :icon "font"              :style "fa" :face font-lock-string-face)
     (struct         :icon "database"          :style "fa" :face font-lock-variable-name-face)
+    (structure      :icon "database"          :style "fa" :face font-lock-variable-name-face)
     (text           :icon "font"              :style "fa" :face font-lock-doc-face)
     (typeparameter  :icon "table_list"        :style "fa" :face font-lock-type-face)
     (type-parameter :icon "table_list"        :style "fa" :face font-lock-type-face)
