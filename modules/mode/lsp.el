@@ -100,7 +100,7 @@
 (use-package! eldoc-box
   :after eldoc
   :custom
-  (eldoc-box-max-pixel-width 400)
+  (eldoc-box-max-pixel-width 500)
   (eldoc-box-max-pixel-height 300)
   :config
   (map! :map 'prog-mode-map

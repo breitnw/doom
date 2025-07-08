@@ -24,6 +24,7 @@
 
 (let ((global-font (font-spec :family "Cozette")))
   (setq doom-font global-font)
+  (setq doom-serif-font global-font)
   (setq doom-variable-pitch-font global-font))
 
 ;; (add-hook! 'server-after-make-frame-hook
@@ -111,6 +112,7 @@
 (load! "modules/app/project.el")
 (load! "modules/app/terminal.el")
 (load! "modules/app/workspace.el")
+(load! "modules/app/tabs.el")
 (load! "modules/app/mail.el")
 ;; (load! "modules/app/calendar.el")
 
