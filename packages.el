@@ -61,6 +61,8 @@
 ;;   :recipe
 ;;   (:host nil :repo "https://github.com/ml729/calfw-blocks"))
 
+(package! breadcrumb)
+
 ;; colemak bindings
 (package! evil-colemak-basics
   :recipe
