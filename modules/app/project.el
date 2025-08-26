@@ -11,12 +11,11 @@
 
 (use-package! treemacs
   :defer t
-  :custom
-  (treemacs-indentation-string " ")
-  (treemacs-collapse-dirs 10)
-  (treemacs-show-hidden-files nil)
-  (treemacs-no-png-images t)
   :config
+  (setq treemacs-collapse-dirs 3
+        treemacs-follow-mode t
+        treemacs-show-hidden-files nil
+        treemacs-indentation-string " ")
   (load! "../../packages/nitree.el")
   (treemacs-load-theme "nitree"))
 

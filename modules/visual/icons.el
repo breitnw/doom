@@ -3,7 +3,7 @@
 ;; Configure nerd icons to follow Cozette
 (after! nerd-icons
   (setq nerd-icons-font-family "Cozette"
-        nerd-icons-font-names '("cozette.bdf")))
+        nerd-icons-font-names '("Cozette.ttf")))
 
 (setq doom-symbol-fallback-font-families '()
       doom-emoji-fallback-font-families '())
@@ -84,6 +84,53 @@
 
 (after! nitree
   (setq nerd-icons-corfu-mapping nitree-lsp-icons-alist))
+
+;; doom docs
+
+(setq doom-docs-header-specs
+      '(("/docs/index\\.org$"
+         (:label "FAQ" :icon "nf-fa-question" :icon-function nerd-icons-faicon
+          :link "doom-faq:" :help-echo "Open the FAQ document"))
+        (("/docs/[^/]+\\.org$" "/modules/README\\.org$")
+         (:label "Back to index" :icon "nf-fa-chevron_left"
+          :icon-function nerd-icons-faicon :link "doom-index"
+          :help-echo "Navigate to the root index"))
+        ("/modules/[^/]+/README\\.org$"
+         (:label "Back to module index" :icon "nf-fa-chevron_left"
+          :icon-function nerd-icons-faicon :link "doom-module-index:"))
+        ("/modules/[^/]+/[^/]+/README\\.org$"
+         (:label "Back to module index" :icon "nf-fa-chevron_left"
+          :icon-function nerd-icons-faicon :link "doom-module-index:")
+         (:label "History" :icon "nf-md-history"
+          :icon-function nerd-icons-mdicon :icon-face
+          font-lock-variable-name-face :link
+          (lambda nil
+            (cl-destructuring-bind (category . module)
+                (doom-module-from-path (buffer-file-name))
+              (format "doom-module-history:%s/%s" (doom-keyword-name category)
+                      module)))
+          :help-echo "View the module history" :align right)
+         (:label "Issues" :icon "nf-fa-bug" :icon-function nerd-icons-faicon
+          :icon-face error :link
+          (lambda nil
+            (cl-destructuring-bind (category . module)
+                (doom-module-from-path (buffer-file-name))
+              (format "doom-module-issues::%s %s" category module)))
+          :align right))
+        (t
+         (:label "Suggest edits" :icon "nf-fa-pencil"
+          :icon-function nerd-icons-faicon :icon-face warning :link
+          "doom-suggest-edit" :align right)
+         (:label "Help" :icon "nf-fa-star" :icon-function nerd-icons-faicon
+          :icon-face font-lock-function-name-face :link
+          (lambda nil
+            (let ((title (cadar (org-collect-keywords '("TITLE")))))
+              (cond ((equal title "Changelog") "doom-help-changelog:")
+                    ((string-prefix-p ":" title) "doom-help-modules:")
+                    (t "doom-help:"))))
+          :align right))))
+
+;; file icons
 
 ;; icons for different filetypes
 (setq nerd-icons-extension-icon-alist
@@ -282,7 +329,7 @@
         ("md" nerd-icons-octicon "nf-oct-markdown" :face nerd-icons-lblue)
         ("bib" nerd-icons-faicon "nf-fa-book" :face nerd-icons-lblue)
         ("org" nerd-icons-sucicon "nf-seti-rails" :face nerd-icons-lgreen) ;; TRUST ME BRO
-        ("org_archive" nerd-icons-sucicon "nf-seti-rails" :face nerd-icons-lgreen)
+        ("org_archive" nerd-icons-sucicon "nf-seti-rails" :face nerd-icons-dsilver)
         ("pps" nerd-icons-faicon "nf-fa-file_powerpoint" :face nerd-icons-orange)
         ("ppt" nerd-icons-faicon "nf-fa-file_powerpoint" :face nerd-icons-orange)
         ("pptx" nerd-icons-faicon "nf-fa-file_powerpoint" :face nerd-icons-orange)

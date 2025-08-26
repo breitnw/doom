@@ -17,7 +17,9 @@
 
 ;; rust ---------------------------------------
 ;; for editing .ron files
-(use-package ron-mode)
+(use-package! ron-mode
+  :config
+  (setq ron-indent-offset 2))
 
 ;; nix ----------------------------------------
 (defvar flake-path nil
@@ -106,6 +108,8 @@
 ;; Racket -------------------------------------
 (use-package! racket-mode
   :defer t
+  :custom
+  (racket-xp-eldoc-level 'minimal)
   :config
   (map! :map 'racket-mode-map
         :i "C-\\" #'racket-insert-lambda

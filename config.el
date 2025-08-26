@@ -19,16 +19,16 @@
 ;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
 
 ;; fix the symbol height for vterm
-(add-to-list 'face-font-rescale-alist (cons (font-spec :family "Unifont") 0.9) t)
-(add-to-list 'face-font-rescale-alist (cons (font-spec :family "Noto Color Emoji") 0.9) t)
+;; this is broken, causes the wrong font to render in childframes
+;; (add-to-list 'face-font-rescale-alist (cons (font-spec :family "Unifont") 0.9) t)
+;; (add-to-list 'face-font-rescale-alist (cons (font-spec :family "Noto Color Emoji") 0.9) t)
 
-(let ((global-font (font-spec :family "Cozette")))
+(let ((global-font (font-spec :family "Cozette" :foundry "UNKN" :size 13)))
   (setq doom-font global-font)
+  (setq doom-symbol-font global-font)
+  (setq doom-big-font global-font)
   (setq doom-serif-font global-font)
   (setq doom-variable-pitch-font global-font))
-
-;; (add-hook! 'server-after-make-frame-hook
-;;   (modify-frame-parameters nil '((font . "6x13"))))
 
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
@@ -87,6 +87,9 @@
 ;; since nix uses it for extra config.
 (load "default")
 
+;; (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
+;; (add-to-list 'default-frame-alist '(font . "6x13"))
+
 ;; emacs should run in zsh
 (setq shell-file-name (executable-find "zsh"))
 
@@ -107,6 +110,7 @@
 (load! "modules/visual/splash.el")
 (load! "modules/visual/modeline.el")
 (load! "modules/visual/whitespace.el")
+(load! "modules/visual/vc-gutter.el") ;; TODO this is good, reload other faces on theme change too
 
 ;; app: app-like plugins, providing functionality other than editing
 (load! "modules/app/project.el")

@@ -12,6 +12,7 @@
   (lsp-inlay-hint-enable t)
   (lsp-inlay-hint-param-format "%s")
   (lsp-inlay-hint-type-format "%s")
+  (lsp-lens-auto-enable nil)
   (lsp-eldoc-render-all t)
   (lsp-enable-suggest-server-download nil)
   (lsp-headerline-breadcrumb-enable t)
@@ -19,7 +20,7 @@
   ;; inlay hint faces
   (custom-set-faces!
     `(lsp-inlay-hint-face
-      :foreground ,(doom-color 'base6)
+      :foreground ,(doom-color 'base4)
       :weight normal))
 
   ;; breadcrumb faces
@@ -88,8 +89,7 @@
           (when (not (executable-find "emacs-lsp-booster"))
             (message "(executable-find \"emacs-lsp-booster\") condition failed"))
           orig-result))))
-  (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
-  )
+  (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command))
 
 (use-package! eldoc
   :defer t

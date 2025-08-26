@@ -16,13 +16,13 @@
 ;; whitespace indicators for if we're past the fill column
 ;; this is helpful in case we have inlay hints!
 (use-package! whitespace
-  :hook
-  (whitespace-mode . display-fill-column-indicator-mode)
+  ;; :hook
+  ;; (whitespace-mode . display-fill-column-indicator-mode)
   :custom
   (whitespace-style '(face
                       tabs
                       tab-mark
-                      trailing
+                      ;; trailing
                       lines-tail
                       space-before-tab
                       indentation
@@ -37,10 +37,8 @@
     (setq display-fill-column-indicator-character ?▏)
     (let ((setting (-find (lambda (entry) (derived-mode-p (car entry)))
                           fill-column-settings)))
-      ;; this will (hopefully) never be nil, since we only enable
-      ;; display-fill-column-indicator-mode when a mode listed in
-      ;; fill-column-settings is enabled
-      (setq fill-column (cdr setting))))
+      (when setting
+        (setq fill-column (cdr setting)))))
 
   ;; customize fill column indicator face to be a little less harsh
   (custom-set-faces!
@@ -50,10 +48,12 @@
 
 ;; appearance of indent guides
 (use-package! indent-bars
+  :custom
+  (indent-bars-no-descend-lists t)
   :config
   ;; disable indent guides for lispy languages
   (setq indent-guides-inhibit-modes
-        '(racket-mode emacs-lisp-mode))
+        '(racket-mode emacs-lisp-mode org-mode markdown-mode))
   (dolist (mode indent-guides-inhibit-modes)
     (add-to-list '+indent-guides-inhibit-functions
                  (lambda () (derived-mode-p mode)))))

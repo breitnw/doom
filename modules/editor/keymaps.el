@@ -31,8 +31,8 @@
   ;; custom keymaps for big scrolls and undo/redo
   (map! :map evil-colemak-basics-keymap
         :mnv "H" #'my-scroll-to-start
-        :mnv "N" #'my-scroll-down
-        :mnv "E" #'my-scroll-up
+        :mnv "N" #'big-scroll-down
+        :mnv "E" #'big-scroll-up
         :mnv "I" #'evil-end-of-line
         :n "l" #'evil-undo
         :n "L" #'evil-redo)

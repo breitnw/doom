@@ -24,7 +24,7 @@
   :defer t
   :custom
   (org-directory "~/Documents/org/")
-  (org-agenda-files '("~/Documents/org/agenda" "~/Documents/org/calendar/inbox"))
+  (org-agenda-files '("~/Documents/org/life"))
   :config
   ;; Fix the evil-org keymap for
   (map! :map 'evil-org-mode-map
@@ -77,7 +77,14 @@
   :custom
   (org-roam-directory (file-truename "~/Documents/org/notes/"))
   :config
-  (org-roam-db-autosync-mode))
+  (org-roam-db-autosync-mode)
+  (setq org-roam-capture-templates
+        '(("d" "default" plain "%?"
+           :target (file+head "${slug}.org" "#+title: ${title}\12")
+           :unnarrowed t))
+        org-roam-node-display-template
+        #("${doom-hierarchy:*} ${doom-type:25}" 20 35
+          (face font-lock-comment-face))))
 
 ;; websocket is necessary for org-roam-ui
 (use-package! websocket
