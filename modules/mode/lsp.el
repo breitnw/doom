@@ -6,13 +6,17 @@
 ;; before installing Doom, I had some issues with this
 (setenv "LSP_USE_PLISTS" "true")
 
+(use-package! eglot
+  :custom
+  (eglot-code-action-indications '()))
+
 (use-package! breadcrumb
   :config
-  (custom-set-faces
-   `(header-line
-     :inherit mode-line
-     :background ,(doom-color 'bg)
-     :box (:line-width 6 :color ,(doom-color 'bg))))
+  (custom-set-faces!
+    `(header-line
+      :inherit mode-line
+      :background ,(doom-color 'bg)
+      :box (:line-width 6 :color ,(doom-color 'bg))))
   (breadcrumb-mode))
 
 ;; (use-package! lsp-mode

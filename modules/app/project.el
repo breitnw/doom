@@ -16,7 +16,7 @@
         treemacs-follow-mode t
         treemacs-show-hidden-files nil
         treemacs-indentation-string " ")
-  (load! "../../packages/nitree.el")
+  (require 'nitree)
   (treemacs-load-theme "nitree"))
 
 ;; (use-package! lsp-treemacs

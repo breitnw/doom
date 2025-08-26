@@ -1,5 +1,8 @@
 ;;; modules/visual/icons.el -*- lexical-binding: t; -*-
 
+;; load the custom nitree theme
+(load! "../../packages/nitree.el")
+
 ;; Configure nerd icons to follow Cozette
 (after! nerd-icons
   (setq nerd-icons-font-family "Cozette"
@@ -82,7 +85,8 @@
 
 ;; corfu ------------------------------------------------------------------------------------------
 
-(after! nitree
+(after! nerd-icons-corfu
+  (require 'nitree)
   (setq nerd-icons-corfu-mapping nitree-lsp-icons-alist))
 
 ;; doom docs
