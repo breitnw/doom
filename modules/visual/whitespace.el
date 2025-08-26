@@ -22,7 +22,9 @@
   (whitespace-style '(face
                       tabs
                       tab-mark
-                      trailing
+                      ;; ws-butler takes care of trailing whitespace, so we can
+                      ;; save the mental strain :)
+                      ;; trailing
                       lines-tail
                       space-before-tab
                       indentation
