@@ -74,6 +74,7 @@
 
 ;; node-based note taking
 (use-package! org-roam
+  :defer t
   :custom
   (org-roam-directory (file-truename "~/Documents/org/notes/"))
   :config
