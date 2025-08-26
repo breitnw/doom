@@ -19,11 +19,11 @@
   (load! "../../packages/nitree.el")
   (treemacs-load-theme "nitree"))
 
-(use-package! lsp-treemacs
-  :custom
-  (lsp-treemacs-theme "nitree"))
+;; (use-package! lsp-treemacs
+;;   :custom
+;;   (lsp-treemacs-theme "nitree"))
 
 ;; also set it anytime lsp-mode is loaded
-(use-package! lsp-mode
-  :custom
-  (lsp-treemacs-theme "nitree"))
+;; (use-package! lsp-mode
+;;   :custom
+;;   (lsp-treemacs-theme "nitree"))
