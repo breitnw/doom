@@ -1,49 +1,50 @@
 ;;; modules/visual/icons.el -*- lexical-binding: t; -*-
 
-;; load the custom nitree theme
-(load! "../../packages/nitree.el")
-
 ;; Configure nerd icons to follow Cozette
 (after! nerd-icons
-  (setq nerd-icons-font-family "Cozette"
-        nerd-icons-font-names '("Cozette.ttf")))
+  (setq nerd-icons-font-family "BitmapGlyphs"
+        nerd-icons-font-names '("BitmapGlyphs.bdf")))
 
 (setq doom-symbol-fallback-font-families '()
       doom-emoji-fallback-font-families '())
 
-;; use Cozette-compatible nerd icons ==============================================================
+;; use Cozette-compatible nerd icons ===========================================
 
-;; modeline ---------------------------------------------------------------------------------------
+;; modeline --------------------------------------------------------------------
 
 (setq doom-modeline-modal-icon nil
       doom-modeline-modal-modern-icon nil)
 
+(defun sp (text)
+  "doc"
+  (format "%s " text))
+
 (add-hook! 'mu4e-modeline-mode-hook
-  (setq mu4e-modeline-all-clear '("C:" . " ")
-        mu4e-modeline-all-read '("R:" . " ")
-        mu4e-modeline-unread-items '("U:" . "󰇰 ")
-        mu4e-modeline-new-items '("N:" . " ")
+  (setq mu4e-modeline-all-clear `("C:" . ,(sp (nerd-icons-faicon "nf-fa-star")))
+        mu4e-modeline-all-read `("R:" . ,(sp (nerd-icons-faicon "nf-fa-inbox")))
+        mu4e-modeline-unread-items `("U:" . ,(sp (nerd-icons-mdicon "nf-md-email_outline")))
+        mu4e-modeline-new-items `("N:" . ,(sp (nerd-icons-faicon "nf-fa-bell")))
         ;; headers
-        mu4e-headers-unread-mark    '("u" . "󰇰 ")
-        mu4e-headers-draft-mark     '("D" . " ")
-        mu4e-headers-flagged-mark   '("F" . " ")
-        mu4e-headers-new-mark       '("N" . " ")
-        mu4e-headers-passed-mark    '("P" . " ")
-        mu4e-headers-replied-mark   '("R" . "󰙅 ")
-        mu4e-headers-seen-mark      '("S" . " ")
-        mu4e-headers-trashed-mark   '("T" . " ")
-        mu4e-headers-attach-mark    '("a" . " ")
-        mu4e-headers-encrypted-mark '("x" . " ")
-        mu4e-headers-signed-mark    '("s" . " ")
-        mu4e-headers-calendar-mark  '("c" . " ")
-        mu4e-headers-list-mark      '("l" . " ")
-        mu4e-headers-personal-mark  '("p" . " ")
+        mu4e-headers-unread-mark    `("u" . ,(sp (nerd-icons-mdicon "nf-md-email_outline")))
+        mu4e-headers-draft-mark     `("D" . ,(sp (nerd-icons-faicon "nf-fa-pencil")))
+        mu4e-headers-flagged-mark   `("F" . ,(sp (nerd-icons-faicon "nf-fa-tag")))
+        mu4e-headers-new-mark       `("N" . ,(sp (nerd-icons-faicon "nf-fa-bell")))
+        mu4e-headers-passed-mark    `("P" . ,(sp (nerd-icons-faicon "nf-fa-mail_forward")))
+        mu4e-headers-replied-mark   `("R" . ,(sp (nerd-icons-mdicon "nf-md-file_tree")))
+        mu4e-headers-seen-mark      `("S" . ,(sp (nerd-icons-faicon "nf-fa-inbox")))
+        mu4e-headers-trashed-mark   `("T" . ,(sp (nerd-icons-faicon "nf-fa-trash_can")))
+        mu4e-headers-attach-mark    `("a" . ,(sp (nerd-icons-faicon "nf-fa-copy")))
+        mu4e-headers-encrypted-mark `("x" . ,(sp (nerd-icons-faicon "nf-fa-key")))
+        mu4e-headers-signed-mark    `("s" . ,(sp (nerd-icons-devicon "nf-dev-sqlite")))
+        mu4e-headers-calendar-mark  `("c" . ,(sp (nerd-icons-faicon "nf-fa-calendar")))
+        mu4e-headers-list-mark      `("l" . ,(sp (nerd-icons-faicon "nf-fa-feed")))
+        mu4e-headers-personal-mark  `("p" . ,(sp (nerd-icons-faicon "nf-fa-book")))
         ;; other?
-        mu4e-search-hide-label      '("H " . " ")
-        mu4e-search-skip-duplicates-label '("S " . " ")
-        mu4e-search-threaded-label '("T " . "󰙅 ")
-        mu4e-search-full-label '("F " . " ")
-        mu4e-search-related-label '("R " . " ")))
+        mu4e-search-hide-label      `("H " . ,(sp (nerd-icons-pomicon "nf-pom-away")))
+        mu4e-search-skip-duplicates-label `("S " . ,(sp (nerd-icons-faicon "nf-fa-copy")))
+        mu4e-search-threaded-label `("T " . ,(sp (nerd-icons-mdicon "nf-md-file_tree")))
+        mu4e-search-full-label `("F " . ,(sp (nerd-icons-faicon "nf-fa-table_list")))
+        mu4e-search-related-label `("R " . ,(sp (nerd-icons-faicon "nf-fa-cogs")))))
 
 (advice-add 'doom-modeline-lsp-icon :override
             (lambda (text face)
@@ -83,60 +84,46 @@
                                         ))
                                   unicode text :face face)))
 
-;; corfu ------------------------------------------------------------------------------------------
+;; corfu -----------------------------------------------------------------------
 
-(after! nerd-icons-corfu
-  (require 'nitree)
+(use-package! nerd-icons-corfu
+  :after nitree
+  :config
   (setq nerd-icons-corfu-mapping nitree-lsp-icons-alist))
 
-;; doom docs
+;; doom docs -------------------------------------------------------------------
 
-(setq doom-docs-header-specs
-      '(("/docs/index\\.org$"
-         (:label "FAQ" :icon "nf-fa-question" :icon-function nerd-icons-faicon
-          :link "doom-faq:" :help-echo "Open the FAQ document"))
-        (("/docs/[^/]+\\.org$" "/modules/README\\.org$")
-         (:label "Back to index" :icon "nf-fa-chevron_left"
-          :icon-function nerd-icons-faicon :link "doom-index"
-          :help-echo "Navigate to the root index"))
-        ("/modules/[^/]+/README\\.org$"
-         (:label "Back to module index" :icon "nf-fa-chevron_left"
-          :icon-function nerd-icons-faicon :link "doom-module-index:"))
-        ("/modules/[^/]+/[^/]+/README\\.org$"
-         (:label "Back to module index" :icon "nf-fa-chevron_left"
-          :icon-function nerd-icons-faicon :link "doom-module-index:")
-         (:label "History" :icon "nf-md-history"
-          :icon-function nerd-icons-mdicon :icon-face
-          font-lock-variable-name-face :link
-          (lambda nil
-            (cl-destructuring-bind (category . module)
-                (doom-module-from-path (buffer-file-name))
-              (format "doom-module-history:%s/%s" (doom-keyword-name category)
-                      module)))
-          :help-echo "View the module history" :align right)
-         (:label "Issues" :icon "nf-fa-bug" :icon-function nerd-icons-faicon
-          :icon-face error :link
-          (lambda nil
-            (cl-destructuring-bind (category . module)
-                (doom-module-from-path (buffer-file-name))
-              (format "doom-module-issues::%s %s" category module)))
-          :align right))
-        (t
-         (:label "Suggest edits" :icon "nf-fa-pencil"
-          :icon-function nerd-icons-faicon :icon-face warning :link
-          "doom-suggest-edit" :align right)
-         (:label "Help" :icon "nf-fa-star" :icon-function nerd-icons-faicon
-          :icon-face font-lock-function-name-face :link
-          (lambda nil
-            (let ((title (cadar (org-collect-keywords '("TITLE")))))
-              (cond ((equal title "Changelog") "doom-help-changelog:")
-                    ((string-prefix-p ":" title) "doom-help-modules:")
-                    (t "doom-help:"))))
-          :align right))))
+;; (setq doom-docs-header-specs
+;;       '(("/docs/index\\.org$"
+;;          (:label "FAQ" :icon "nf-fa-question" :icon-function nerd-icons-faicon
+;;           :link "doom-faq:" :help-echo "Open the FAQ document"))
+;;         (("/docs/[^/]+\\.org$" "/modules/README\\.org$")
+;;          (:label "Back to index" :icon "nf-fa-chevron_left"
+;;           :icon-function nerd-icons-faicon :link "doom-index"
+;;           :help-echo "Navigate to the root index"))
+;;         ("/modules/[^/]+/README\\.org$"
+;;          (:label "Back to module index" :icon "nf-fa-chevron_left"
+;;           :icon-function nerd-icons-faicon :link "doom-module-index:"))
+;;         ("/modules/[^/]+/[^/]+/README\\.org$"
+;;          (:label "Back to module index" :icon "nf-fa-chevron_left"
+;;           :icon-function nerd-icons-faicon :link "doom-module-index:"))))
 
-;; file icons
+;; (t
+;;  (:label "Suggest edits" :icon "nf-fa-pencil"
+;;   :icon-function nerd-icons-faicon :icon-face warning :link
+;;   "doom-suggest-edit" :align right)
+;;  (:label "Help" :icon "nf-fa-star" :icon-function nerd-icons-faicon
+;;   :icon-face font-lock-function-name-face :link
+;;   (lambda nil
+;;     (let ((title (cadar (org-collect-keywords '("TITLE")))))
+;;       (cond ((equal title "Changelog") "doom-help-changelog:")
+;;             ((string-prefix-p ":" title) "doom-help-modules:")
+;;             (t "doom-help:"))))
+;;   :align right))
+;; )
 
-;; icons for different filetypes
+;; file icons ------------------------------------------------------------------
+
 (setq nerd-icons-extension-icon-alist
       '(("agda" nerd-icons-faicon "nf-fa-linux" :face nerd-icons-lgreen)
         ("agdai" nerd-icons-faicon "nf-fa-linux" :face nerd-icons-dsilver)
@@ -233,10 +220,11 @@
         ("less" nerd-icons-devicon "nf-dev-css3" :face nerd-icons-dyellow)
         ("styl" nerd-icons-devicon "nf-dev-css3" :face nerd-icons-lgreen)
         ("csv" nerd-icons-faicon "nf-fa-bar_chart" :face nerd-icons-dblue)
-        ("hs" nerd-icons-devicon "nf-dev-haskell" :face nerd-icons-red)
-        ("chs" nerd-icons-devicon "nf-dev-haskell" :face nerd-icons-purple)
-        ("lhs" nerd-icons-devicon "nf-dev-haskell" :face nerd-icons-purple)
-        ("hsc" nerd-icons-devicon "nf-dev-haskell" :face nerd-icons-purple)
+        ("hs" nerd-icons-devicon "nf-dev-haskell" :face nerd-icons-purple)
+        ("cabal" nerd-icons-devicon "nf-dev-haskell" :face nerd-icons-dsilver)
+        ("chs" nerd-icons-devicon "nf-dev-haskell" :face nerd-icons-dblue)
+        ("lhs" nerd-icons-devicon "nf-dev-haskell" :face nerd-icons-dblue)
+        ("hsc" nerd-icons-devicon "nf-dev-haskell" :face nerd-icons-dblue)
         ("tidal" nerd-icons-devicon "nf-dev-haskell" :face nerd-icons-purple)
         ("htm" nerd-icons-devicon "nf-dev-html5" :face nerd-icons-orange)
         ("html" nerd-icons-devicon "nf-dev-html5" :face nerd-icons-orange)
@@ -267,7 +255,7 @@
         ("lua" nerd-icons-sucicon "nf-seti-lua" :face nerd-icons-dblue)
         ("j2" nerd-icons-faicon "nf-fa-code" :face nerd-icons-silver)
         ("jinja2" nerd-icons-faicon "nf-fa-code" :face nerd-icons-silver)
-        ("dockerfile" nerd-icons-sucicon "nf-seti-docker" :face nerd-icons-cyan)
+        ("dockerfile" nerd-icons-devicon "nf-dev-docker" :face nerd-icons-cyan)
         ("glsl" nerd-icons-faicon "nf-fa-dashboard" :face nerd-icons-blue)
         ("vert" nerd-icons-faicon "nf-fa-dashboard" :face nerd-icons-blue)
         ("tesc" nerd-icons-faicon "nf-fa-dashboard" :face nerd-icons-purple)
@@ -359,3 +347,4 @@
         ("old" nerd-icons-mdicon "nf-md-backup_restore" :face nerd-icons-lblue)
         ("bak" nerd-icons-mdicon "nf-md-backup_restore" :face nerd-icons-lblue)
         ("lock" nerd-icons-faicon "nf-fa-lock" :face nerd-icons-dsilver)))
+

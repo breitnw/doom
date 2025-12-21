@@ -10,7 +10,7 @@
   (olivetti-margin-width 5)
   (olivetti-body-width 0.8)
   (olivetti-minimum-body-width 50)
-  (olivetti-style nil)
+  (olivetti-style t) ;; prevents artifacting i think?
 
   :config
   (add-hook! 'olivetti-mode-hook
@@ -26,6 +26,9 @@
   (org-directory "~/Documents/org/")
   (org-agenda-files '("~/Documents/org/life"))
   :config
+  ;; log into the LOGBOOK drawer
+  (setq org-log-into-drawer t)
+
   ;; Fix the evil-org keymap for
   (map! :map 'evil-org-mode-map
         :ov "i" nil
@@ -63,11 +66,12 @@
 
   ;; Turn on auto-mode, it's built into Org and much faster/more featured than
   ;; org-fragtog. (Remember to turn off/uninstall org-fragtog.)
-  (add-hook 'org-mode-hook 'org-latex-preview-auto-mode)
+  (add-hook 'org-mode-hook 'org-latex-preview-mode)
 
   ;; Block C-n and C-p from opening up previews when using auto-mode
-  (add-hook 'org-latex-preview-auto-ignored-commands 'next-line)
-  (add-hook 'org-latex-preview-auto-ignored-commands 'previous-line))
+  ;; (add-hook 'org-latex-preview-auto-ignored-commands 'next-line)
+  ;;(add-hook 'org-latex-preview-auto-ignored-commands 'previous-line)
+  )
 
 
 ;; org-roam =======================================================
@@ -78,7 +82,7 @@
   :custom
   (org-roam-directory (file-truename "~/Documents/org/notes/"))
   :config
-  (org-roam-db-autosync-mode)
+  ;;(org-roam-db-autosync-mode)
   (setq org-roam-capture-templates
         '(("d" "default" plain "%?"
            :target (file+head "${slug}.org" "#+title: ${title}\12")

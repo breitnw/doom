@@ -2,6 +2,19 @@
 
 ;; language modes
 
+(use-package! tuareg
+  :config
+  (remove-hook! tuareg-mode-local-vars-hook #'opam-switch-mode)
+  (custom-set-faces!
+    `(tuareg-font-double-semicolon-face
+      :inherit font-lock-builtin-face)
+    `(tuareg-font-lock-operator-face
+      :inherit font-lock-operator-face)
+    `(tuareg-font-lock-governing-face
+      :inherit font-lock-keyword-face)
+    `(tuareg-font-lock-constructor-face
+      :inherit font-lock-function-name-face)))
+
 ;; agda ---------------------------------------
 (defun load-agda2-mode ()
   (interactive)
@@ -25,28 +38,36 @@
 (defvar flake-path nil
   "[NIX CONFIG] The path to the system configuration flake")
 
-(use-package! nix-mode
-  :defer t
-  :custom
-  (lsp-nix-nixd-server-path "nixd")
-  (lsp-nix-nixd-formatting-command [ "alejandra" ])
-  (lsp-nix-nixd-nixpkgs-expr "import <nixpkgs> { }")
-  :config
-  ;; error if flake-path is not set
-  (when (not flake-path)
-    (error "lsp-nix-nixd: path to configuration is `nil'"))
-  ;; error [flake-path]/flake.nix does not exist
-  (setq flake-dot-nix-path
-        (concat (file-name-as-directory flake-path) "flake.nix"))
-  (when (not (file-exists-p flake-dot-nix-path))
-    (error (format "lsp-nix-nixd: configuration flake %s does not exist"
-                   flake-dot-nix-path)))
-  ;; otherwise, set options and hm-options expressions
-  (setq flake (format "(builtins.getFlake \"%s\")" flake-path)
-        lsp-nix-nixd-nixos-options-expr
-        (format "%s.nixosConfigurations.mnd.options" flake)
-        lsp-nix-nixd-home-manager-options-expr
-        (format "%s.homeConfigurations.\"breitnw@mnd\".options" flake)))
+;; (use-package! nix-mode
+;;   :defer t
+;;   :custom
+;;   (lsp-nix-nixd-server-path "nixd")
+;;   (lsp-nix-nixd-formatting-command [ "alejandra" ])
+;;   (lsp-nix-nixd-nixpkgs-expr "import <nixpkgs> { }")
+;;   :config
+;;   ;; error if flake-path is not set
+;;   (when (not flake-path)
+;;     (error "lsp-nix-nixd: path to configuration is `nil'"))
+;;   ;; error [flake-path]/flake.nix does not exist
+;;   (setq flake-dot-nix-path
+;;         (concat (file-name-as-directory flake-path) "flake.nix"))
+;;   (when (not (file-exists-p flake-dot-nix-path))
+;;     (error (format "lsp-nix-nixd: configuration flake %s does not exist"
+;;                    flake-dot-nix-path)))
+;;   ;; otherwise, set options and hm-options expressions
+;;   (setq flake (format "(builtins.getFlake \"%s\")" flake-path)
+;;         lsp-nix-nixd-nixos-options-expr
+;;         (format "%s.nixosConfigurations.mnd.options" flake)
+;;         lsp-nix-nixd-home-manager-options-expr
+;;         (format "%s.homeConfigurations.\"breitnw@mnd\".options" flake))
+
+;;   ;; (add-to-list 'eglot-server-programs
+;;   ;;              `(nix-mode . ("nixd" :initializationOptions
+;;   ;;                            (:formatting (:command ["alejandra"])
+;;   ;;                             :options
+;;   ;;                             (:nixos (:expr ,lsp-nix-nixd-nixos-options-expr)
+;;   ;;                              :home_manager (:expr ,lsp-nix-nixd-home-manager-options-expr))))))
+;;   )
 
 ;; java ---------------------------------------
 (use-package! lsp-java
@@ -59,7 +80,6 @@
                                      "jdt-language-server-latest.tar.gz")))
 
 ;; web ----------------------------------------
-
 (add-hook! 'js-mode-hook
   (lsp-deferred))
 
@@ -67,15 +87,20 @@
 ;;   (lsp-deferred))
 
 ;; C ------------------------------------------
-;; Enable ccls for all c++ files, and platformio-mode only
-;; when needed (platformio.ini present in project root).
-(add-hook! 'c++-mode-hook
-  (setq c-basic-offset 2)
-  (lsp-deferred)
-  (platformio-conditionally-enable))
+(add-hook! 'c-ts-mode-hook
+  (setq-local treesit-simple-indent-rules
+              `((c . ,(append
+                       `(((node-is ")") standalone-parent 0)
+                         ((match nil "parameter_list" nil 1 1) standalone-parent c-ts-mode-indent-offset)
+                         ((parent-is "parameter_list") c-ts-mode--anchor-prev-sibling 0)
+                         ((match nil "argument_list" nil 1 1) standalone-parent c-ts-mode-indent-offset)
+                         ((parent-is "argument_list") c-ts-mode--anchor-prev-sibling 0))
+                       (cdr (assq 'c treesit-simple-indent-rules)))))))
 
-(add-hook! 'c-mode-hook
-  (setq c-basic-offset 2))
+(let ((indent-offset 2))
+  (setq c-basic-offset indent-offset
+        c-ts-mode-indent-offset indent-offset
+        c-ts-mode-indent-offset indent-offset))
 
 (use-package! platformio-mode
   :defer t
@@ -116,6 +141,11 @@
         :nmv "<TAB>" #'evil-jump-item
         :nmv "<RET>" #'racket-cycle-paren-shapes))
 
+;; haskell ------------------------------------
+
+(use-package! haskell-indentation
+  :hook 'haskell-mode-hook)
+
 ;; tidal --------------------------------------
 (use-package! tidal
   :defer t
@@ -132,3 +162,11 @@
 
 ;; major mode for editing .ron files
 (use-package ron-mode)
+
+;; latex --------------------------------------
+
+(use-package! auctex
+  :defer t
+  :config
+  ;; automatically show TeX errors when compiling
+  (setq TeX-error-overview-open-after-TeX-run t))

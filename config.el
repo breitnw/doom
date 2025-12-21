@@ -20,15 +20,21 @@
 
 ;; fix the symbol height for vterm
 ;; this is broken, causes the wrong font to render in childframes
-;; (add-to-list 'face-font-rescale-alist (cons (font-spec :family "Unifont") 0.9) t)
-;; (add-to-list 'face-font-rescale-alist (cons (font-spec :family "Noto Color Emoji") 0.9) t)
 
-(let ((global-font (font-spec :family "Cozette" :foundry "UNKN" :size 13)))
+(let* ((wayland (string= (getenv "XDG_SESSION_TYPE") "wayland"))
+       (font-size (if wayland 9.5 12))
+       (global-font (font-spec :family "Monospace" :size font-size))
+       (symbol-font (font-spec :family "BitmapGlyphs" :size font-size)))
   (setq doom-font global-font)
-  (setq doom-symbol-font global-font)
+  (setq doom-symbol-font symbol-font)
   (setq doom-big-font global-font)
   (setq doom-serif-font global-font)
-  (setq doom-variable-pitch-font global-font))
+  (setq doom-variable-pitch-font global-font)
+  (unless wayland
+    (add-to-list 'face-font-rescale-alist (cons (font-spec :family "Unifont") 0.9) t)
+    (add-to-list 'face-font-rescale-alist (cons (font-spec :family "Noto Color Emoji") 0.9) t)))
+
+(setq doom-font-increment 1)
 
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
@@ -111,6 +117,7 @@
 (load! "modules/visual/modeline.el")
 (load! "modules/visual/whitespace.el")
 (load! "modules/visual/vc-gutter.el") ;; TODO this is good, reload other faces on theme change too
+(load! "modules/visual/cursor.el")
 
 ;; app: app-like plugins, providing functionality other than editing
 (load! "modules/app/project.el")
@@ -119,6 +126,9 @@
 (load! "modules/app/tabs.el")
 (load! "modules/app/mail.el")
 ;; (load! "modules/app/calendar.el")
+
+;; custom packages
+(load! "packages/nitree.el")
 
 ;; emacs-packages-deps is a nix derivation containing binaries added via
 ;; emacs.extraPackages. envrc-mode, for whatever reason, doesn't pick up on

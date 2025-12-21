@@ -10,6 +10,12 @@
         shr-use-colors nil)
   (advice-add #'shr-colorize-region :around (defun shr-no-colourise-region (&rest _)))
 
+  (custom-set-faces!
+    `(mu4e-forwarded-face
+      :inherit outline-1)
+    `(mu4e-replied-face
+      :inherit outline-1))
+
   ;; hide addresses on the main page to conserve space
   (setq mu4e-main-hide-personal-addresses t)
 

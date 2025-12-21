@@ -11,19 +11,10 @@
 
 (use-package! treemacs
   :defer t
+  :after nitree
   :config
   (setq treemacs-collapse-dirs 3
         treemacs-follow-mode t
         treemacs-show-hidden-files nil
         treemacs-indentation-string " ")
-  (require 'nitree)
   (treemacs-load-theme "nitree"))
-
-;; (use-package! lsp-treemacs
-;;   :custom
-;;   (lsp-treemacs-theme "nitree"))
-
-;; also set it anytime lsp-mode is loaded
-;; (use-package! lsp-mode
-;;   :custom
-;;   (lsp-treemacs-theme "nitree"))
