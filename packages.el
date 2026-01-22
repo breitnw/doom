@@ -61,18 +61,17 @@
 ;;   :recipe
 ;;   (:host nil :repo "https://github.com/ml729/calfw-blocks"))
 
-(package! evil-textobj-tree-sitter)
+;; indent-bars 1.0
+(package! indent-bars :pin "6e6bb5484edebf22654a960073f1ae23b4fe9a1e")
 
 (package! breadcrumb)
 
 (package! opam-switch-mode :disable t)
 
-(package! ultra-scroll)
+;; (package! ultra-scroll)
 
 ;; colemak bindings
-(package! evil-colemak-basics
-  :recipe
-  (:host nil :repo "https://github.com/breitnw/emacs-evil-colemak-basics"))
+(package! evil-colemak-basics)
 
 ;; distraction-free mode
 ;; (package! darkroom)
@@ -107,16 +106,9 @@
   :pin nil)
 (unpin! org)
 
-;; Graphical frontend for org-roam
-(unpin! org-roam)
-(package! org-roam-ui)
-
+;; langs
 (package! jinja2-mode)
-
 (package! ron-mode)
-
-;; platformIO
-(package! platformio-mode)
 
 ;; tidal (live coding)
 (package! tidal)
@@ -126,8 +118,6 @@
 
 ;; box for documentation
 (package! eldoc-box)
-
-(package! direnv)
 
 (package! nyan-mode
   :recipe

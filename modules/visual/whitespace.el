@@ -51,7 +51,7 @@
 ;; appearance of indent guides
 (use-package! indent-bars
   :custom
-  (indent-bars-no-descend-lists t)
+  (indent-bars-no-descend-lists 'skip)
   :config
   ;; disable indent guides for lispy languages
   (setq indent-guides-inhibit-modes
