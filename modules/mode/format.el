@@ -24,4 +24,8 @@
   ;; Nix ----------------------------------------
   ;; use alejandra instead of nixfmt
   (setf (alist-get 'nixfmt apheleia-formatters)
-        '("alejandra")))
+        '("alejandra"))
+
+  ;; Haskell ------------------------------------
+  (setf (alist-get 'haskell-mode apheleia-mode-alist) 'ormolu)
+  (setf (alist-get 'haskell-ts-mode apheleia-mode-alist) 'ormolu))

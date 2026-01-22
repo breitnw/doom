@@ -87,20 +87,39 @@
 ;;   (lsp-deferred))
 
 ;; C ------------------------------------------
-(add-hook! 'c-ts-mode-hook
-  (setq-local treesit-simple-indent-rules
-              `((c . ,(append
-                       `(((node-is ")") standalone-parent 0)
-                         ((match nil "parameter_list" nil 1 1) standalone-parent c-ts-mode-indent-offset)
-                         ((parent-is "parameter_list") c-ts-mode--anchor-prev-sibling 0)
-                         ((match nil "argument_list" nil 1 1) standalone-parent c-ts-mode-indent-offset)
-                         ((parent-is "argument_list") c-ts-mode--anchor-prev-sibling 0))
-                       (cdr (assq 'c treesit-simple-indent-rules)))))))
 
-(let ((indent-offset 2))
-  (setq c-basic-offset indent-offset
-        c-ts-mode-indent-offset indent-offset
-        c-ts-mode-indent-offset indent-offset))
+(defconst c-indent-offset 2)
+
+;; tree-sitter
+(use-package! c-ts-mode
+  :defer t
+  :config
+  (setq c-ts-mode-indent-offset c-indent-offset)
+  (add-hook! 'c-ts-mode-hook
+    (setq-local treesit-simple-indent-rules
+                `((c . ,(append
+                         `(((node-is ")") standalone-parent 0)
+                           ((match nil "parameter_list" nil 1 1) standalone-parent c-ts-mode-indent-offset)
+                           ((parent-is "parameter_list") c-ts-mode--anchor-prev-sibling 0)
+                           ((match nil "argument_list" nil 1 1) standalone-parent c-ts-mode-indent-offset)
+                           ((parent-is "argument_list") c-ts-mode--anchor-prev-sibling 0))
+                         (cdr (assq 'c treesit-simple-indent-rules))))))))
+
+;; non tree-sitter
+(use-package! cc-mode
+  :defer t
+  :config
+  ;; base indentation off of the defined style
+  (setq-default c-basic-offset 'set-from-style)
+  ;; configure custom indentation style
+  (c-add-style
+   "custom"
+   '("doom" (c-special-indent-hook)
+     (c-basic-offset . 2)
+     (c-offsets-alist (innamespace . [0]))))
+  (setq c-default-style "custom"))
+
+
 
 (use-package! platformio-mode
   :defer t
@@ -169,4 +188,6 @@
   :defer t
   :config
   ;; automatically show TeX errors when compiling
-  (setq TeX-error-overview-open-after-TeX-run t))
+  (setq TeX-error-overview-open-after-TeX-run t
+        font-latex-fontify-script nil))
+
