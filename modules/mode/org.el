@@ -29,13 +29,6 @@
   ;; log into the LOGBOOK drawer
   (setq org-log-into-drawer t)
 
-  ;; Fix the evil-org keymap for
-  (map! :map 'evil-org-mode-map
-        :ov "i" nil
-        :ov "u E" #'evil-org-inner-element
-        :ov "u R" #'evil-org-inner-subtree
-        :ov "u e" #'evil-org-inner-object
-        :ov "u r" #'evil-org-inner-greater-element)
   ;; Make bullets prettier
   (font-lock-add-keywords
    'org-mode
@@ -52,7 +45,7 @@
 
 ;; org-latex-preview: realtime rendering of latex fragments in orgmode
 ;; see https://abode.karthinks.com/org-latex-preview/#org194474f
-(use-package! org-latex-preview
+(use-package org-latex-preview
   :custom
   (org-latex-preview-numbered t)
   (org-latex-preview-live t)
@@ -90,18 +83,3 @@
         org-roam-node-display-template
         #("${doom-hierarchy:*} ${doom-type:25}" 20 35
           (face font-lock-comment-face))))
-
-;; websocket is necessary for org-roam-ui
-(use-package! websocket
-  :after org-roam)
-
-;; shows the roam graph via a webserver
-(use-package! org-roam-ui
-  :after org-roam websocket
-  :custom
-  (org-roam-ui-sync-theme t)
-  (org-roam-ui-follow t)
-  (org-roam-ui-update-on-save t)
-  (org-roam-ui-open-on-start t)
-  (org-id-link-to-org-use-id t)
-  (org-hide-emphasis-markers t))

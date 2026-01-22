@@ -103,7 +103,7 @@
 (load! "modules/editor/completion.el")
 (load! "modules/editor/keymaps.el")
 (load! "modules/editor/motion.el")
-(load! "modules/editor/layout.el")
+(load! "modules/editor/colemak.el")
 
 ;; mode: editor mode configuration
 (load! "modules/mode/lang.el")
