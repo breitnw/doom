@@ -116,7 +116,9 @@
    "custom"
    '("doom" (c-special-indent-hook)
      (c-basic-offset . 2)
-     (c-offsets-alist (innamespace . [0]))))
+     (c-offsets-alist (innamespace . 0)
+                      (inclass +)
+                      (access-label . -))))
   (setq c-default-style "custom"))
 
 
