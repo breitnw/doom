@@ -130,6 +130,10 @@
 ;; custom packages
 (load! "packages/nitree.el")
 
+;; TODO move this somewhere in editor/
+;; don't copy underlying selection when pasting 
+(setq evil-kill-on-visual-paste nil) 
+
 ;; emacs-packages-deps is a nix derivation containing binaries added via
 ;; emacs.extraPackages. envrc-mode, for whatever reason, doesn't pick up on
 ;; emacs-packages-deps (perhaps because it's not included in the initial value
