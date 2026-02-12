@@ -16,5 +16,6 @@
   (setq treemacs-collapse-dirs 3
         treemacs-follow-mode t
         treemacs-show-hidden-files nil
-        treemacs-indentation-string " ")
+        treemacs-indentation-string " "
+        treemacs-is-never-other-window nil)
   (treemacs-load-theme "nitree"))

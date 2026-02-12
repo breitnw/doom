@@ -33,6 +33,8 @@
   ;; ace-window: priority keys for switching windows
   (after! ace-window
     (setq! aw-keys layout-priority-keys)
+    (setq! aw-ignored-buffers
+           '("*Calc Trail*" " *LV*"))
     ;; TODO put this somewhere better
     (ace-window-posframe-mode)
     (map! :map 'evil-window-map
