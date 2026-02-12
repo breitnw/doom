@@ -34,6 +34,10 @@
     (add-to-list 'face-font-rescale-alist (cons (font-spec :family "Unifont") 0.9) t)
     (add-to-list 'face-font-rescale-alist (cons (font-spec :family "Noto Color Emoji") 0.9) t)))
 
+;; reset the height of variable pitch text, since I want the same font
+(custom-set-faces!
+  `(variable-pitch-text :height 1))
+
 (setq doom-font-increment 1)
 
 ;; See 'C-h v doom-font' for documentation and more examples of what they

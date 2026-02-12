@@ -34,12 +34,12 @@
 (defvar big-scroll-pages 0.25)
 
 (after! evil
-  (evil-define-command big-scroll-up ()
+  (evil-define-motion big-scroll-up ()
     "scrolls the frame up 0.25 pages"
     (evil-previous-visual-line (pages->lines big-scroll-pages))
     ;; (pixel-scroll-precision-scroll-up-page (pages->pixels big-scroll-pages))
     )
-  (evil-define-command big-scroll-down ()
+  (evil-define-motion big-scroll-down ()
     "scrolls the frame down 0.25 pages"
     (evil-next-visual-line (pages->lines big-scroll-pages))
     ;; (pixel-scroll-precision-scroll-down-page (pages->pixels big-scroll-pages))
