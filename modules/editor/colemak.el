@@ -30,6 +30,14 @@
   (after! avy
     (setq! avy-keys layout-priority-keys))
 
+  ;; ace-window: priority keys for switching windows
+  (after! ace-window
+    (setq! aw-keys layout-priority-keys)
+    ;; TODO put this somewhere better
+    (ace-window-posframe-mode)
+    (map! :map 'evil-window-map
+          "w" #'ace-window))
+
   ;; "leader" keymaps ----------------------------------------------------------
 
   ;; window navigation
@@ -45,6 +53,7 @@
         "E" #'+evil/window-move-up
         "I" #'+evil/window-move-right
         "d" #'kill-buffer-and-window
+        "w" #'ace-window
         "c" #'+workspace/close-window-or-workspace)
 
   ;; workspace navigation
